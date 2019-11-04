@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Threading;
 using Libplanet.Action;
@@ -430,7 +431,15 @@ namespace Libplanet.Store
             {
                 DownloadFile(file, stream);
                 stream.Seek(0, SeekOrigin.Begin);
-                var formatter = new BencodexFormatter<AddressStateMap>();
+                var formatter = new BencodexFormatter<AddressStateMap>()
+                {
+                    Context = new StreamingContext(
+                        StreamingContextStates.All,
+                        new BencodexSerializationContext
+                    {
+                        SelfExcepted = true,
+                    }),
+                };
                 return (AddressStateMap)formatter.Deserialize(stream);
             }
         }
@@ -442,7 +451,15 @@ namespace Libplanet.Store
         {
             using (var stream = new MemoryStream())
             {
-                var formatter = new BencodexFormatter<AddressStateMap>();
+                var formatter = new BencodexFormatter<AddressStateMap>()
+                {
+                    Context = new StreamingContext(
+                        StreamingContextStates.All,
+                        new BencodexSerializationContext
+                        {
+                            SelfExcepted = true,
+                        }),
+                };
                 formatter.Serialize(stream, states);
                 stream.Seek(0, SeekOrigin.Begin);
                 _db.FileStorage.Upload(

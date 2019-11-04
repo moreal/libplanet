@@ -685,12 +685,17 @@ namespace Libplanet.Tx
             return action;
         }
 
-        private readonly struct TransactionSerializationContext
+        private readonly struct TransactionSerializationContext : IBencodexSerializationContext
         {
             internal TransactionSerializationContext(bool includeSignature)
             {
                 IncludeSignature = includeSignature;
             }
+
+            public ImmutableHashSet<string> ExceptedProperties =>
+                new[] { "actions" }.ToImmutableHashSet();
+
+            public bool SelfExcepted => false;
 
             internal bool IncludeSignature { get; }
         }

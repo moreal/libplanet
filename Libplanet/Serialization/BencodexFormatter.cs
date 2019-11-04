@@ -57,21 +57,10 @@ namespace Libplanet.Serialization
             foreach (var kv in bo)
             {
                 var key = FromBencodexKey(kv.Key);
-                object v;
 
                 // FIXME: This is needed to prevent that some properties become .NET object.
                 //        see issue #541, #552.
-                if ((typeof(T).Namespace == typeof(Transaction<>).Namespace &&
-                     typeof(T).Name == typeof(Transaction<>).Name && key == "actions") ||
-                    typeof(T) == typeof(AddressStateMap))
-                {
-                    v = kv.Value;
-                }
-                else
-                {
-                    v = FromBencodexValue(kv.Value);
-                }
-
+                object v = Excepted(key) ? kv.Value : FromBencodexValue(kv.Value);
                 serializationInfo.AddValue(key, v);
             }
 
@@ -138,7 +127,7 @@ namespace Libplanet.Serialization
             }
         }
 
-        private static object FromBencodexValue(IValue o)
+        private object FromBencodexValue(IValue o)
         {
             switch (o)
             {
@@ -159,7 +148,7 @@ namespace Libplanet.Serialization
                     foreach (var pair in d)
                     {
                         var key = FromBencodexKey(pair.Key);
-                        var value = key != "actions" ? FromBencodexValue(pair.Value) : pair.Value;
+                        var value = Excepted(key) ? FromBencodexValue(pair.Value) : pair.Value;
                         dictionary.Add(key, value);
                     }
 
@@ -260,6 +249,12 @@ namespace Libplanet.Serialization
             }
 
             return new Dictionary(entries);
+        }
+
+        private bool Excepted(string key)
+        {
+            return Context.Context is IBencodexSerializationContext context &&
+                   (context.SelfExcepted || context.ExceptedProperties.Contains(key));
         }
     }
 }

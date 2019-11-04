@@ -502,13 +502,19 @@ namespace Libplanet.Blocks
             return rawBlock;
         }
 
-        private readonly struct BlockSerializationContext
+        private readonly struct BlockSerializationContext : IBencodexSerializationContext
         {
             public BlockSerializationContext(bool hash, bool transactionData)
             {
                 IncludeHash = hash;
                 IncludeTransactionData = transactionData;
+                ExceptedProperties = new[] { "actions" }.ToImmutableHashSet();
+                SelfExcepted = false;
             }
+
+            public ImmutableHashSet<string> ExceptedProperties { get; }
+
+            public bool SelfExcepted { get; }
 
             internal bool IncludeHash { get; }
 
