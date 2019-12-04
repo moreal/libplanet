@@ -250,16 +250,16 @@ namespace Libplanet.Blockchain
         }
 
         /// <summary>
-        /// Mine the genesis block of the blockchain.
+        /// Mine the genesis block of a blockchain.
         /// </summary>
         /// <param name="actions">List of actions will be included in the genesis block.
-        /// If it's null, it will be replaced with <see cref="ImmutableArray{T}.Empty"/>
-        /// as default.</param>
-        /// <param name="privateKey">A private key to sign the transaction in the genesis block.
-        /// If it's null, it will use new private key as default.</param>
-        /// <param name="timestamp">The timestamp of the genesis block. If it's null, it will
-        /// use <see cref="DateTimeOffset.UtcNow"/> as default.</param>
-        /// <returns>The genesis block mined with parameters.</returns>
+        /// If it's <c>null</c>, it will be filled with <see cref="ImmutableArray{T}.Empty"/>
+        /// by default.</param>
+        /// <param name="privateKey">A private key to sign transactions in the genesis block.
+        /// If it's <c>null</c>, it will use new private key as default.</param>
+        /// <param name="timestamp">The timestamp of the genesis block. If it's <c>null</c>, it will
+        /// use <see cref="DateTimeOffset.UtcNow"/> by default.</param>
+        /// <returns>The mined genesis block..</returns>
         public static Block<T> MakeGenesisBlock(
             IEnumerable<T> actions = null,
             PrivateKey privateKey = null,
