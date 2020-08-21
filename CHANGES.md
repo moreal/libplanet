@@ -149,6 +149,7 @@ To be released.
  -  Added `TrieStateStore` class.  [[#939]]
  -  Added `IKeyValueStore` interface.  [[#939]]
  -  Added `DefaultKeyValueStore` class.  [[#939]]
+ -  Added `CacheableKeyValueStore` class.  [[#939]]
  -  (Libplanet.RocksDBStore) Added `RocksDBKeyValueStore`.  [[#939]]
 
 ### Behavioral changes
