@@ -56,7 +56,7 @@ namespace Libplanet.RocksDBStore
             using Iterator it = _keyValueDb.NewIterator();
             for (it.SeekToFirst(); it.Valid(); it.Next())
             {
-                yield return it.Value();
+                yield return it.Key();
             }
         }
     }

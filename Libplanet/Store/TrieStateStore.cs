@@ -96,7 +96,7 @@ namespace Libplanet.Store
         }
 
         /// <inheritdoc/>
-        public void ForkStates<T>(Guid sourceChainId, Guid destinationChainId, Block<T> branchpoint)
+        public void ForkStates<T>(Guid sourceChainId, Guid destinationChainId, Block<T> branchPoint)
             where T : IAction, new()
         {
             // Do nothing.
