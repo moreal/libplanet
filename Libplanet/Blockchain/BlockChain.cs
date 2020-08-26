@@ -1538,7 +1538,20 @@ namespace Libplanet.Blockchain
                         )
                     );
 
-                StateStore.SetStates(blockHash, totalDelta, blockHash => this[blockHash]);
+                StateStore.SetStates(blockHash, totalDelta, blockHash =>
+                {
+                    if (ContainsBlock(blockHash))
+                    {
+                        return this[blockHash];
+                    }
+
+                    if (block.Hash.Equals(blockHash))
+                    {
+                        return block;
+                    }
+
+                    throw new KeyNotFoundException();
+                });
             }
 
             if (buildStateReferences && StateStore is IBlockStatesStore blockStatesStore)
