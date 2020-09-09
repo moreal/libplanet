@@ -126,7 +126,7 @@ namespace Libplanet.Tests.Net
             }
 
             var actualStates = new List<PreloadState>();
-            var progress = new Progress<PreloadState>(state =>
+            var progress = new ActionProgress<PreloadState>(state =>
             {
                 _logger.Information("Received a progress event: {@State}", state);
                 lock (actualStates)
@@ -372,7 +372,7 @@ namespace Libplanet.Tests.Net
             }
 
             var actualStates = new List<PreloadState>();
-            var progress = new Progress<PreloadState>(state =>
+            var progress = new ActionProgress<PreloadState>(state =>
             {
                 lock (actualStates)
                 {
@@ -505,7 +505,7 @@ namespace Libplanet.Tests.Net
             var shouldStopSwarm =
                 swarm0.AsPeer.Equals(receiverSwarm.Peers.First()) ? swarm0 : swarm1;
             await receiverSwarm.PreloadAsync(
-                progress: new Progress<PreloadState>(async (state) =>
+                progress: new ActionProgress<PreloadState>(async (state) =>
                 {
                     if (!startedStop && state is BlockDownloadState)
                     {
@@ -914,7 +914,7 @@ namespace Libplanet.Tests.Net
                 int currentCount = 0;
                 var allProgressesReported = new AsyncAutoResetEvent();
                 await receiverSwarm.PreloadAsync(
-                    progress: new Progress<PreloadState>(state =>
+                    progress: new ActionProgress<PreloadState>(state =>
                     {
                         if (state is StateDownloadState srds)
                         {
@@ -1432,7 +1432,7 @@ namespace Libplanet.Tests.Net
 
             bool reorg = true;
 
-            var progress = new Progress<PreloadState>(state =>
+            var progress = new ActionProgress<PreloadState>(state =>
             {
                 _logger.Information("Received a progress event: {@State}", state);
 
@@ -1485,7 +1485,7 @@ namespace Libplanet.Tests.Net
             seedSwarm.Options.RecentStateRecvTimeout = TimeSpan.FromDays(1);
 
             var preloadStateLogs = new List<PreloadState>();
-            var progress = new Progress<PreloadState>(state =>
+            var progress = new ActionProgress<PreloadState>(state =>
             {
                 preloadStateLogs.Add(state);
                 _logger.Debug(state.GetType().ToString());
