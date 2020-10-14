@@ -137,6 +137,18 @@ namespace Libplanet.Tools
         }
 
         // FIXME: Now, it works like `set` not `add`. It allows override.
+        [Command(Description="List mpt store aliases.")]
+        public void List(
+            [FromService] IConfigurationService<ToolConfiguration> configurationService)
+        {
+            var configuration = configurationService.Load();
+            foreach (KeyValuePair<string, string> pair in configuration.Mpt.Aliases)
+            {
+                Console.WriteLine($"{pair.Key}\t{pair.Value}");
+            }
+        }
+
+        // FIXME: Now, it works like `set` not `add`. It allows override.
         [Command(Description="Add a new mpt store alias.")]
         public void Add(
             [Argument] string alias,
