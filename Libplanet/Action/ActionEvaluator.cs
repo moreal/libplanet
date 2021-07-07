@@ -143,7 +143,7 @@ namespace Libplanet.Action
         /// <see cref="IAccountStateDelta"/> as its previous state to obtain the
         /// <see cref="IImmutableSet{T}"/> of updated <see cref="Address"/>es.
         /// </remarks>
-        internal static IImmutableSet<Address> GetUpdatedAddresses(Transaction<T> tx)
+        internal static IImmutableSet<Address> GetUpdatedAddresses(UnsignedTransaction<T> tx)
         {
             IAccountStateDelta previousStates = new AccountStateDeltaImpl(
                 NullAccountStateGetter,
@@ -156,7 +156,7 @@ namespace Libplanet.Action
                 previousStates: previousStates,
                 miner: NullBlock.Miner.GetValueOrDefault(),
                 signer: tx.Signer,
-                signature: tx.Signature,
+                signature: new byte[0],
                 actions: tx.Actions.Cast<IAction>().ToImmutableList(),
                 rehearsal: true,
                 previousBlockStatesTrie: null);
@@ -179,7 +179,7 @@ namespace Libplanet.Action
         /// the <see cref="Block{T}"/> that <paramref name="actions"/> belong to.</param>
         /// <param name="blockIndex">The <see cref="Block{T}.Index"/> of the <see cref="Block{T}"/>
         /// that <paramref name="actions"/> belong to.</param>
-        /// <param name="txid">The <see cref="Transaction{T}.Id"/> of the
+        /// <param name="txid">The <see cref="UnsignedTransaction{T}.Id"/> of the
         /// <see cref="Transaction{T}"/> that <paramref name="actions"/> belong to.
         /// This can be <c>null</c> on rehearsal mode or if an <see cref="IAction"/> is a
         /// <see cref="IBlockPolicy{T}.BlockAction"/>.</param>
@@ -378,7 +378,7 @@ namespace Libplanet.Action
         /// <exception cref="InvalidTxUpdatedAddressesException">Thrown when any
         /// <see cref="IAction"/> in <see cref="Block{T}.Transactions"/> of <paramref name="block"/>
         /// tries to update the states of <see cref="Address"/>es not included in
-        /// <see cref="Transaction{T}.UpdatedAddresses"/>.</exception>
+        /// <see cref="UnsignedTransaction{T}.UpdatedAddresses"/>.</exception>
         /// <seealso cref="Block{T}.Validate"/>
         /// <seealso cref="EvaluateTxs"/>
         [Pure]
@@ -410,8 +410,8 @@ namespace Libplanet.Action
         /// </param>
         /// <returns>Enumerates an <see cref="ActionEvaluation"/> for each action where
         /// the order is determined by <see cref="Block{T}.Transactions"/> of
-        /// <paramref name="block"/> and each respective <see cref="Transaction{T}.Actions"/>.
-        /// </returns>
+        /// <paramref name="block"/> and each respective
+        /// <see cref="UnsignedTransaction{T}.Actions"/>.</returns>
         [Pure]
         internal IEnumerable<ActionEvaluation> EvaluateTxs(
             Block<T> block,
@@ -439,28 +439,31 @@ namespace Libplanet.Action
         }
 
         /// <summary>
-        /// Evaluates <see cref="Transaction{T}.Actions"/> of a given <see cref="Transaction{T}"/>.
+        /// Evaluates <see cref="UnsignedTransaction{T}.Actions"/> of a given
+        /// <see cref="Transaction{T}"/>.
         /// </summary>
         /// <param name="block">The <see cref="Block{T}"/> instance that <paramref name="tx"/>
         /// belongs to.</param>
         /// <param name="tx">A <see cref="Transaction{T}"/> instance to evaluate.</param>
         /// <param name="previousStates">The states immediately before
-        /// <see cref="Transaction{T}.Actions"/> of <paramref name="tx"/> being executed.</param>
+        /// <see cref="UnsignedTransaction{T}.Actions"/> of <paramref name="tx"/> being executed.
+        /// </param>
         /// <param name="rehearsal">Pass <c>true</c> if it is intended
         /// to be dry-run (i.e., the returned result will be never used).
         /// The default value is <c>false</c>.</param>
         /// <param name="previousBlockStatesTrie">The trie to contain states at previous block.
         /// </param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="ActionEvaluation"/>s for each
-        /// <see cref="IAction"/> in <see cref="Transaction{T}.Actions"/> of <paramref name="tx"/>
+        /// <see cref="IAction"/> in <see cref="UnsignedTransaction{T}.Actions"/> of
+        /// <paramref name="tx"/>
         /// where the order of <see cref="ActionEvaluation"/>s is the same as the corresponding
-        /// <see cref="Transaction{T}.Actions"/>.</returns>
+        /// <see cref="UnsignedTransaction{T}.Actions"/>.</returns>
         /// <remarks>
         /// <para>If only the final states are needed, use <see cref="EvaluateTxResult"/> instead.
         /// </para>
-        /// <para>If a <see cref="Transaction{T}.Actions"/> of <paramref name="tx"/> has more than
-        /// one <see cref="IAction"/>s, each <see cref="ActionEvaluation"/> includes all previous
-        /// <see cref="ActionEvaluation"/>s' delta besides its own delta.</para>
+        /// <para>If a <see cref="UnsignedTransaction{T}.Actions"/> of <paramref name="tx"/> has
+        /// more than one <see cref="IAction"/>s, each <see cref="ActionEvaluation"/> includes
+        /// all previous <see cref="ActionEvaluation"/>s' delta besides its own delta.</para>
         /// </remarks>
         /// <seealso cref="EvaluateTxResult"/>
         [Pure]
@@ -498,7 +501,7 @@ namespace Libplanet.Action
         }
 
         /// <summary>
-        /// Evaluates <see cref="Transaction{T}.Actions"/> of a given
+        /// Evaluates <see cref="UnsignedTransaction{T}.Actions"/> of a given
         /// <see cref="Transaction{T}"/> and gets the resulting states.
         /// </summary>
         /// <param name="block">The <see cref="Block{T}"/> that <paramref name="tx"/>
@@ -510,8 +513,8 @@ namespace Libplanet.Action
         /// to be a dry-run (i.e., the returned result will be never used).
         /// The default value is <c>false</c>.</param>
         /// <returns>The resulting states of evaluating the <see cref="IAction"/>s in
-        /// <see cref="Transaction{T}.Actions"/> of <paramref name="tx"/>.  Note that it maintains
-        /// <see cref="IAccountStateDelta.UpdatedAddresses"/> of the given
+        /// <see cref="UnsignedTransaction{T}.Actions"/> of <paramref name="tx"/>.  Note that it
+        /// maintains <see cref="IAccountStateDelta.UpdatedAddresses"/> of the given
         /// <paramref name="previousStates"/> as well.</returns>
         [Pure]
         internal IAccountStateDelta EvaluateTxResult(

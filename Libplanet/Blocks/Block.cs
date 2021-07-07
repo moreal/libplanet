@@ -270,7 +270,7 @@ namespace Libplanet.Blocks
 
         /// <summary>
         /// <see cref="Hash"/> is derived from a serialized <see cref="Block{T}"/>
-        /// after <see cref="Transaction{T}.Actions"/> are evaluated.
+        /// after <see cref="UnsignedTransaction{T}.Actions"/> are evaluated.
         /// </summary>
         /// <seealso cref="PreEvaluationHash"/>
         /// <seealso cref="StateRootHash"/>
@@ -590,7 +590,7 @@ namespace Libplanet.Blocks
             return new RawBlock(
                 header: Header,
                 transactions: Transactions
-                .Select(tx => tx.Serialize(true).ToImmutableArray()).ToImmutableArray());
+                .Select(tx => tx.Serialize().ToImmutableArray()).ToImmutableArray());
         }
 
         private static HashDigest<SHA256>? CalculateTxHashes(IEnumerable<Transaction<T>> txs)
@@ -600,7 +600,7 @@ namespace Libplanet.Blocks
                 return null;
             }
 
-            byte[][] serializedTxs = txs.Select(tx => tx.Serialize(true)).ToArray();
+            byte[][] serializedTxs = txs.Select(tx => tx.Serialize()).ToArray();
             int txHashSourceLength = serializedTxs.Select(b => b.Length).Sum() + 2;
             var txHashSource = new byte[txHashSourceLength];
 

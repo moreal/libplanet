@@ -400,7 +400,7 @@ namespace Libplanet.RocksDBStore
                 return;
             }
 
-            _txDb.Put(key, tx.Serialize(true));
+            _txDb.Put(key, tx.Serialize());
             _txCache.AddOrUpdate(tx.Id, tx);
         }
 

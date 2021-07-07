@@ -354,7 +354,7 @@ namespace Libplanet.Store
                 return;
             }
 
-            WriteContentAddressableFile(_txs, TxPath(tx.Id), tx.Serialize(true));
+            WriteContentAddressableFile(_txs, TxPath(tx.Id), tx.Serialize());
             _txCache.AddOrUpdate(tx.Id, tx);
         }
 

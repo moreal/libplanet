@@ -185,7 +185,7 @@ namespace Libplanet.Net
                     continue;
                 }
 
-                Message response = new Messages.Tx(tx.Serialize(true))
+                Message response = new Messages.Tx(tx.Serialize())
                 {
                     Identity = getTxs.Identity,
                 };

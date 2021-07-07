@@ -20,9 +20,9 @@ namespace Libplanet.Action
         Address Signer { get; }
 
         /// <summary>
-        /// <see cref="Transaction{T}.Id"/> of a transaction that an executed <see cref="IAction"/>
-        /// belongs to.  This is <c>null</c> iff <see cref="BlockAction"/> is <c>true</c>.
-        /// </summary>
+        /// <see cref="UnsignedTransaction{T}.Id"/> of a transaction that an executed
+        /// <see cref="IAction"/> belongs to.  This is <c>null</c> iff <see cref="BlockAction"/> is
+        /// <c>true</c>.</summary>
         [Pure]
         TxId? TxId { get; }
 

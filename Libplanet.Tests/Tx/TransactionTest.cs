@@ -94,22 +94,6 @@ namespace Libplanet.Tests.Tx
         }
 
         [Fact]
-        public void CreateUnsigned()
-        {
-            var tx =
-                Transaction<PolymorphicAction<BaseAction>>.CreateUnsigned(
-                    0,
-                    _fx.PublicKey1,
-                    null,
-                    _fx.TxWithActions.Actions);
-            Assert.Empty(tx.Signature);
-            Assert.Equal(
-                new[] { _fx.Address1 }.ToImmutableHashSet(),
-                tx.UpdatedAddresses
-            );
-        }
-
-        [Fact]
         public void CreateWithDefaultUpdatedAddresses()
         {
             Transaction<DumbAction> emptyTx = Transaction<DumbAction>.Create(
@@ -323,7 +307,7 @@ namespace Libplanet.Tests.Tx
                 0x65,
             };
 
-            AssertBytesEqual(expected, _fx.Tx.Serialize(true));
+            AssertBytesEqual(expected, _fx.Tx.Serialize());
             Assert.Equal(expected.Length, _fx.Tx.BytesLength);
         }
 
@@ -363,7 +347,7 @@ namespace Libplanet.Tests.Tx
                 0x4f, 0x5c, 0xbc, 0x65, 0x65,
             };
 
-            AssertBytesEqual(expected, _fx.TxWithActions.Serialize(true));
+            AssertBytesEqual(expected, _fx.TxWithActions.Serialize());
             Assert.Equal(expected.Length, _fx.TxWithActions.BytesLength);
         }
 
@@ -564,21 +548,9 @@ namespace Libplanet.Tests.Tx
         }
 
         [Fact]
-        public void DetectUnsignedTransaction()
-        {
-            Transaction<DumbAction> tx = Transaction<DumbAction>.CreateUnsigned(
-                0,
-                _fx.PublicKey1,
-                null,
-                new DumbAction[0]);
-
-            Assert.Throws<InvalidTxSignatureException>(() => tx.Validate());
-        }
-
-        [Fact]
         public void DetectBadSignature()
         {
-            var rawTx = _fx.Tx.ToRawTransaction(true);
+            var rawTx = _fx.Tx.ToRawTransaction();
             Transaction<DumbAction> tx = new Transaction<DumbAction>(
                 new RawTransaction(
                     0,
@@ -600,25 +572,24 @@ namespace Libplanet.Tests.Tx
         {
             var privKey = new PrivateKey();
             var mismatchedPrivKey = new PrivateKey();
-            var tx = new Transaction<DumbAction>(
+            var unsignedTx = new UnsignedTransaction<DumbAction>(
                 0,
                 new Address(mismatchedPrivKey.PublicKey),
                 privKey.PublicKey,
                 null,
                 ImmutableHashSet<Address>.Empty,
                 new DateTimeOffset(2018, 11, 21, 0, 0, 0, TimeSpan.Zero),
-                ImmutableArray<DumbAction>.Empty,
-                new byte[0]
+                ImmutableArray<DumbAction>.Empty
             );
             var invalidTx = new Transaction<DumbAction>(
-                tx.Nonce,
-                tx.Signer,
-                tx.PublicKey,
-                tx.GenesisHash,
-                tx.UpdatedAddresses,
-                tx.Timestamp,
-                tx.Actions,
-                privKey.Sign(tx.Serialize(false))
+                unsignedTx.Nonce,
+                unsignedTx.Signer,
+                unsignedTx.PublicKey,
+                unsignedTx.GenesisHash,
+                unsignedTx.UpdatedAddresses,
+                unsignedTx.Timestamp,
+                unsignedTx.Actions,
+                privKey.Sign(unsignedTx.Serialize())
             );
 
             Assert.Throws<InvalidTxPublicKeyException>(() => invalidTx.Validate());
@@ -646,12 +617,8 @@ namespace Libplanet.Tests.Tx
             );
 
             Assert.Equal(
-                GetExpectedRawTransaction(false),
-                tx.ToRawTransaction(false)
-            );
-            Assert.Equal(
                 GetExpectedRawTransaction(true),
-                tx.ToRawTransaction(true)
+                tx.ToRawTransaction()
             );
         }
 

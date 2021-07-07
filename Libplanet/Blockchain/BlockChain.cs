@@ -555,7 +555,7 @@ namespace Libplanet.Blockchain
         /// <param name="blockHash">The <see cref="Block{T}.Hash"/> of the <see cref="Block{T}"/>
         /// that the <see cref="Transaction{T}"/> is executed within.</param>
         /// <param name="txid">The executed <see cref="Transaction{T}"/>'s
-        /// <see cref="Transaction{T}.Id"/>.</param>
+        /// <see cref="UnsignedTransaction{T}.Id"/>.</param>
         /// <returns>The recorded <see cref="TxExecution"/>.  If the transaction has never been
         /// executed within the block, it returns <c>null</c> instead.</returns>
         public TxExecution GetTxExecution(BlockHash blockHash, TxId txid) =>
@@ -585,9 +585,9 @@ namespace Libplanet.Blockchain
         /// <exception cref="InvalidBlockException">Thrown when the given <paramref name="block"/>
         /// is invalid, in itself or according to the <see cref="Policy"/>.</exception>
         /// <exception cref="InvalidTxNonceException">Thrown when the
-        /// <see cref="Transaction{T}.Nonce"/> is different from
+        /// <see cref="UnsignedTransaction{T}.Nonce"/> is different from
         /// <see cref="GetNextTxNonce"/> result of the
-        /// <see cref="Transaction{T}.Signer"/>.</exception>
+        /// <see cref="UnsignedTransaction{T}.Signer"/>.</exception>
         public void Append(Block<T> block, StateCompleterSet<T>? stateCompleters = null) =>
             Append(block, DateTimeOffset.UtcNow, stateCompleters);
 
@@ -616,9 +616,9 @@ namespace Libplanet.Blockchain
         /// <exception cref="InvalidBlockException">Thrown when the given <paramref name="block"/>
         /// is invalid, in itself or according to the <see cref="Policy"/>.</exception>
         /// <exception cref="InvalidTxNonceException">Thrown when the
-        /// <see cref="Transaction{T}.Nonce"/> is different from
+        /// <see cref="UnsignedTransaction{T}.Nonce"/> is different from
         /// <see cref="GetNextTxNonce"/> result of the
-        /// <see cref="Transaction{T}.Signer"/>.</exception>
+        /// <see cref="UnsignedTransaction{T}.Signer"/>.</exception>
         public void Append(
             Block<T> block,
             DateTimeOffset currentTime,
@@ -680,11 +680,11 @@ namespace Libplanet.Blockchain
             StagePolicy.Unstage(this, transaction.Id);
 
         /// <summary>
-        /// Gets next <see cref="Transaction{T}.Nonce"/> of the address.
+        /// Gets next <see cref="UnsignedTransaction{T}.Nonce"/> of the address.
         /// </summary>
         /// <param name="address">The <see cref="Address"/> from which to obtain the
-        /// <see cref="Transaction{T}.Nonce"/> value.</param>
-        /// <returns>The next <see cref="Transaction{T}.Nonce"/> value of the
+        /// <see cref="UnsignedTransaction{T}.Nonce"/> value.</param>
+        /// <returns>The next <see cref="UnsignedTransaction{T}.Nonce"/> value of the
         /// <paramref name="address"/>.</returns>
         public long GetNextTxNonce(Address address)
         {

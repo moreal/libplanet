@@ -536,7 +536,7 @@ namespace Libplanet.RocksDBStore
                     }
                 }
 
-                txDb.Put(key, tx.Serialize(true));
+                txDb.Put(key, tx.Serialize());
                 _txIndexDb.Put(key, RocksDBStoreBitConverter.GetBytes(txDbName));
                 _txCache.AddOrUpdate(tx.Id, tx);
             }

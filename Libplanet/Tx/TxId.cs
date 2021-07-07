@@ -15,7 +15,7 @@ namespace Libplanet.Tx
     /// and 64 characters in hexadecimal.
     /// (See also <see cref="Size"/> constant.)</para>
     /// </summary>
-    /// <seealso cref="Transaction{T}.Id"/>
+    /// <seealso cref="UnsignedTransaction{T}.Id"/>
     [Serializable]
     [Equals]
     public struct TxId : ISerializable, IComparable<TxId>, IComparable

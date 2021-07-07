@@ -10,11 +10,11 @@ namespace Libplanet.Tx
     /// The exception that is thrown when a given
     /// <see cref="InvalidTxException.TxId"/> cannot be found.
     /// The exception that is thrown when a <see cref="Transaction{T}"/>'s
-    /// <see cref="Transaction{T}.Actions"/> try to update any
+    /// <see cref="UnsignedTransaction{T}.Actions"/> try to update any
     /// <see cref="Address"/>es that are not included in
-    /// <see cref="Transaction{T}.UpdatedAddresses"/> (i.e., <see
+    /// <see cref="UnsignedTransaction{T}.UpdatedAddresses"/> (i.e., <see
     /// cref="Address"/>es that <see cref="Transaction{T}"/>'s
-    /// <see cref="Transaction{T}.Signer"/> granted to update.)
+    /// <see cref="UnsignedTransaction{T}.Signer"/> granted to update.)
     /// </summary>
     public class InvalidTxUpdatedAddressesException : InvalidTxException
     {
@@ -23,7 +23,7 @@ namespace Libplanet.Tx
         /// object.
         /// </summary>
         /// <param name="txid">The invalid <see cref="Transaction{T}"/>'s
-        /// <see cref="Transaction{T}.Id"/>.  It is automatically included to
+        /// <see cref="UnsignedTransaction{T}.Id"/>.  It is automatically included to
         /// the <see cref="Exception.Message"/> string.</param>
         /// <param name="updatableAddresses">Specifies the
         /// <see cref="UpdatableAddresses"/>.</param>
@@ -55,12 +55,12 @@ namespace Libplanet.Tx
         /// <summary>
         /// Expected <see cref="Address"/>es to be updated.  That means,
         /// <see cref="Address"/>es that <see cref="Transaction{T}"/>'s
-        /// <see cref="Transaction{T}.Signer"/> granted to update.
+        /// <see cref="UnsignedTransaction{T}.Signer"/> granted to update.
         /// </summary>
         public IImmutableSet<Address> UpdatableAddresses { get; }
 
         /// <summary>
-        /// <see cref="Address"/>es that <see cref="Transaction{T}.Actions"/>
+        /// <see cref="Address"/>es that <see cref="UnsignedTransaction{T}.Actions"/>
         /// actually try to update.
         /// </summary>
         public IImmutableSet<Address> UpdatedAddresses { get; }

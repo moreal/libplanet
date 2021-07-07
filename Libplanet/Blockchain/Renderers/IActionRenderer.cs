@@ -75,7 +75,7 @@ namespace Libplanet.Blockchain.Renderers
         /// <para>The reason why the parameter <paramref name="action"/> takes
         /// <see cref="IAction"/> instead of <typeparamref name="T"/> is because it can take
         /// block actions (<see cref="Policies.IBlockPolicy{T}.BlockAction"/>) besides transaction
-        /// actions (<see cref="Tx.Transaction{T}.Actions"/>).</para>
+        /// actions (<see cref="Tx.UnsignedTransaction{T}.Actions"/>).</para>
         /// </remarks>
         void RenderAction(IAction action, IActionContext context, IAccountStateDelta nextStates);
 
@@ -101,7 +101,7 @@ namespace Libplanet.Blockchain.Renderers
         /// <remarks>The reason why the parameter <paramref name="action"/> takes
         /// <see cref="IAction"/> instead of <typeparamref name="T"/> is because it can take
         /// block actions (<see cref="Policies.IBlockPolicy{T}.BlockAction"/>) besides transaction
-        /// actions (<see cref="Tx.Transaction{T}.Actions"/>).</remarks>
+        /// actions (<see cref="Tx.UnsignedTransaction{T}.Actions"/>).</remarks>
         void UnrenderAction(IAction action, IActionContext context, IAccountStateDelta nextStates);
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Libplanet.Blockchain.Renderers
         /// <para>The reason why the parameter <paramref name="action"/> takes
         /// <see cref="IAction"/> instead of <typeparamref name="T"/> is because it can take
         /// block actions (<see cref="Policies.IBlockPolicy{T}.BlockAction"/>) besides transaction
-        /// actions (<see cref="Tx.Transaction{T}.Actions"/>).</para>
+        /// actions (<see cref="Tx.UnsignedTransaction{T}.Actions"/>).</para>
         /// </remarks>
         void RenderActionError(IAction action, IActionContext context, Exception exception);
 
@@ -145,7 +145,7 @@ namespace Libplanet.Blockchain.Renderers
         /// <remarks>The reason why the parameter <paramref name="action"/> takes
         /// <see cref="IAction"/> instead of <typeparamref name="T"/> is because it can take
         /// block actions (<see cref="Policies.IBlockPolicy{T}.BlockAction"/>) besides transaction
-        /// actions (<see cref="Tx.Transaction{T}.Actions"/>).</remarks>
+        /// actions (<see cref="Tx.UnsignedTransaction{T}.Actions"/>).</remarks>
         void UnrenderActionError(IAction action, IActionContext context, Exception exception);
 
         /// <summary>

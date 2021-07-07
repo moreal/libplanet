@@ -26,7 +26,7 @@ namespace Libplanet.Tx
         /// <param name="blockHash">The <see cref="Block{T}.Hash"/> of the <see cref="Block{T}"/>
         /// that the <see cref="Transaction{T}"/> is executed within.</param>
         /// <param name="txId">The executed <see cref="Transaction{T}"/>'s <see
-        /// cref="Transaction{T}.Id"/>.</param>
+        /// cref="UnsignedTransaction{T}.Id"/>.</param>
         /// <param name="updatedStates">The states delta made by the actions in
         /// the transaction within the block.</param>
         /// <param name="fungibleAssetsDelta"><see cref="Address"/>es and sets of

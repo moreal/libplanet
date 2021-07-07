@@ -660,7 +660,7 @@ namespace Libplanet.Tests.Blocks
                 ImmutableArray<byte>.Empty
             );
             byte[] sig = _fx.TxFixture.PrivateKey1.Sign(
-                new Transaction<DumbAction>(rawTxWithoutSig).Serialize(false)
+                new UnsignedTransaction<DumbAction>(rawTxWithoutSig).Serialize()
             );
             var invalidTx = new Transaction<DumbAction>(
                 new RawTransaction(

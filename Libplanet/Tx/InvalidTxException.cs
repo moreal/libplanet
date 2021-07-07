@@ -13,7 +13,7 @@ namespace Libplanet.Tx
         /// Instantiates a new exception object with proper metadata.
         /// </summary>
         /// <param name="txid">The invalid <see cref="Transaction{T}"/>'s
-        /// <see cref="Transaction{T}.Id"/>.  It is automatically included to
+        /// <see cref="UnsignedTransaction{T}.Id"/>.  It is automatically included to
         /// the <see cref="Exception.Message"/> string.</param>
         /// <param name="message">A descriptive error message for programmers.
         /// </param>

@@ -22,7 +22,7 @@ namespace Libplanet.Tx
         /// <param name="blockHash">The <see cref="Block{T}.Hash"/> of the <see cref="Block{T}"/>
         /// that the <see cref="Transaction{T}"/> is executed within.</param>
         /// <param name="txId">The executed <see cref="Transaction{T}"/>'s <see
-        /// cref="Transaction{T}.Id"/>.</param>
+        /// cref="UnsignedTransaction{T}.Id"/>.</param>
         /// <param name="exceptionName">The name of the exception type,
         /// e.g., <c>System.ArgumentException</c>.</param>
         /// <param name="exceptionMetadata">Optional metadata about the exception.</param>
@@ -44,7 +44,7 @@ namespace Libplanet.Tx
         /// <param name="blockHash">The <see cref="Block{T}.Hash"/> of the <see cref="Block{T}"/>
         /// that the <see cref="Transaction{T}"/> is executed within.</param>
         /// <param name="txId">The executed <see cref="Transaction{T}"/>'s <see
-        /// cref="Transaction{T}.Id"/>.</param>
+        /// cref="UnsignedTransaction{T}.Id"/>.</param>
         /// <param name="exception">The uncaught exception thrown by an action in the transaction.
         /// </param>
         public TxFailure(BlockHash blockHash, TxId txId, Exception exception)

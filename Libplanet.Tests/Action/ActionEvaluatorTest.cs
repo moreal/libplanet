@@ -699,8 +699,8 @@ namespace Libplanet.Tests.Action
         {
             HashAlgorithmGetter hashAlgorithmGetter = _ => HashAlgorithmType.Of<SHA256>();
             ImmutableArray<IValue> rawActions =
-                _txFx.TxWithActions
-                    .ToRawTransaction(false).Actions.ToImmutableArray();
+                _txFx.UnsignedTxWithActions
+                    .ToRawTransaction().Actions.ToImmutableArray();
             Block<PolymorphicAction<BaseAction>> genesis =
                 TestUtils.MineGenesis<PolymorphicAction<BaseAction>>(hashAlgorithmGetter);
             RawTransaction rawTxWithoutSig = new RawTransaction(
@@ -715,8 +715,8 @@ namespace Libplanet.Tests.Action
                 rawActions,
                 ImmutableArray<byte>.Empty);
             byte[] sig = _txFx.PrivateKey1.Sign(
-                new Transaction<PolymorphicAction<BaseAction>>(
-                    rawTxWithoutSig).Serialize(false));
+                new UnsignedTransaction<PolymorphicAction<BaseAction>>(
+                    rawTxWithoutSig).Serialize());
             var invalidTx = new Transaction<PolymorphicAction<BaseAction>>(
                 new RawTransaction(
                     0,

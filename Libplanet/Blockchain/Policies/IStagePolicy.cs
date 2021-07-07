@@ -30,7 +30,7 @@ namespace Libplanet.Blockchain.Policies
         /// Removes a transaction <paramref name="id"/> from the stage.
         /// </summary>
         /// <param name="blockChain">The chain to unstage the <paramref name="id"/>.</param>
-        /// <param name="id">The <seealso cref="Transaction{T}.Id"/> to remove.</param>
+        /// <param name="id">The <seealso cref="UnsignedTransaction{T}.Id"/> to remove.</param>
         /// <remarks>It does not throw any exception even if the <paramref name="id"/> has never
         /// been staged.</remarks>
         public void Unstage(BlockChain<T> blockChain, TxId id);
@@ -39,7 +39,7 @@ namespace Libplanet.Blockchain.Policies
         /// Marks a transaction as ignored, so that it will be never staged.
         /// </summary>
         /// <param name="blockChain">The chain that the stage belongs to.</param>
-        /// <param name="id">The <see cref="Transaction{T}.Id"/> to ignore.</param>
+        /// <param name="id">The <see cref="UnsignedTransaction{T}.Id"/> to ignore.</param>
         /// <remarks>If the transaction is already in the stage, this method does nothing.</remarks>
         public void Ignore(BlockChain<T> blockChain, TxId id);
 
@@ -48,7 +48,7 @@ namespace Libplanet.Blockchain.Policies
         /// staged or marked as ignored).
         /// </summary>
         /// <param name="blockChain">The chain that the stage belongs to.</param>
-        /// <param name="id">The <see cref="Transaction{T}.Id"/> to check.</param>
+        /// <param name="id">The <see cref="UnsignedTransaction{T}.Id"/> to check.</param>
         /// <returns><c>true</c> if a transaction should be ignored.
         /// Otherwise, <c>false</c>.</returns>
         public bool Ignores(BlockChain<T> blockChain, TxId id);
@@ -57,7 +57,7 @@ namespace Libplanet.Blockchain.Policies
         /// Gets a staged <see cref="Transaction{T}"/> by its <paramref name="id"/>.
         /// </summary>
         /// <param name="blockChain">The chain that the stage belongs to.</param>
-        /// <param name="id">The <see cref="Transaction{T}.Id"/> to get.</param>
+        /// <param name="id">The <see cref="UnsignedTransaction{T}.Id"/> to get.</param>
         /// <param name="includeUnstaged">Whether to include transactions that had once staged but
         /// unstaged then.</param>
         /// <returns>A staged transaction if found.  If it had never staged <c>null</c> is

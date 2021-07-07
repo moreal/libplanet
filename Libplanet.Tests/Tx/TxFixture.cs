@@ -59,6 +59,13 @@ namespace Libplanet.Tests.Tx
             var recipient = new Address(PrivateKey1.PublicKey);
             var timestamp = new DateTimeOffset(2018, 11, 21, 0, 0, 0, TimeSpan.Zero);
 
+            UnsignedTx = Transaction<PolymorphicAction<BaseAction>>.Create(
+                0,
+                PrivateKey1.PublicKey,
+                genesisHash,
+                new PolymorphicAction<BaseAction>[0],
+                timestamp: timestamp
+            );
             Tx = Transaction<PolymorphicAction<BaseAction>>.Create(
                 0,
                 PrivateKey1,
@@ -79,6 +86,13 @@ namespace Libplanet.Tests.Tx
                     ZoneId = 10,
                 },
             };
+            UnsignedTxWithActions = UnsignedTransaction<PolymorphicAction<BaseAction>>.Create(
+                0,
+                PrivateKey1.PublicKey,
+                genesisHash,
+                actions,
+                timestamp: timestamp
+            );
             TxWithActions = Transaction<PolymorphicAction<BaseAction>>.Create(
                 0,
                 PrivateKey1,
@@ -120,6 +134,10 @@ namespace Libplanet.Tests.Tx
 
         public Transaction<PolymorphicAction<BaseAction>> Tx { get; }
 
+        public UnsignedTransaction<PolymorphicAction<BaseAction>> UnsignedTx { get; }
+
         public Transaction<PolymorphicAction<BaseAction>> TxWithActions { get; }
+
+        public UnsignedTransaction<PolymorphicAction<BaseAction>> UnsignedTxWithActions { get; }
     }
 }

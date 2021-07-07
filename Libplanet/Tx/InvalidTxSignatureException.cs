@@ -14,7 +14,7 @@ namespace Libplanet.Tx
         /// Creates a new <see cref="InvalidTxSignatureException"/> object.
         /// </summary>
         /// <param name="txid">The invalid <see cref="Transaction{T}"/>'s
-        /// <see cref="Transaction{T}.Id"/>.  It is automatically included to
+        /// <see cref="UnsignedTransaction{T}.Id"/>.  It is automatically included to
         /// the <see cref="Exception.Message"/> string.</param>
         /// <param name="message">Specifies an <see cref="Exception.Message"/>.
         /// </param>

@@ -38,7 +38,7 @@ namespace Libplanet.Tx
         public BlockHash BlockHash { get; }
 
         /// <summary>
-        /// The executed <see cref="Transaction{T}"/>'s <see cref="Transaction{T}.Id"/>.
+        /// The executed <see cref="Transaction{T}"/>'s <see cref="UnsignedTransaction{T}.Id"/>.
         /// </summary>
         [Pure]
         public TxId TxId { get; }

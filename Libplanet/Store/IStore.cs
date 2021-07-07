@@ -223,8 +223,8 @@ namespace Libplanet.Store
         /// </summary>
         /// <param name="blockHash">The <see cref="Block{T}.Hash"/> of the recorded transaction
         /// execution to retrieve.</param>
-        /// <param name="txid">The <see cref="Transaction{T}.Id"/> of the recorded transaction
-        /// execution to retrieve.</param>
+        /// <param name="txid">The <see cref="UnsignedTransaction{T}.Id"/> of the recorded
+        /// transaction execution to retrieve.</param>
         /// <returns>The recorded transaction execution summary.  If it has been never recorded
         /// <c>null</c> is returned instead.</returns>
         /// <seealso cref="PutTxExecution(Libplanet.Tx.TxFailure)"/>
@@ -333,14 +333,15 @@ namespace Libplanet.Store
         long CountBlocks();
 
         /// <summary>
-        /// Forks <see cref="Transaction{T}"/> <see cref="Transaction{T}.Nonce"/>s from
+        /// Forks <see cref="Transaction{T}"/> <see cref="UnsignedTransaction{T}.Nonce"/>s from
         /// <paramref name="sourceChainId"/> to
         /// <paramref name="destinationChainId"/>.
         /// </summary>
         /// <param name="sourceChainId">The chain <see cref="BlockChain{T}.Id"/> of
-        /// <see cref="Transaction{T}"/> <see cref="Transaction{T}.Nonce"/>s to fork.</param>
+        /// <see cref="Transaction{T}"/> <see cref="UnsignedTransaction{T}.Nonce"/>s to fork.
+        /// </param>
         /// <param name="destinationChainId">The chain <see cref="BlockChain{T}.Id"/> of destination
-        /// <see cref="Transaction{T}"/> <see cref="Transaction{T}.Nonce"/>s.</param>
+        /// <see cref="Transaction{T}"/> <see cref="UnsignedTransaction{T}.Nonce"/>s.</param>
         void ForkTxNonces(Guid sourceChainId, Guid destinationChainId);
     }
 }
