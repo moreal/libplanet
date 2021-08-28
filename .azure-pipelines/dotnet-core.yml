@@ -1,21 +1,18 @@
 parameters:
   configuration: Debug
   testArguments: ""
-  altLocale: ""
+  locale: "en_US.UTF8"
+  testTimeoutInMinutes: 16
+  useDotnetTest: false
+  continueOnTestError: false
 
 steps:
-
-- task: Bash@3
-  displayName: hooks/check-bom
-  inputs:
-    targetType: filePath
-    filePath: hooks/check-bom
 
 - task: UseDotNet@2
   displayName: Install .NET Core SDK
   inputs:
     packageType: sdk
-    version: 2.2.203
+    version: 3.1.101
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: CmdLine@2
@@ -23,47 +20,81 @@ steps:
   inputs:
     script: dotnet --version
 
+- task: Cache@2
+  displayName: Cache NuGet packages
+  inputs:
+    key: 'nuget | "$(Agent.OS)" | "${{ parameters.locale }}" | **/*.csproj'
+    restoreKeys: 'nuget | "$(Agent.OS)" | "${{ parameters.locale }}"'
+    path: $(NUGET_PACKAGES)
+
 - task: DotNetCoreCLI@2
   displayName: dotnet restore
   inputs:
     command: restore
 
+- ${{ if eq(parameters.useDotnetTest, false) }}:
+  - task: DotNetCoreCLI@2
+    displayName: dotnet tool install xunit-cli
+    inputs:
+      command: custom
+      custom: tool
+      arguments: install --global xunit-cli --version 0.1.12
+
 - task: DotNetCoreCLI@2
   displayName: dotnet build
   inputs:
     command: build
-    arguments: --configuration ${{ parameters.configuration }}
-
-- task: DotNetCoreCLI@2
-  displayName: dotnet test
-  inputs:
-    command: test
-    projects: '**/*Tests/*.csproj'
     arguments: >-
       --configuration ${{ parameters.configuration }}
-      ${{ parameters.testArguments }}
-  env:
-    TURN_SERVER_URL: ${{ parameters.turnServerUrl }}
-  timeoutInMinutes: 10
+      -p:SkipSonar=true
 
-# Run tests with an alternative locale configuration
-- task: DotNetCoreCLI@2
-  displayName: dotnet test (${{ parameters.altLocale }})
-  condition: ne('${{ parameters.altLocale }}', '')
-  inputs:
-    command: test
-    projects: '**/*Tests/*.csproj'
-    arguments: >-
-      --configuration ${{ parameters.configuration }}
-      ${{ parameters.testArguments }}
-  env:
-    TURN_SERVER_URL: ${{ parameters.turnServerUrl }}
-    LANG: ${{ parameters.altLocale }}
-    LANGUAGE: ${{ parameters.altLocale }}
-    LC_ALL: ${{ parameters.altLocale }}
-  timeoutInMinutes: 10
+- ${{ if eq(parameters.useDotnetTest, false) }}:
+  - task: Bash@3
+    displayName: xunit *.Tests.dll
+    inputs:
+      targetType: inline
+      script: |
+        set -vx
+        declare -a assemblies
+        for f in *.Tests; do
+          path="$(find "$f" \
+            -wholename "$f/bin/${{ parameters.configuration }}/net*/"$f".dll")"
+          assemblies+=("`pwd`/$path")
+        done
+        xunit \
+          "${assemblies[@]}" \
+          ${{ parameters.testArguments }} \
+          -xml "$(Agent.TempDirectory)/xunit.xml"
+    env:
+      TURN_SERVER_URLS: ${{ parameters.turnServerUrls }}
+      LANG: ${{ parameters.locale }}
+      LANGUAGE: ${{ parameters.locale }}
+      LC_ALL: ${{ parameters.locale }}
+    timeoutInMinutes: ${{ parameters.testTimeoutInMinutes }}
+    continueOnError: ${{ parameters.continueOnTestError }}
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: XUnit
+      testResultsFiles: '$(Agent.TempDirectory)/xunit.xml'
 
-- task: PublishTestResults@2
-  inputs:
-    testRunner: VSTest
-    testResultsFiles: '$(Agent.TempDirectory)/*.trx'
+- ${{ if eq(parameters.useDotnetTest, true) }}:
+  - task: DotNetCoreCLI@2
+    displayName: dotnet test
+    inputs:
+      command: test
+      projects: '**/*Tests/*.csproj'
+      arguments: >-
+        --configuration ${{ parameters.configuration }}
+        -p:SkipSonar=true
+        ${{ parameters.testArguments }}
+    env:
+      TURN_SERVER_URLS: ${{ parameters.turnServerUrls }}
+      LANG: ${{ parameters.locale }}
+      LANGUAGE: ${{ parameters.locale }}
+      LC_ALL: ${{ parameters.locale }}
+    timeoutInMinutes: ${{ parameters.testTimeoutInMinutes }}
+    continueOnError: ${{ parameters.continueOnTestError }}
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: '$(Agent.TempDirectory)/*.trx'

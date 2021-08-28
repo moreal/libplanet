@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Security.Cryptography;
 using BenchmarkDotNet.Attributes;
 using Libplanet.Blocks;
 using Libplanet.Crypto;
@@ -13,6 +14,7 @@ namespace Libplanet.Benchmarks
 {
     public class Store
     {
+        private readonly HashAlgorithmType HashAlgorithmType = HashAlgorithmType.Of<SHA256>();
         private readonly ImmutableArray<Block<DumbAction>> Blocks = default;
         private readonly int BlocksCount = default;
         private readonly ImmutableArray<Transaction<DumbAction>> Txs = default;
@@ -24,8 +26,9 @@ namespace Libplanet.Benchmarks
         {
             var blocks = new List<Block<DumbAction>>();
             var txs = new List<Transaction<DumbAction>>();
-            Block<DumbAction> block = TestUtils.MineGenesis<DumbAction>();
-            blocks.Add(block);
+            Block<DumbAction> genesis = TestUtils.MineGenesis<DumbAction>(_ => HashAlgorithmType);
+            blocks.Add(genesis);
+            Block<DumbAction> block = genesis;
             var key = new PrivateKey();
             long nonce = 0;
             for (int i = 0; i < 500; i++)
@@ -33,9 +36,9 @@ namespace Libplanet.Benchmarks
                 var blockTxs = new List<Transaction<DumbAction>>();
                 for (int j = 0; j < i % 5; j++)
                 {
-                    blockTxs.Add(Transaction<DumbAction>.Create(nonce++, key, new DumbAction[0]));
+                    blockTxs.Add(Transaction<DumbAction>.Create(nonce++, key, genesis.Hash, new DumbAction[0]));
                 }
-                block = TestUtils.MineNext(block, blockTxs);
+                block = TestUtils.MineNext(block, _ => HashAlgorithmType, blockTxs);
                 blocks.Add(block);
                 txs.AddRange(blockTxs);
             }

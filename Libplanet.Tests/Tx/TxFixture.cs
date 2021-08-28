@@ -1,5 +1,6 @@
 using System;
 using Libplanet.Action;
+using Libplanet.Blocks;
 using Libplanet.Crypto;
 using Libplanet.Tests.Common.Action;
 using Libplanet.Tx;
@@ -8,7 +9,7 @@ namespace Libplanet.Tests.Tx
 {
     public class TxFixture
     {
-        public TxFixture()
+        public TxFixture(BlockHash? genesisHash)
         {
             PrivateKey1 = new PrivateKey(
                 new byte[]
@@ -61,6 +62,7 @@ namespace Libplanet.Tests.Tx
             Tx = Transaction<PolymorphicAction<BaseAction>>.Create(
                 0,
                 PrivateKey1,
+                genesisHash,
                 new PolymorphicAction<BaseAction>[0],
                 timestamp: timestamp
             );
@@ -80,6 +82,7 @@ namespace Libplanet.Tests.Tx
             TxWithActions = Transaction<PolymorphicAction<BaseAction>>.Create(
                 0,
                 PrivateKey1,
+                genesisHash,
                 actions,
                 timestamp: timestamp
             );

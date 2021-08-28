@@ -7,7 +7,15 @@
 - name: API Reference
   href: api/
   homepage: api/Libplanet.yml
+- name: Analyzer
+  href: ../Libplanet.Analyzers/
+  homepage: ../Libplanet.Analyzers/README.md
+- name: CLI Tools
+  href: ../Libplanet.Tools/README.md
+- name: Explorer
+  href: ../Libplanet.Explorer/
+  homepage: ../Libplanet.Explorer/README.md
 - name: Changelog
   href: ../CHANGES.md
 - name: Contribute
-  href: CONTRIBUTING.md
+  href: ../CONTRIBUTING.md

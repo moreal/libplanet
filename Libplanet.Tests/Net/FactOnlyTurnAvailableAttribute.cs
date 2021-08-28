@@ -1,42 +1,71 @@
 using System;
-using Xunit;
+using System.Collections.Generic;
+using System.Linq;
+using Libplanet.Net;
+using xRetry;
 
 namespace Libplanet.Tests.Net
 {
-    public sealed class FactOnlyTurnAvailableAttribute : FactAttribute
+    public sealed class FactOnlyTurnAvailableAttribute : RetryFactAttribute
     {
-        public const string TurnUrlVarName = "TURN_SERVER_URL";
+        public const string TurnUrlsVarName = "TURN_SERVER_URLS";
 
-        static FactOnlyTurnAvailableAttribute()
+        public static readonly IReadOnlyList<Uri> TurnUris =
+            (Environment.GetEnvironmentVariable(TurnUrlsVarName) ?? string.Empty)
+                .Split(' ', '\t', '\r', '\n')
+                .Where(s => s.Trim().Any()).Select(s => new Uri(s)).ToArray();
+
+        private static readonly Random _random = new Random();
+
+        private static readonly IceServer[] _iceServers = TurnUris
+            .Select(turnUri =>
+            {
+                try
+                {
+                    string[] userInfo = turnUri.UserInfo.Split(':');
+                    return new IceServer(
+                        urls: new[] { turnUri },
+                        username: userInfo[0],
+                        credential: userInfo[1]
+                    );
+                }
+                catch (ArgumentNullException)
+                {
+                    return null;
+                }
+            })
+            .Where(s => !(s is null))
+            .ToArray();
+
+        public FactOnlyTurnAvailableAttribute(int maxRetries = 1, int delayBetweenRetriesMs = 0)
+            : base(maxRetries, delayBetweenRetriesMs)
         {
-            string turnUrlStr =
-                Environment.GetEnvironmentVariable(TurnUrlVarName);
-
-            try
+            if (!GetIceServers().Any())
             {
-                TurnUri = new Uri(turnUrlStr);
-                string[] userInfo = TurnUri.UserInfo.Split(':');
-
-                Username = userInfo[0];
-                Password = userInfo[1];
-            }
-            catch (ArgumentNullException)
-            {
+                Skip = "Available only when any TURN server is running.";
             }
         }
 
-        public FactOnlyTurnAvailableAttribute()
+        public static Uri GetTurnUri() =>
+            TurnUris[_random.Next(TurnUris.Count)];
+
+        public static IReadOnlyList<IceServer> GetIceServers()
         {
-            if (TurnUri == null)
+            var list = new IceServer[_iceServers.Length];
+            Array.Copy(_iceServers, list, list.Length);
+
+            // Fisher–Yates shuffle
+            int n = list.Length;
+            while (n > 1)
             {
-                Skip = "Available only when TURN server is running";
+                n--;
+                int k = _random.Next(n + 1);
+                IceServer value = list[k];
+                list[k] = list[n];
+                list[n] = value;
             }
+
+            return list;
         }
-
-        public static Uri TurnUri { get; }
-
-        public static string Username { get; }
-
-        public static string Password { get; }
     }
 }

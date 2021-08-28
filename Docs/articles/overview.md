@@ -93,31 +93,31 @@ In order to share an Action, Libplanet uses 2 concepts internally: **Block** and
 
 
 ```text
-+---------------------------+   +----------------------------+   +---------------------------+
-|                           |   |                            |   |                           |
-| Block #1                  |   | Block #2                   |   | Block #3                  |
-|                           |   |                            |   |                           |
-| +-----------------------+ |   | +------------------------+ |   | +-----------------------+ |
-| |                       | |   | |                        | |   | |                       | |
-| |  Transaction #1       | |   | |  Transaction #2        | |   | |  Transaction #4       | |
-| |                       | |   | |                        | |   | |                       | |
-| |  +-----------------+  | |   | |  +------------------+  | |   | |  +-----------------+  | |
-| |  |  Action #1-1    |  | +-->+ |  |  Action #2-1     |  | +-->+ |  |  Action #4-1    |  | |
-| |  +-----------------+  | |   | |  +------------------+  | |   | |  +-----------------+  | |
-| |                       | |   | |                        | |   | |                       | |
-| |  +-----------------+  | |   | +------------------------+ |   | +-----------------------+ |
-| |  |  Action #1-2    |  | |   |                            |   |                           |
-| |  +-----------------+  | |   | +------------------------+ |   | +-----------------------+ |
-| |                       | |   | |                        | |   | |                       | |
-| +-----------------------+ |   | |  Transaction #3        | |   | |  Transaction #5       | |
-|                           |   | |                        | |   | |                       | |
-|                           |   | |  +------------------+  | |   | +-----------------------+ |
-|                           |   | |  |  Action #3-1     |  | |   |                           |
-|                           |   | |  +------------------+  | |   |                           |
-|                           |   | |                        | |   |                           |
-|                           |   | +------------------------+ |   |                           |
-|                           |   |                            |   |                           |
-+---------------------------+   +----------------------------+   +---------------------------+
++-----------------------+   +-----------------------+   +-----------------------+
+|                       |   |                       |   |                       |
+| Block #1              |   | Block #2              |   | Block #3              |
+|                       |   |                       |   |                       |
+| +-------------------+ |   | +-------------------+ |   | +-------------------+ |
+| |                   | |   | |                   | |   | |                   | |
+| | Transaction #1    | |   | | Transaction #2    | |   | | Transaction #4    | |
+| |                   | |   | |                   | |   | |                   | |
+| | +---------------+ | |   | | +---------------+ | |   | | +---------------+ | |
+| | |  Action #1-1  | | +-->+ | |  Action #2-1  | | +-->+ | |  Action #4-1  | | |
+| | +---------------+ | |   | | +---------------+ | |   | | +---------------+ | |
+| |                   | |   | |                   | |   | |                   | |
+| | +---------------+ | |   | +-------------------+ |   | +-------------------+ |
+| | |  Action #1-2  | | |   |                       |   |                       |
+| | +---------------+ | |   | +-------------------+ |   | +-------------------+ |
+| |                   | |   | |                   | |   | |                   | |
+| +-------------------+ |   | | Transaction #3    | |   | | Transaction #5    | |
+|                       |   | |                   | |   | |                   | |
+|                       |   | | +---------------+ | |   | +-------------------+ |
+|                       |   | | |  Action #3-1  | | |   |                       |
+|                       |   | | +---------------+ | |   |                       |
+|                       |   | |                   | |   |                       |
+|                       |   | +-------------------+ |   |                       |
+|                       |   |                       |   |                       |
++-----------------------+   +-----------------------+   +-----------------------+
 
 ```
 
@@ -154,8 +154,8 @@ To manage these Blocks, Libplanet offers a class called @"Libplanet.Blockchain.B
 Rendering
 ---------
 
-One way for game developers to reflect the State of the game is by using [`BlockChain<T>.GetState()`].
-
+One way for game developers to reflect the State of the game is by using
+@"Libplanet.Blockchain.BlockChain`1.GetState(Libplanet.Address,System.Nullable{Libplanet.HashDigest{SHA256}},Libplanet.Blockchain.StateCompleter{`0})".
 
 ```csharp
 public class Game : MonoBehaviour
@@ -204,22 +204,29 @@ Although this method works, there are still some problems because reflecting the
 - If the wait time is long, the interval between States being reflected in the game is also extended, and if it becomes too short, frequent State checks makes the process inefficient.
 - If multiple actions were executed in a short period of time, they would not be handled accurately.
 
-Libplanet provides a rendering mechanism called [`IAction.Render()`] to solve this problem. [`IAction.Render()`] is called after a Block with the corresponding Actions is confirmed and the State is transitioned. The following code has been re-implemented using [`IAction.Render()`].
+Libplanet provides a rendering mechanism called
+@"Libplanet.Blockchain.Renderers.IRenderer`1" and its subtype
+@"Libplanet.Blockchain.Renderers.IActionRenderer`1" to solve this problem.
+@"Libplanet.Blockchain.Renderers.IActionRenderer`1.RenderAction(Libplanet.Action.IAction,Libplanet.Action.IActionContext,Libplanet.Action.IAccountStateDelta)"
+is called after a @"Libplanet.Blocks.Block`1" with the corresponding
+@"Libplanet.Action.IAction"s is confirmed and the state is transitioned.
+The following code has been re-implemented using
+@"Libplanet.Blockchain.Renderers.IActionRenderer`1.RenderAction(Libplanet.Action.IAction,Libplanet.Action.IActionContext,Libplanet.Action.IAccountStateDelta)".
 
 ```csharp
-public class Win : IAction
+public class WinRenderer : IActionRenderer<Win>
 {
     // ...
 
-    public override void Render(IActioncontext ctx, IAccountstatedelta nextStates)
+    public void RenderAction(IAction action,
+                             IActionContext context,
+                             IAccountStateDelta nextStates)
     {
-        Game.UpdateScore((long?) nextStates.GetState())
+        Game.UpdateScore((long?)nextStates.GetState())
     }
 }
 ```
 
-[`BlockChain<T>.GetState()`]: xref:Libplanet.Blockchain.BlockChain`1.GetState(Libplanet.Address,System.Nullable{Libplanet.HashDigest{System.Security.Cryptography.SHA256}},System.Boolean)
-[`IAction.Render()`]: xref:Libplanet.Action.IAction.Render(Libplanet.Action.IActionContext,Libplanet.Action.IAccountStateDelta)
 
 Networking
 ----------
@@ -247,7 +254,8 @@ Libplanet isn't a tool for creating games of any particular genre, but rather a 
 
 ### About PoW
 
-Currently, the only consensus algorithm currently implemented in Libplanet is a PoW([Hashcash]). It has the following characteristics.
+Currently, the only consensus algorithm currently implemented in Libplanet is
+a PoW ([Hashcash]). It has the following characteristics:
 
 - Anyone with hash power (= computing power) can join the network
 - Simple to implement, robust

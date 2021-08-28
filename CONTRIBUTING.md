@@ -29,20 +29,14 @@ for purposes in the *Libplanet* category:
 Prerequisites
 -------------
 
-You need [.NET Core] SDK 2.2+ which provides the latest C# compiler and .NET VM.
+You need [.NET Core] SDK 3.1+ which provides the latest C# compiler and .NET VM.
 Read and follow the instruction to install .NET Core SDK on
 the [.NET Core downloads page][1].
 FYI if you use macOS and [Homebrew] you can install it by
 `brew cask install dotnet-sdk` command.
 
-Make sure that your .NET Core SDK is 2.2 or higher.  You could show
+Make sure that your .NET Core SDK is 3.1 or higher.  You could show
 the version you are using by `dotnet --info` command.
-
-If it's Windows please check if the environment variable named
-`MSBuildSDKsPath` refers to the proper version of .NET Core SDK.
-If you use Visual Studio 2017 (not 2019) you can only use .NET Core 2.2.105
-at the highest.  .NET Core SDK higher than the version 2.2.105 is not
-recognized by Visual Studio 2017.
 
 Although it is not necessary, you should install a proper IDE for .NET
 (or an [OmniSharp] extension for your favorite editor — except it takes
@@ -70,38 +64,138 @@ builds the entire *Libplanet* solution:
 
     dotnet build
 
+We use [SonarAnalyzer] to check our code quality but it takes longer to build.
+To skip the analyzer, you can use:
 
-Tests [![Build Status](https://dev.azure.com/planetarium/libplanet/_apis/build/status/planetarium.libplanet?branchName=master)][Azure Pipelines] [![Codecov](https://codecov.io/gh/planetarium/libplanet/branch/master/graph/badge.svg)][2]
+    dotnet build -p:SkipSonar=true
+
+[SonarAnalyzer]: https://github.com/SonarSource/sonar-dotnet
+
+
+Projects
+--------
+
+The [planetarium/libplanet](https://github.com/planetarium/libplanet) repository
+on GitHub consists of several projects:
+
+ -  *Libplanet*: The main project, which contains the most of implementation
+    code.  When this is  built into a [NuGet package], it consists of two
+    assemblies: *Libplanet*, and *Libplanet.Stun*, explained below.
+
+ -  *Libplanet.Stun*: The project dedicated to implement [TURN & STUN].
+    Note that the assembly built from this project is included by
+    *[Libplanet][NuGet package]* package on NuGet.
+
+ -  *Libplanet.RocksDBStore*: The `IStore` implementation built on [RocksDB].
+    As this depends on platform-dependent libraries (which is written in C/C++),
+    this is distributed as a distinct NuGet package: *[Libplanet.RocksDBStore]*.
+
+ -  *Libplanet.Analyzers*: Roslyn Analyzer (i.e., lint) for game programmers who
+    use Libplanet.  This project is distributed as a distinct NuGet package:
+    *[Libplanet.Analyzers]*.
+
+ -  *Libplanet.Extensions.Cocona*: The project to provide the [Cocona] commands
+    to handle *Libplanet* structures in command line.
+
+ -  *Libplanet.Tools*: The CLI tools for Libplanet.  This project is distributed
+    as a distinct NuGet package: *[Libplanet.Tools]*. See its own
+    [README.md](Libplanet.Tools/README.md).
+
+ -  *Libplanet.Explorer*: Libplanet Explorer, a web server that exposes
+    a Libplanet blockchain as a [GraphQL] endpoint.  There is the official
+    web front-end depending on this too: [libplanet-explorer-frontend].
+    Note that this project in itself is a library, and packaging it as
+    an executable is done by a below project named
+    *Libplanet.Explorer.Executable*.
+
+ -  *Libplanet.Explorer.Executable*: Turns Libplanet Explorer into a single
+    executable binary so that it is easy to distribute.
+
+ -  *Libplanet.Benchmarks*: Performance benchmarks.
+    See the [*Benchmarks*](#benchmarks) section below.
+
+ -  *Libplanet.Tests*: Unit tests of the *Libplanet* project.  See the *Tests*
+    section below.
+
+ -  *Libplanet.Stun.Tests*: Unit tests of the *Libplanet.Stun* project.
+
+ -  *Libplanet.RocksDBStore.Tests*: Unit tests of the *Libplanet.RocksDBStore*
+    project.
+
+ -  *Libplanet.Analyzers.Tests*: Unit tests of the *Libplanet.Analyzers*
+    project.
+
+ -  *Libplanet.Explorer.UnitTests*: Unit tests of the *Libplanet.Explorer*
+    project.
+
+ -  *Libplanet.Extensions.Cocona.Tests*: Unit tests of the
+    *Libplanet.Extensions.Cocona* project.
+
+
+[NuGet package]: https://www.nuget.org/packages/Libplanet/
+[TURN & STUN]: https://snack.planetarium.dev/eng/2019/06/nat_traversal_2/
+[RocksDB]: https://rocksdb.org/
+[Libplanet.RocksDBStore]: https://www.nuget.org/packages/Libplanet.RocksDBStore/
+[Libplanet.Analyzers]: https://www.nuget.org/packages/Libplanet.Analyzers/
+[Cocona]: https://www.nuget.org/packages/Cocona
+[Libplanet.Tools]: https://www.nuget.org/packages/Libplanet.Tools/
+[GraphQL]: https://graphql.org/
+[libplanet-explorer-frontend]: https://github.com/planetarium/libplanet-explorer-frontend
+
+
+Tests [![Build Status](https://dev.azure.com/planetarium/libplanet/_apis/build/status/planetarium.libplanet?branchName=main)][Azure Pipelines] [![Codecov](https://codecov.io/gh/planetarium/libplanet/branch/main/graph/badge.svg)][2]
 -----
 
 We write as complete tests as possible to the corresponding implementation code.
 Going near to the [code coverage][3] 100% is one of our goals.
 
-The *Libplanet* solution consists of several projects.  *Libplanet* and
-*Libplanet.Stun* are actual implementations.  These are built to *Libplanet.dll*
-and *Libplanet.Stun.dll* assemblies and packed into one NuGet package.
+The *Libplanet* solution consists of several projects.
+Every project without *.Tests* suffix is an actual implementation.
+These are built to *Libplanet\*.dll* assemblies and packed into one NuGet
+package.
 
-*Libplanet.Tests* is a test suite for the *Libplanet.dll* assembly, and
-*Libplanet.Stun.Tests* is a test suite for the *Libplanet.Stun.dll* assembly.
-Both depend on [Xunit], and every namespace and class in these corresponds to
-one in *Libplanet* or *Libplanet.Stun* projects.
+*Libplanet\*.Tests* is a test suite for the *Libplanet\*.dll* assembly.
+All of them depend on [Xunit], and every namespace and class in these
+corresponds to one in *Libplanet&ast;* projects.
 If there's *Libplanet.Foo.Bar* class there also should be
-*Libplanet.Tests.Foo.BarTest* to test it.
+*Libplanet.Foo.Bar.Tests* to test it.
 
-To build and run unit tests at a time execute the below command:
+To build and run unit tests at a time with .NET Core execute the below command:
 
     dotnet test
 
-[Azure Pipelines]: https://dev.azure.com/planetarium/libplanet/_build/latest?definitionId=1&branchName=master
+To run unit tests with .NET Framework on Windows:
+
+~~~~ pwsh
+nuget install xunit.runner.console -Version 2.4.1
+msbuild /restore /p:TestsTargetFramework=net472
+& (gci xunit.runner.console.*\tools\net472\xunit.console.exe | select -f 1) `
+  (gci *.Tests\bin\Debug\net472\*.Tests.dll)
+~~~~
+
+Or with Mono:
+
+~~~~ bash
+nuget install xunit.runner.console
+msbuild /restore /p:TestsTargetFramework=net47
+mono xunit.runner.console.*/tools/net47/xunit.console.exe \
+    *.Tests/bin/Debug/net47/*.Tests.dll
+~~~~
+
+[Azure Pipelines]: https://dev.azure.com/planetarium/libplanet/_build?definitionId=3&_a=summary&repositoryFilter=3&branchFilter=622%2C622%2C622%2C622
 [3]: https://codecov.io/gh/planetarium/libplanet
 [Xunit]: https://xunit.github.io/
 
 
-### `TURN_SERVER_URL`
+### `TURN_SERVER_URLS`
 
-Some tests depend on a TURN server.  If `TURN_SERVER_URL` environment variable
-is set (the value looks like `turn://user:password@host:3478/`)
-these tests also run.  Otherwise, these tests are skipped.
+Some tests depend on a TURN server.  If `TURN_SERVER_URLS` environment variable
+is present, these tests also run.  Otherwise, these tests are skipped.
+
+As the name implies, `TURN_SERVER_URLS` can have more than one TURN server URL.
+URLs are separated by whitespaces like `turn://user:password@host:3478/
+turn://user:password@host2:3478/`.  If multiple TURN servers are provided,
+each test case pick a random one to use so that loads are balanced.
 
 FYI there are several TURN implementations like [Coturn] and [gortc/turn],
 or cloud offers like [Xirsys].
@@ -147,7 +241,7 @@ To sum up, the instruction is like below (the example is assuming Linux):
 
     msbuild -r
     xunit-unity-runner/StandaloneLinux64 \
-      "`pwd`"/*.Tests/bin/Debug/net461/*.Tests.dll
+      "`pwd`"/*.Tests/bin/Debug/net47/*.Tests.dll
 
 [xunit-unity-runner]: https://github.com/planetarium/xunit-unity-runner
 [4]: https://github.com/planetarium/xunit-unity-runner/releases/latest
@@ -205,22 +299,7 @@ docs for details.
 [BenchmarkDotNet]: https://benchmarkdotnet.org/
 
 
-Troubleshooting
---------------
+Releasing a new version
+-----------------------
 
-### I got the error like `Fody is only supported on MSBuild 16 and above. Current version: 15.`
-
-Your .NET Core SDK version probably is outdated.  Our recommended version is: *2.2.300*.
-
-1. Download the lastest (as of June 2019) .NET Core SDK binary from the official website:
-
-   <https://dotnet.microsoft.com/download/dotnet-core/2.2#sdk-2.2.300>
-
-2. Extract *.tar.gz* in proper directory.
-
-3. You could permanently add the following commands into your shell profile.
-
-    ~~~~
-    export DOTNET_ROOT="$YOUR_DOTNET_INSTALLATION_PATH/dotnet"
-    export PATH="$PATH:$DOTNET_ROOT"
-    ~~~~
+Read the [Releasing guide](RELEASE.md) which dedicates to this topic.

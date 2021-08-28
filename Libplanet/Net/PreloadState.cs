@@ -1,3 +1,4 @@
+#nullable enable
 namespace Libplanet.Net
 {
     // <summary>
@@ -9,11 +10,17 @@ namespace Libplanet.Net
         /// <summary>
         /// The number of total phases.
         /// </summary>
-        public const int TotalPhase = 4;
+        public const int TotalPhase = 5;
 
         /// <summary>
         /// The current phase.
         /// </summary>
         public abstract int CurrentPhase { get; }
+
+        public static bool operator ==(PreloadState left, PreloadState right) =>
+            Operator.Weave(left, right);
+
+        public static bool operator !=(PreloadState left, PreloadState right) =>
+            Operator.Weave(left, right);
     }
 }

@@ -1,9 +1,14 @@
+#nullable enable
 using System;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Numerics;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Security.Cryptography;
+using System.Threading;
+using Libplanet.Serialization;
 
 namespace Libplanet
 {
@@ -16,7 +21,8 @@ namespace Libplanet
     /// <typeparam name="T">A <see cref="HashAlgorithm"/> which corresponds to
     /// a digest.  This determines <see cref="Size"/> of a digest.</typeparam>
     /// <seealso cref="HashAlgorithm"/>
-    public readonly struct HashDigest<T> : IEquatable<HashDigest<T>>
+    [Serializable]
+    public readonly struct HashDigest<T> : ISerializable, IEquatable<HashDigest<T>>
         where T : HashAlgorithm
     {
         /// <summary>
@@ -29,16 +35,22 @@ namespace Libplanet
         /// </summary>
         public static readonly int Size;
 
+        private static readonly ThreadLocal<T> _algorithm;
         private static readonly byte[] _defaultByteArray;
 
         private readonly ImmutableArray<byte> _byteArray;
 
         static HashDigest()
         {
-            var thunk = (T)typeof(T).GetMethod("Create", new Type[0]).Invoke(
-                null, new object[0]);
-            Size = thunk.HashSize / 8;
-
+            Type type = typeof(T);
+            MethodInfo method = type.GetMethod(nameof(HashAlgorithm.Create), new Type[0])!;
+            MethodCallExpression methodCall = Expression.Call(null, method);
+            var exc = new InvalidCastException($"Failed to invoke {methodCall} static method.");
+            Func<T> instantiateAlgorithm = Expression.Lambda<Func<T>>(
+                Expression.Coalesce(methodCall, Expression.Throw(Expression.Constant(exc), type))
+            ).Compile()!;
+            _algorithm = new ThreadLocal<T>(instantiateAlgorithm);
+            Size = _algorithm.Value!.HashSize / 8;
             _defaultByteArray = new byte[Size];
         }
 
@@ -57,12 +69,23 @@ namespace Libplanet
         /// the same to the <see cref="Size"/> the hash algorithm
         /// (i.e., <typeparamref name="T"/> requires.</exception>
         public HashDigest(byte[] hashDigest)
+            : this((hashDigest ?? throw new ArgumentNullException(nameof(hashDigest)))
+                .ToImmutableArray())
         {
-            if (hashDigest == null)
-            {
-                throw new ArgumentNullException(nameof(hashDigest));
-            }
+        }
 
+        /// <summary>
+        /// Converts an immutable <see cref="byte"/> array into a <see cref="HashDigest{T}"/>.
+        /// </summary>
+        /// <param name="hashDigest">An immutable <see cref="byte"/> array that encodes
+        /// a <see cref="HashDigest{T}"/>.  It must not be <c>null</c>, and its
+        /// <see cref="Array.Length"/> must be the same to <see cref="Size"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the given
+        /// <paramref name="hashDigest"/>'s <see cref="ImmutableArray{T}.Length"/> is not
+        /// the same to the <see cref="Size"/> the hash algorithm
+        /// (i.e., <typeparamref name="T"/>) requires.</exception>
+        public HashDigest(ImmutableArray<byte> hashDigest)
+        {
             if (hashDigest.Length != Size)
             {
                 string message =
@@ -74,7 +97,14 @@ namespace Libplanet
                 );
             }
 
-            _byteArray = hashDigest.ToImmutableArray();
+            _byteArray = hashDigest;
+        }
+
+        private HashDigest(
+            SerializationInfo info,
+            StreamingContext context)
+            : this(info.GetValue<byte[]>(nameof(HashDigest<T>)))
+        {
         }
 
         /// <summary>
@@ -113,7 +143,7 @@ namespace Libplanet
         /// the <see cref="Size"/>, the hash algorithm
         /// (i.e., <typeparamref name="T"/> requires.</exception>
         /// <seealso cref="ToString()"/>
-        /// <seealso cref="HashDigestExtension.ToHashDigest{T}(string)"/>
+        /// <seealso cref="HashDigestExtensions.ToHashDigest{T}(string)"/>
         [Pure]
         public static HashDigest<T> FromString(string hexDigest)
         {
@@ -137,31 +167,16 @@ namespace Libplanet
         }
 
         /// <summary>
-        /// Tests if a digest is less than the target computed for the given
-        /// <paramref name="difficulty"/>).
+        /// Computes a hash digest of the algorithm <typeparamref name="T"/> from the given
+        /// <paramref name="input"/> bytes.
         /// </summary>
-        /// <param name="difficulty">The difficulty to compute target number.
-        /// </param>
-        /// <returns><c>true</c> only if a digest is less than the target
-        /// computed for the given <paramref name="difficulty"/>).
-        /// If <paramref name="difficulty"/> is <c>0</c> it always returns
-        /// <c>true</c>.
-        /// </returns>
+        /// <param name="input">The bytes to compute its hash.</param>
+        /// <returns>The hash digest derived from <paramref name="input"/>.</returns>
         [Pure]
-        public bool Satisfies(long difficulty)
+        public static HashDigest<T> DeriveFrom(byte[] input)
         {
-            if (difficulty == 0)
-            {
-                return true;
-            }
-
-            double maxTarget = Math.Pow(2, 256);
-            var target = new BigInteger(maxTarget / difficulty);
-
-            // Add zero to convert unsigned BigInteger
-            var result = new BigInteger(ByteArray.Add(0).ToArray());
-
-            return result < target;
+            byte[] hash = _algorithm.Value!.ComputeHash(input);
+            return new HashDigest<T>(hash);
         }
 
         /// <summary>
@@ -191,11 +206,10 @@ namespace Libplanet
         }
 
         [Pure]
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is IEquatable<HashDigest<T>> other
-                ? other.Equals(this)
-                : false;
+                && other.Equals(this);
         }
 
         [Pure]
@@ -226,13 +240,19 @@ namespace Libplanet
 
             return true;
         }
+
+        /// <inheritdoc cref="ISerializable.GetObjectData(SerializationInfo, StreamingContext)"/>
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(HashDigest<T>), ToByteArray());
+        }
     }
 
     /// <summary>
     /// Augments types to have some shortcut methods dealing with
     /// <see cref="HashDigest{T}"/> values.
     /// </summary>
-    public static class HashDigestExtension
+    public static class HashDigestExtensions
     {
         /// <summary>
         /// Converts a given hexadecimal representation of a digest into

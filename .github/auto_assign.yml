@@ -1,0 +1,11 @@
+addReviewers: true
+addAssignees: author
+
+reviewers:
+- dahlia
+- longfin
+- limebell
+- riemannulus
+- greymistcube
+
+numberOfReviewers: 0

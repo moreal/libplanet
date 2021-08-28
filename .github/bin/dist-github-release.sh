@@ -4,8 +4,8 @@
 # shellcheck disable=SC2169
 set -e
 
-project=Libplanet
-configuration=Release
+# shellcheck source=constants.sh
+. "$(dirname "$0")/constants.sh"
 
 if [ "$GITHUB_REPOSITORY" = "" ] | [ "$GITHUB_REF" = "" ]; then
   echo "This script is intended to be run by GitHub Actions." > /dev/stderr
@@ -37,43 +37,54 @@ elif [ ! -f obj/release_note.txt ]; then
   exit 1
 fi
 
-nupkg_path="./$project/bin/$configuration/$project.$tag.nupkg"
-if [ ! -f "$nupkg_path" ]; then
-  {
-    echo "$nupkg_path is missing."
-    echo "dist:pack action must be run first."
-  } > /dev/stderr
-  exit 1
-fi
+for project in "${projects[@]}"; do
+  nupkg_path="./$project/bin/$configuration/$project.$tag.nupkg"
+  if [ ! -f "$nupkg_path" ]; then
+    {
+      echo "$nupkg_path is missing."
+      echo "dist:pack action must be run first."
+    } > /dev/stderr
+    exit 1
+  fi
+done
 
 if command -v apk; then
   apk add --no-cache ca-certificates
   update-ca-certificates
 fi
 
-wget -O /tmp/github-release.tar.bz2 \
-  https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2
-tar xvfj /tmp/github-release.tar.bz2 -C /tmp
-rm /tmp/github-release.tar.bz2 \
-
 # Fill the description on GitHub releases with the release note
 github_user="${GITHUB_REPOSITORY%/*}"
 github_repo="${GITHUB_REPOSITORY#*/}"
 
-export PATH="/tmp/bin/linux/amd64:$PATH"
-
-github-release release \
+"$(dirname "$0")/github-release.sh" release \
   --user "$github_user" \
   --repo "$github_repo" \
   --tag "$tag" \
-  --name "$project $tag" \
+  --name "${projects[0]} $tag" \
   --description - < obj/release_note.txt
 
-github-release upload \
-  --user "$github_user" \
-  --repo "$github_repo" \
-  --tag "$tag" \
-  --name "$(basename "$nupkg_path")" \
-  --file "$nupkg_path"
+for project in "${projects[@]}"; do
+  nupkg_path="./$project/bin/$configuration/$project.$tag.nupkg"
+  "$(dirname "$0")/github-release.sh" upload \
+    --user "$github_user" \
+    --repo "$github_repo" \
+    --tag "$tag" \
+    --name "$(basename "$nupkg_path")" \
+    --file "$nupkg_path"
+done
 
-rm /tmp/bin/linux/amd64/github-release
+
+for project in "${executables[@]}"; do
+  for rid in "${rids[@]}"; do
+    for exec_path in "./$project/bin/$configuration"/*-"$tag-$rid".*
+    do
+      "$(dirname "$0")/github-release.sh" upload \
+        --user "$github_user" \
+        --repo "$github_repo" \
+        --tag "$tag" \
+        --name "$(basename "$exec_path")" \
+        --file "$exec_path"
+    done
+  done
+done

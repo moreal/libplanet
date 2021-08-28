@@ -15,6 +15,10 @@
     <Rule Id="SA1309" Action="None" />
     <!-- Allow an expression not to declare parenthese. -->
     <Rule Id="SA1407" Action="None" />
+    <!-- Allow tuple types in signatures omit element names. -->
+    <Rule Id="SA1414" Action="None" />
+    <!-- Allow tuple fields to be referred by index (i.e. ItemN). -->
+    <Rule Id="SA1142" Action="None" />
     <!-- Allow a rich text in a XML doc comment's <summary>. -->
     <Rule Id="SA1462" Action="None" />
     <Rule Id="SA1642" Action="None" />
@@ -92,8 +96,6 @@
     <Rule Id="S2743" Action="None" />
     <!-- Make field 'readonly'. -->
     <Rule Id="S2933" Action="None" />
-    <!-- Change the visibility of this constructor to 'protected'. -->
-    <Rule Id="S3442" Action="None" />
     <!-- Fix this implementation of 'IDisposable' to conform to the dispose
     pattern. -->
     <Rule Id="S3881" Action="None" />
@@ -110,18 +112,14 @@
     other handling the asynchronous code. -->
     <Rule Id="S4457" Action="None" />
 
-    <!-- Remove the unnecessary Boolean literal(s). -->
-    <Rule Id="S1125" Action="None" />
-    <!-- Remove the field '_bucketSize' and declare it as a local variable
-    in the relevant methods. -->
-    <Rule Id="S1450" Action="None" />
     <!-- Remove the unused local variable 'x'. -->
     <Rule Id="S1481" Action="None" />
-    <!-- Extract this nested ternary operation into an independent
-    statement. -->
-    <Rule Id="S3358" Action="None" />
-    <!-- Seal class 'Transaction' or implement 'IEqualityComparer<T>'
-    instead. -->
-    <Rule Id="S4035" Action="None" />
+
+    <!-- Remove this useless assignment to local variable x -->
+    <Rule Id="S1854" Action="None" />
+    <!-- Remove this redundant jump. -->
+    <Rule Id="S3626" Action="None" />
+    <!-- Restrict types of objects allowed to be deserialized. -->
+    <Rule Id="S5773" Action="None" />
   </Rules>
 </RuleSet>

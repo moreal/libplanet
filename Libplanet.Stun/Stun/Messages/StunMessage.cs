@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading;
 using System.Threading.Tasks;
 using Libplanet.Stun.Attributes;
 
@@ -16,11 +17,8 @@ namespace Libplanet.Stun.Messages
         protected StunMessage()
         {
             var transactionId = new byte[12];
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                rng.GetBytes(transactionId);
-            }
-
+            using var rng = new RNGCryptoServiceProvider();
+            rng.GetBytes(transactionId);
             TransactionId = transactionId;
         }
 
@@ -83,13 +81,19 @@ namespace Libplanet.Stun.Messages
         /// Parses <see cref="StunMessage"/> from <paramref name="stream"/>.
         /// </summary>
         /// <param name="stream">A view of a sequence of STUN packet's bytes.</param>
+        /// <param name="cancellationToken">
+        /// A cancellation token used to propagate notification that this
+        /// operation should be canceled.
+        /// </param>
         /// <returns>A <see cref="StunMessage"/> derived on
         /// bytes read from <paramref name="stream"/>.
         /// </returns>
-        public static async Task<StunMessage> Parse(Stream stream)
+        public static async Task<StunMessage> ParseAsync(
+            Stream stream,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var header = new byte[20];
-            await stream.ReadAsync(header, 0, 20);
+            await stream.ReadAsync(header, 0, 20, cancellationToken);
 
             MessageMethod method = ParseMethod(header[0], header[1]);
             MessageClass @class = ParseClass(header[0], header[1]);
@@ -101,72 +105,47 @@ namespace Libplanet.Stun.Messages
             System.Array.Copy(header, 8, transactionId, 0, 12);
 
             var body = new byte[length.ToUShort()];
-            await stream.ReadAsync(body, 0, body.Length);
+            await stream.ReadAsync(body, 0, body.Length, cancellationToken);
             IEnumerable<Attribute> attributes = ParseAttributes(
                 body,
                 transactionId
             );
 
             StunMessage rv = null;
-            switch (@class)
+            rv = @class switch
             {
-                case MessageClass.SuccessResponse:
-                    switch (method)
-                    {
-                        case MessageMethod.Allocate:
-                            rv = new AllocateSuccessResponse();
-                            break;
-                        case MessageMethod.Connect:
-                            rv = new ConnectSuccessResponse();
-                            break;
-                        case MessageMethod.ConnectionBind:
-                            rv = new ConnectionBindSuccessResponse();
-                            break;
-                        case MessageMethod.Binding:
-                            rv = new BindingSuccessResponse();
-                            break;
-                        case MessageMethod.CreatePermission:
-                            rv = new CreatePermissionSuccessResponse();
-                            break;
-                        case MessageMethod.Refresh:
-                            rv = new RefreshSuccessResponse();
-                            break;
-                    }
+                MessageClass.SuccessResponse => method switch
+                {
+                    MessageMethod.Allocate => new AllocateSuccessResponse(),
+                    MessageMethod.Connect => new ConnectSuccessResponse(),
+                    MessageMethod.ConnectionBind => new ConnectionBindSuccessResponse(),
+                    MessageMethod.Binding => new BindingSuccessResponse(),
+                    MessageMethod.CreatePermission => new CreatePermissionSuccessResponse(),
+                    MessageMethod.Refresh => new RefreshSuccessResponse(),
+                    _ => rv,
+                },
+                MessageClass.ErrorResponse => method switch
+                {
+                    MessageMethod.Allocate => new AllocateErrorResponse(),
+                    MessageMethod.CreatePermission => new CreatePermissionErrorResponse(),
+                    MessageMethod.Refresh => new RefreshErrorResponse(),
+                    _ => rv,
+                },
+                MessageClass.Indication => method switch
+                {
+                    MessageMethod.ConnectionAttempt => new ConnectionAttempt(),
+                    _ => rv,
+                },
+                _ => rv,
+            };
 
-                    break;
-
-                case MessageClass.ErrorResponse:
-                    switch (method)
-                    {
-                        case MessageMethod.Allocate:
-                            rv = new AllocateErrorResponse();
-                            break;
-                        case MessageMethod.CreatePermission:
-                            rv = new CreatePermissionErrorResponse();
-                            break;
-                        case MessageMethod.Refresh:
-                            rv = new RefreshErrorResponse();
-                            break;
-                    }
-
-                    break;
-
-                case MessageClass.Indication:
-                    switch (method)
-                    {
-                        case MessageMethod.ConnectionAttempt:
-                            rv = new ConnectionAttempt();
-                            break;
-                    }
-
-                    break;
+            if (rv is null)
+            {
+                throw new TurnClientException("Parsed result is null.");
             }
 
-            if (rv != null)
-            {
-                rv.TransactionId = transactionId;
-                rv.Attributes = attributes;
-            }
+            rv.TransactionId = transactionId;
+            rv.Attributes = attributes;
 
             return rv;
         }
@@ -187,75 +166,73 @@ namespace Libplanet.Stun.Messages
                 (c & 0x2) << 7 |
                 (c & 0x1) << 4;
 
-            using (var ms = new MemoryStream())
+            using var ms = new MemoryStream();
+            List<Attribute> attrs = Attributes.ToList();
+
+            if (!string.IsNullOrEmpty(ctx?.Username))
             {
-                List<Attribute> attrs = Attributes.ToList();
-
-                if (!string.IsNullOrEmpty(ctx?.Username))
-                {
-                    attrs.Add(new Username(ctx.Username));
-                }
-
-                if (ctx?.Nonce != null)
-                {
-                    attrs.Add(new Attributes.Nonce(ctx.Nonce));
-                }
-
-                if (!string.IsNullOrEmpty(ctx?.Realm))
-                {
-                    attrs.Add(new Realm(ctx.Realm));
-                }
-
-                byte[] encodedAttrs;
-                using (var ams = new MemoryStream())
-                {
-                    foreach (Attribute attr in attrs)
-                    {
-                        byte[] asBytes = attr.ToByteArray(TransactionId);
-                        ams.Write(asBytes, 0, asBytes.Length);
-                    }
-
-                    encodedAttrs = ams.ToArray();
-                }
-
-                // 8 bytes for Fingerprint
-                var messageLength =
-                    (ushort)(encodedAttrs.Length + FingerprintBytes);
-
-                if (useMessageIntegrity)
-                {
-                    messageLength += MessageIntegrityBytes;
-                }
-
-                ms.Write(((ushort)type).ToBytes(), 0, 2);
-                ms.Write(messageLength.ToBytes(), 0, 2);
-                ms.Write(MagicCookie, 0, MagicCookie.Length);
-                ms.Write(TransactionId, 0, TransactionId.Length);
-                ms.Write(encodedAttrs, 0, encodedAttrs.Length);
-
-                if (useMessageIntegrity)
-                {
-                    var lengthWithoutFingerprint =
-                        (ushort)(messageLength - FingerprintBytes);
-                    byte[] toCalc = ms.ToArray();
-                    lengthWithoutFingerprint.ToBytes().CopyTo(toCalc, 2);
-
-                    MessageIntegrity mi =
-                        MessageIntegrity.Calculate(
-                            ctx?.Username,
-                            ctx?.Password,
-                            ctx?.Realm,
-                            toCalc);
-                    ms.Write(mi.ToByteArray(), 0, MessageIntegrityBytes);
-                }
-
-                Fingerprint fingerprint = Fingerprint.FromMessage(
-                    ms.ToArray()
-                );
-                ms.Write(fingerprint.ToByteArray(), 0, FingerprintBytes);
-
-                return ms.ToArray();
+                attrs.Add(new Username(ctx.Username));
             }
+
+            if (ctx?.Nonce != null)
+            {
+                attrs.Add(new Attributes.Nonce(ctx.Nonce));
+            }
+
+            if (!string.IsNullOrEmpty(ctx?.Realm))
+            {
+                attrs.Add(new Realm(ctx.Realm));
+            }
+
+            byte[] encodedAttrs;
+            using (var ams = new MemoryStream())
+            {
+                foreach (Attribute attr in attrs)
+                {
+                    byte[] asBytes = attr.ToByteArray(TransactionId);
+                    ams.Write(asBytes, 0, asBytes.Length);
+                }
+
+                encodedAttrs = ams.ToArray();
+            }
+
+            // 8 bytes for Fingerprint
+            var messageLength =
+                (ushort)(encodedAttrs.Length + FingerprintBytes);
+
+            if (useMessageIntegrity)
+            {
+                messageLength += MessageIntegrityBytes;
+            }
+
+            ms.Write(((ushort)type).ToBytes(), 0, 2);
+            ms.Write(messageLength.ToBytes(), 0, 2);
+            ms.Write(MagicCookie, 0, MagicCookie.Length);
+            ms.Write(TransactionId, 0, TransactionId.Length);
+            ms.Write(encodedAttrs, 0, encodedAttrs.Length);
+
+            if (useMessageIntegrity)
+            {
+                var lengthWithoutFingerprint =
+                    (ushort)(messageLength - FingerprintBytes);
+                byte[] toCalc = ms.ToArray();
+                lengthWithoutFingerprint.ToBytes().CopyTo(toCalc, 2);
+
+                MessageIntegrity mi =
+                    MessageIntegrity.Calculate(
+                        ctx?.Username,
+                        ctx?.Password,
+                        ctx?.Realm,
+                        toCalc);
+                ms.Write(mi.ToByteArray(), 0, MessageIntegrityBytes);
+            }
+
+            Fingerprint fingerprint = Fingerprint.FromMessage(
+                ms.ToArray()
+            );
+            ms.Write(fingerprint.ToByteArray(), 0, FingerprintBytes);
+
+            return ms.ToArray();
         }
 
         internal static IEnumerable<Attribute> ParseAttributes(
@@ -269,37 +246,25 @@ namespace Libplanet.Stun.Messages
                 ushort length = bytes.Skip(2).Take(2).ToUShort();
                 byte[] payload = bytes.Skip(4).Take(length).ToArray();
 
-                switch (type)
+                Attribute attr = type switch
                 {
-                    case Attribute.AttributeType.ErrorCode:
-                        yield return ErrorCode.Parse(payload);
-                        break;
-                    case Attribute.AttributeType.Realm:
-                        yield return Realm.Parse(payload);
-                        break;
-                    case Attribute.AttributeType.Nonce:
-                        yield return Stun.Attributes.Nonce.Parse(payload);
-                        break;
-                    case Attribute.AttributeType.Software:
-                        yield return Software.Parse(payload);
-                        break;
-                    case Attribute.AttributeType.Fingerprint:
-                        yield return Fingerprint.Parse(payload);
-                        break;
-                    case Attribute.AttributeType.XorMappedAddress:
-                        yield return XorMappedAddress.Parse(
-                            payload, transactionId);
-                        break;
-                    case Attribute.AttributeType.XorRelayedAddress:
-                        yield return XorRelayedAddress.Parse(
-                            payload, transactionId);
-                        break;
-                    case Attribute.AttributeType.ConnectionId:
-                        yield return new ConnectionId(payload);
-                        break;
-                    case Attribute.AttributeType.Lifetime:
-                        yield return new Lifetime((int)payload.ToUInt());
-                        break;
+                    Attribute.AttributeType.ErrorCode => ErrorCode.Parse(payload),
+                    Attribute.AttributeType.Realm => Realm.Parse(payload),
+                    Attribute.AttributeType.Nonce => Stun.Attributes.Nonce.Parse(payload),
+                    Attribute.AttributeType.Software => Software.Parse(payload),
+                    Attribute.AttributeType.Fingerprint => Fingerprint.Parse(payload),
+                    Attribute.AttributeType.XorMappedAddress =>
+                        XorMappedAddress.Parse(payload, transactionId),
+                    Attribute.AttributeType.XorRelayedAddress =>
+                        XorRelayedAddress.Parse(payload, transactionId),
+                    Attribute.AttributeType.ConnectionId => new ConnectionId(payload),
+                    Attribute.AttributeType.Lifetime => new Lifetime((int)payload.ToUInt()),
+                    _ => null,
+                };
+
+                if (!(attr is null))
+                {
+                    yield return attr;
                 }
 
                 // Detect padding

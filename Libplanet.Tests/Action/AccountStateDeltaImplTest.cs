@@ -1,92 +1,74 @@
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using Bencodex.Types;
 using Libplanet.Action;
-using Libplanet.Crypto;
+using Libplanet.Blockchain;
+using Libplanet.Blocks;
+using Libplanet.Tests.Common.Action;
+using Libplanet.Tx;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Libplanet.Tests.Action
 {
-    public class AccountStateDeltaImplTest
+    public class AccountStateDeltaImplTest : AccountStateDeltaTest
     {
-        private readonly Address[] _addr;
-        private readonly IImmutableDictionary<Address, IValue> _states;
-
-        public AccountStateDeltaImplTest()
+        public AccountStateDeltaImplTest(ITestOutputHelper output)
+            : base(output)
         {
-            Address Addr() => new PrivateKey().PublicKey.ToAddress();
+        }
 
-            _addr = new[]
-            {
-                Addr(),
-                Addr(),
-                Addr(),
-            };
+        public override int ProtocolVersion { get; } = Block<DumbAction>.CurrentProtocolVersion;
 
-            _states = new Dictionary<Address, IValue>
-            {
-                [_addr[0]] = (Text)"a",
-                [_addr[1]] = (Text)"b",
-            }.ToImmutableDictionary();
+        public override IAccountStateDelta CreateInstance(
+            AccountStateGetter accountStateGetter,
+            AccountBalanceGetter accountBalanceGetter,
+            Address signer
+        ) =>
+            new AccountStateDeltaImpl(accountStateGetter, accountBalanceGetter, signer);
+
+        [Fact]
+        public override void TransferAsset()
+        {
+            base.TransferAsset();
+            Assert.IsType<AccountStateDeltaImpl>(_init);
+
+            IAccountStateDelta a = _init.TransferAsset(
+                _addr[0],
+                _addr[1],
+                Value(0, 6),
+                allowNegativeBalance: true
+            );
+            Assert.IsType<AccountStateDeltaImpl>(a);
+            Assert.Equal(Value(0, 6), a.GetBalance(_addr[1], _currencies[0]));
+            a = a.TransferAsset(_addr[1], _addr[1], Value(0, 5));
+            Assert.IsType<AccountStateDeltaImpl>(a);
+            Assert.Equal(Value(0, 6), a.GetBalance(_addr[1], _currencies[0]));
         }
 
         [Fact]
-        public void CreateNullDelta()
+        public override BlockChain<DumbAction> TransferAssetInBlock()
         {
-            IAccountStateDelta delta = new AccountStateDeltaImpl(GetState);
-            Assert.Empty(delta.UpdatedAddresses);
-            Assert.Equal("a", (Text)delta.GetState(_addr[0]));
-            Assert.Equal("b", (Text)delta.GetState(_addr[1]));
-            Assert.Null(delta.GetState(_addr[2]));
-        }
+            BlockChain<DumbAction> chain = base.TransferAssetInBlock();
 
-        [Fact]
-        public void GetSetState()
-        {
-            IAccountStateDelta init = new AccountStateDeltaImpl(GetState);
-            IAccountStateDelta a = init.SetState(_addr[0], (Text)"A");
-            Assert.Equal("A", (Text)a.GetState(_addr[0]));
-            Assert.Equal("a", (Text)init.GetState(_addr[0]));
-            Assert.Equal("b", (Text)a.GetState(_addr[1]));
-            Assert.Equal("b", (Text)init.GetState(_addr[1]));
-            Assert.Null(a.GetState(_addr[2]));
-            Assert.Null(init.GetState(_addr[2]));
-            Assert.Equal(
-                new[] { _addr[0] }.ToImmutableHashSet(),
-                a.UpdatedAddresses
+            DumbAction action = new DumbAction(_addr[0], "a", _addr[0], _addr[0], 1);
+            Transaction<DumbAction> tx = Transaction<DumbAction>.Create(
+                chain.GetNextTxNonce(_addr[0]),
+                _keys[0],
+                chain.Genesis.Hash,
+                new[] { action }
             );
-            Assert.Empty(init.UpdatedAddresses);
-
-            IAccountStateDelta b = a.SetState(_addr[0], (Text)"z");
-            Assert.Equal("z", (Text)b.GetState(_addr[0]));
-            Assert.Equal("A", (Text)a.GetState(_addr[0]));
-            Assert.Equal("a", (Text)init.GetState(_addr[0]));
-            Assert.Equal("b", (Text)b.GetState(_addr[1]));
-            Assert.Equal("b", (Text)a.GetState(_addr[1]));
-            Assert.Null(b.GetState(_addr[2]));
-            Assert.Null(a.GetState(_addr[2]));
-            Assert.Equal(
-                new[] { _addr[0] }.ToImmutableHashSet(),
-                a.UpdatedAddresses
+            chain.Append(
+                TestUtils.MineNext(
+                    chain.Tip,
+                    chain.Policy.GetHashAlgorithm,
+                    new[] { tx },
+                    protocolVersion: ProtocolVersion
+                ).AttachStateRootHash(chain.StateStore, chain.Policy)
             );
-            Assert.Empty(init.UpdatedAddresses);
+            Assert.Equal(
+                DumbAction.DumbCurrency * 5,
+                chain.GetBalance(_addr[0], DumbAction.DumbCurrency)
+            );
 
-            IAccountStateDelta c = b.SetState(_addr[0], (Text)"a");
-            Assert.Equal("a", (Text)c.GetState(_addr[0]));
-            Assert.Equal("z", (Text)b.GetState(_addr[0]));
-            Assert.Empty(init.UpdatedAddresses);
-        }
-
-        private IValue GetState(Address address)
-        {
-            try
-            {
-                return _states[address];
-            }
-            catch (KeyNotFoundException)
-            {
-                return null;
-            }
+            return chain;
         }
     }
 }

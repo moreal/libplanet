@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Net;
 using System.Runtime.Serialization;
+using Destructurama.Attributed;
 using Libplanet.Crypto;
 using Libplanet.Serialization;
 
@@ -15,28 +16,23 @@ namespace Libplanet.Net
     [Equals]
     public class Peer : ISerializable
     {
-        public Peer(
-            PublicKey publicKey,
-            int appProtocolVersion)
-        : this(publicKey, appProtocolVersion, null)
+        public Peer(PublicKey publicKey)
+        : this(publicKey, null)
         {
         }
 
         internal Peer(
             PublicKey publicKey,
-            int appProtocolVersion,
             IPAddress publicIPAddress)
         {
             PublicKey = publicKey ??
                         throw new ArgumentNullException(nameof(publicKey));
-            AppProtocolVersion = appProtocolVersion;
             PublicIPAddress = publicIPAddress;
         }
 
         protected Peer(SerializationInfo info, StreamingContext context)
         {
             PublicKey = new PublicKey(info.GetValue<byte[]>("public_key"));
-            AppProtocolVersion = info.GetInt32("app_protocol_version");
             string addressStr = info.GetString("public_ip_address");
             if (addressStr != null)
             {
@@ -48,33 +44,31 @@ namespace Libplanet.Net
         /// The corresponding <see cref="Libplanet.Crypto.PublicKey"/> of
         /// this peer.
         /// </summary>
+        [LogAsScalar]
         [Pure]
         public PublicKey PublicKey { get; }
-
-        /// <summary>
-        /// The corresponding application protocol version of this peer.
-        /// </summary>
-        /// <seealso cref="Swarm{T}.DifferentVersionPeerEncountered"/>
-        [IgnoreDuringEquals]
-        [Pure]
-        public int AppProtocolVersion { get; }
 
         /// <summary>The peer's address which is derived from
         /// its <see cref="PublicKey"/>.
         /// </summary>
         /// <seealso cref="PublicKey"/>
+        [LogAsScalar]
         [IgnoreDuringEquals]
         [Pure]
         public Address Address => new Address(PublicKey);
 
+        [LogAsScalar]
         [Pure]
         public IPAddress PublicIPAddress { get; }
+
+        public static bool operator ==(Peer left, Peer right) => Operator.Weave(left, right);
+
+        public static bool operator !=(Peer left, Peer right) => Operator.Weave(left, right);
 
         /// <inheritdoc/>
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("public_key", PublicKey.Format(true));
-            info.AddValue("app_protocol_version", AppProtocolVersion);
             info.AddValue("public_ip_address", PublicIPAddress?.ToString());
         }
 

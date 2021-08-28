@@ -1,38 +1,45 @@
+#nullable enable
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Security.Cryptography;
 using Libplanet.Action;
 using Libplanet.Blocks;
+using LruCacheNet;
 
 namespace Libplanet.Store
 {
-    public class BlockSet<T> : BaseIndex<HashDigest<SHA256>, Block<T>>
+    public class BlockSet<T> : BaseIndex<BlockHash, Block<T>>
         where T : IAction, new()
     {
-        public BlockSet(IStore store)
+        private readonly HashAlgorithmGetter _hashAlgorithmGetter;
+        private readonly LruCache<BlockHash, Block<T>> _cache;
+
+        public BlockSet(HashAlgorithmGetter hashAlgorithmGetter, IStore store, int cacheSize = 4096)
             : base(store)
         {
+            _hashAlgorithmGetter = hashAlgorithmGetter;
+            _cache = new LruCache<BlockHash, Block<T>>(cacheSize);
         }
 
-        public override ICollection<HashDigest<SHA256>> Keys =>
+        public override ICollection<BlockHash> Keys =>
             Store.IterateBlockHashes().ToList();
 
         public override ICollection<Block<T>> Values =>
             Store.IterateBlockHashes()
-                .Select(Store.GetBlock<T>)
+                .Select(GetBlock)
+                .Where(block => block is { })
+                .Select(block => block!)
                 .ToList();
 
         public override int Count => (int)Store.CountBlocks();
 
         public override bool IsReadOnly => false;
 
-        public override Block<T> this[HashDigest<SHA256> key]
+        public override Block<T> this[BlockHash key]
         {
             get
             {
-                Block<T> block = Store.GetBlock<T>(key);
+                Block<T>? block = GetBlock(key);
                 if (block is null)
                 {
                     throw new KeyNotFoundException(
@@ -40,7 +47,12 @@ namespace Libplanet.Store
                     );
                 }
 
-                Trace.Assert(block.Hash.Equals(key));
+                if (!block.Hash.Equals(key))
+                {
+                    throw new InvalidBlockHashException(
+                        $"The given hash[{key}] was not equal to actual[{block.Hash}].");
+                }
+
                 return block;
             }
 
@@ -52,25 +64,50 @@ namespace Libplanet.Store
                         $"{value}.hash does not match to {key}");
                 }
 
-                value.Validate(DateTimeOffset.UtcNow);
+                HashAlgorithmType hashAlgorithm = _hashAlgorithmGetter(value.Index);
+                value.Validate(hashAlgorithm, DateTimeOffset.UtcNow);
                 Store.PutBlock(value);
+                _cache.AddOrUpdate(value.Hash, value);
             }
         }
 
-        public override bool Contains(
-            KeyValuePair<HashDigest<SHA256>, Block<T>> item)
+        public override bool Contains(KeyValuePair<BlockHash, Block<T>> item) =>
+            Store.ContainsBlock(item.Key);
+
+        public override bool ContainsKey(BlockHash key) =>
+            Store.ContainsBlock(key);
+
+        public override bool Remove(BlockHash key)
         {
-            return Store.ContainsBlock(item.Key);
+            bool deleted = Store.DeleteBlock(key);
+
+            _cache.Remove(key);
+
+            return deleted;
         }
 
-        public override bool ContainsKey(HashDigest<SHA256> key)
+        private Block<T>? GetBlock(BlockHash key)
         {
-            return Store.ContainsBlock(key);
-        }
+            if (_cache.TryGetValue(key, out Block<T> cached))
+            {
+                if (Store.ContainsBlock(key))
+                {
+                    return cached;
+                }
+                else
+                {
+                    // The cached block had been deleted on Store...
+                    _cache.Remove(key);
+                }
+            }
 
-        public override bool Remove(HashDigest<SHA256> key)
-        {
-            return Store.DeleteBlock(key);
+            Block<T> fetched = Store.GetBlock<T>(key);
+            if (fetched is { })
+            {
+                _cache.AddOrUpdate(key, fetched);
+            }
+
+            return fetched;
         }
     }
 }

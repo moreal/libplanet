@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using Libplanet.Blockchain;
+using Libplanet.Blockchain.Policies;
 using Libplanet.Blocks;
 using Libplanet.Crypto;
 using Libplanet.Tests.Blockchain;
@@ -19,7 +20,9 @@ namespace Libplanet.Benchmarks
             _fx = new DefaultStoreFixture();
             _blockChain = new BlockChain<DumbAction>(
                 new NullPolicy<DumbAction>(),
+                new VolatileStagePolicy<DumbAction>(),
                 _fx.Store,
+                _fx.StateStore,
                 _fx.GenesisBlock
             );
         }
@@ -61,7 +64,7 @@ namespace Libplanet.Benchmarks
         public void MakeOneTransactionWithActions()
         {
             var privateKey = new PrivateKey();
-            var address = privateKey.PublicKey.ToAddress();
+            var address = privateKey.ToAddress();
             var actions = new[]
             {
                 new DumbAction(address, "foo"),
@@ -84,7 +87,7 @@ namespace Libplanet.Benchmarks
             for (var i = 0; i < 10; i++)
             {
                 var privateKey = new PrivateKey();
-                var address = privateKey.PublicKey.ToAddress();
+                var address = privateKey.ToAddress();
                 var actions = new[]
                 {
                     new DumbAction(address, "foo"),

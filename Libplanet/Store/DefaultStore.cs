@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -9,7 +8,6 @@ using System.Security.Cryptography;
 using Bencodex;
 using Bencodex.Types;
 using Libplanet.Blocks;
-using Libplanet.Serialization;
 using Libplanet.Tx;
 using LiteDB;
 using LruCacheNet;
@@ -26,35 +24,35 @@ namespace Libplanet.Store
     /// for some complex indices.
     /// </summary>
     /// <seealso cref="IStore"/>
-    public class DefaultStore : BaseStore, IDisposable
+    public class DefaultStore : BaseStore
     {
         private const string IndexColPrefix = "index_";
-
-        private const string StateRefIdPrefix = "stateref_";
-
+        private const string TxIdBlockIndexPrefix = "txblockindex_";
         private const string TxNonceIdPrefix = "nonce_";
 
         private static readonly UPath TxRootPath = UPath.Root / "tx";
         private static readonly UPath BlockRootPath = UPath.Root / "block";
+        private static readonly UPath TxExecutionRootPath = UPath.Root / "txexec";
+        private static readonly UPath TxIdBlockHashRootPath = UPath.Root / "txbindex";
+        private static readonly UPath BlockPerceptionRootPath = UPath.Root / "blockpercept";
+        private static readonly Codec Codec = new Codec();
 
         private readonly ILogger _logger;
 
         private readonly IFileSystem _root;
         private readonly SubFileSystem _txs;
         private readonly SubFileSystem _blocks;
-
+        private readonly SubFileSystem _txExecutions;
+        private readonly SubFileSystem _txIdBlockHashIndex;
+        private readonly SubFileSystem _blockPerceptions;
         private readonly LruCache<TxId, object> _txCache;
-        private readonly LruCache<HashDigest<SHA256>, RawBlock> _blockCache;
-#pragma warning disable MEN002 // Line is too long
-        private readonly LruCache<HashDigest<SHA256>, IImmutableDictionary<Address, IValue>> _statesCache;
-#pragma warning restore MEN002 // Line is too long
-        private readonly Dictionary<Guid, LruCache<Address, Tuple<HashDigest<SHA256>, long>>>
-            _lastStateRefCaches;
+        private readonly LruCache<BlockHash, BlockDigest> _blockCache;
 
         private readonly MemoryStream _memoryStream;
 
         private readonly LiteDatabase _db;
-        private readonly Codec _codec;
+
+        private bool _disposed = false;
 
         /// <summary>
         /// Creates a new <seealso cref="DefaultStore"/>.
@@ -67,7 +65,6 @@ namespace Libplanet.Store
         /// <param name="indexCacheSize">Max number of pages in the index cache.</param>
         /// <param name="blockCacheSize">The capacity of the block cache.</param>
         /// <param name="txCacheSize">The capacity of the transaction cache.</param>
-        /// <param name="statesCacheSize">The capacity of the states cache.</param>
         /// <param name="flush">Writes data direct to disk avoiding OS cache.  Turned on by default.
         /// </param>
         /// <param name="readOnly">Opens database readonly mode. Turned off by default.</param>
@@ -77,7 +74,6 @@ namespace Libplanet.Store
             int indexCacheSize = 50000,
             int blockCacheSize = 512,
             int txCacheSize = 1024,
-            int statesCacheSize = 10000,
             bool flush = true,
             bool readOnly = false
         )
@@ -132,6 +128,9 @@ namespace Libplanet.Store
             {
                 _db.Mapper.RegisterType(
                     hash => hash.ToByteArray(),
+                    b => new BlockHash(b));
+                _db.Mapper.RegisterType(
+                    hash => hash.ToByteArray(),
                     b => new HashDigest<SHA256>(b));
                 _db.Mapper.RegisterType(
                     txid => txid.ToByteArray(),
@@ -145,16 +144,15 @@ namespace Libplanet.Store
             _txs = new SubFileSystem(_root, TxRootPath, owned: false);
             _root.CreateDirectory(BlockRootPath);
             _blocks = new SubFileSystem(_root, BlockRootPath, owned: false);
+            _root.CreateDirectory(TxExecutionRootPath);
+            _txExecutions = new SubFileSystem(_root, TxExecutionRootPath, owned: false);
+            _root.CreateDirectory(TxIdBlockHashRootPath);
+            _txIdBlockHashIndex = new SubFileSystem(_root, TxIdBlockHashRootPath, owned: false);
+            _root.CreateDirectory(BlockPerceptionRootPath);
+            _blockPerceptions = new SubFileSystem(_root, BlockPerceptionRootPath, owned: false);
 
             _txCache = new LruCache<TxId, object>(capacity: txCacheSize);
-            _blockCache = new LruCache<HashDigest<SHA256>, RawBlock>(capacity: blockCacheSize);
-            _statesCache = new LruCache<HashDigest<SHA256>, IImmutableDictionary<Address, IValue>>(
-                capacity: statesCacheSize
-            );
-            _lastStateRefCaches =
-                new Dictionary<Guid, LruCache<Address, Tuple<HashDigest<SHA256>, long>>>();
-
-            _codec = new Codec();
+            _blockCache = new LruCache<BlockHash, BlockDigest>(capacity: blockCacheSize);
         }
 
         private LiteCollection<StagedTxIdDoc> StagedTxIds =>
@@ -173,8 +171,6 @@ namespace Libplanet.Store
         {
             _db.DropCollection(IndexCollection(chainId).Name);
             _db.DropCollection(TxNonceId(chainId));
-            _db.DropCollection(StateRefId(chainId));
-            _lastStateRefCaches.Remove(chainId);
         }
 
         /// <inheritdoc />
@@ -208,19 +204,16 @@ namespace Libplanet.Store
             return IndexCollection(chainId).Count();
         }
 
-        /// <inheritdoc/>
-        public override IEnumerable<HashDigest<SHA256>> IterateIndexes(
-            Guid chainId,
-            int offset,
-            int? limit)
+        /// <inheritdoc cref="BaseStore.IterateIndexes(Guid, int, int?)"/>
+        public override IEnumerable<BlockHash> IterateIndexes(Guid chainId, int offset, int? limit)
         {
             return IndexCollection(chainId)
                 .Find(Query.All(), offset, limit ?? int.MaxValue)
                 .Select(i => i.Hash);
         }
 
-        /// <inheritdoc/>
-        public override HashDigest<SHA256>? IndexBlockHash(Guid chainId, long index)
+        /// <inheritdoc cref="BaseStore.IndexBlockHash(Guid, long)"/>
+        public override BlockHash? IndexBlockHash(Guid chainId, long index)
         {
             if (index < 0)
             {
@@ -232,73 +225,39 @@ namespace Libplanet.Store
                 }
             }
 
-            return IndexCollection(chainId).FindById(index + 1)?.Hash;
+            HashDoc doc = IndexCollection(chainId).FindById(index + 1);
+            BlockHash? hash = doc is { } d ? d.Hash : (BlockHash?)null;
+            return hash;
         }
 
-        /// <inheritdoc/>
-        public override long AppendIndex(Guid chainId, HashDigest<SHA256> hash)
+        /// <inheritdoc cref="BaseStore.AppendIndex(Guid, BlockHash)"/>
+        public override long AppendIndex(Guid chainId, BlockHash hash)
         {
             return IndexCollection(chainId).Insert(new HashDoc { Hash = hash }) - 1;
         }
 
-        /// <inheritdoc/>
-        public override bool DeleteIndex(Guid chainId, HashDigest<SHA256> hash)
-        {
-            int deleted = IndexCollection(chainId).Delete(i => i.Hash.Equals(hash));
-            return deleted > 0;
-        }
-
-        /// <inheritdoc/>
+        /// <inheritdoc cref="BaseStore.ForkBlockIndexes(Guid, Guid, BlockHash)"/>
         public override void ForkBlockIndexes(
             Guid sourceChainId,
             Guid destinationChainId,
-            HashDigest<SHA256> branchPoint)
+            BlockHash branchpoint)
         {
             LiteCollection<HashDoc> srcColl = IndexCollection(sourceChainId);
             LiteCollection<HashDoc> destColl = IndexCollection(destinationChainId);
 
-            var genesisHash = IterateIndexes(sourceChainId, 0, 1).First();
-            destColl.InsertBulk(srcColl.FindAll()
-                .TakeWhile(i => !i.Hash.Equals(branchPoint)).Skip(1));
-            if (!branchPoint.Equals(genesisHash))
+            BlockHash? genesisHash = IterateIndexes(sourceChainId, 0, 1)
+                .Cast<BlockHash?>()
+                .FirstOrDefault();
+
+            if (genesisHash is null || branchpoint.Equals(genesisHash))
             {
-                AppendIndex(destinationChainId, branchPoint);
+                return;
             }
-        }
 
-        /// <inheritdoc/>
-        public override IEnumerable<Address> ListAddresses(Guid chainId)
-        {
-            string collId = StateRefId(chainId);
-            return _db.GetCollection<StateRefDoc>(collId)
-                .Find(Query.All("Address", Query.Ascending))
-                .Select(doc => doc.Address)
-                .ToImmutableHashSet();
-        }
+            destColl.Delete(Query.All());
+            destColl.InsertBulk(srcColl.FindAll().TakeWhile(i => !i.Hash.Equals(branchpoint)));
 
-        /// <inheritdoc/>
-        public override IImmutableDictionary<Address, IImmutableList<HashDigest<SHA256>>>
-            ListAllStateReferences(
-                Guid chainId,
-                long lowestIndex = 0,
-                long highestIndex = long.MaxValue)
-        {
-            string collId = StateRefId(chainId);
-            LiteCollection<StateRefDoc> coll = _db.GetCollection<StateRefDoc>(collId);
-
-            Query query = Query.And(
-                Query.All("BlockIndex"),
-                Query.Between("BlockIndex", lowestIndex, highestIndex)
-            );
-
-            IEnumerable<StateRefDoc> stateRefs = coll.Find(query);
-            return stateRefs
-                .GroupBy(stateRef => stateRef.Address)
-                .Select(g =>
-                    new KeyValuePair<Address, IImmutableList<HashDigest<SHA256>>>(
-                        g.Key,
-                        g.Select(r => r.BlockHash).ToImmutableList()))
-                .ToImmutableDictionary();
+            AppendIndex(destinationChainId, branchpoint);
         }
 
         /// <inheritdoc/>
@@ -382,7 +341,7 @@ namespace Libplanet.Store
                 return null;
             }
 
-            Transaction<T> tx = Transaction<T>.FromBencodex(bytes);
+            Transaction<T> tx = Transaction<T>.Deserialize(bytes, false);
             _txCache.AddOrUpdate(txid, tx);
             return tx;
         }
@@ -395,7 +354,7 @@ namespace Libplanet.Store
                 return;
             }
 
-            WriteContentAddressableFile(_txs, TxPath(tx.Id), tx.ToBencodex(true));
+            WriteContentAddressableFile(_txs, TxPath(tx.Id), tx.Serialize(true));
             _txCache.AddOrUpdate(tx.Id, tx);
         }
 
@@ -424,8 +383,8 @@ namespace Libplanet.Store
             return _txs.FileExists(TxPath(txId));
         }
 
-        /// <inheritdoc/>
-        public override IEnumerable<HashDigest<SHA256>> IterateBlockHashes()
+        /// <inheritdoc cref="BaseStore.IterateBlockHashes()"/>
+        public override IEnumerable<BlockHash> IterateBlockHashes()
         {
             foreach (UPath path in _blocks.EnumerateDirectories(UPath.Root))
             {
@@ -438,16 +397,11 @@ namespace Libplanet.Store
                 foreach (UPath subPath in _blocks.EnumerateFiles(path))
                 {
                     string lower = subPath.GetName();
-                    if (lower.Length != 62)
-                    {
-                        continue;
-                    }
-
                     string name = upper + lower;
-                    HashDigest<SHA256> blockHash;
+                    BlockHash blockHash;
                     try
                     {
-                        blockHash = new HashDigest<SHA256>(ByteUtil.ParseHex(name));
+                        blockHash = BlockHash.FromString(name);
                     }
                     catch (Exception)
                     {
@@ -458,6 +412,42 @@ namespace Libplanet.Store
                     yield return blockHash;
                 }
             }
+        }
+
+        /// <inheritdoc cref="BaseStore.GetBlockDigest(BlockHash)"/>
+        public override BlockDigest? GetBlockDigest(BlockHash blockHash)
+        {
+            if (_blockCache.TryGetValue(blockHash, out BlockDigest cachedDigest))
+            {
+                return cachedDigest;
+            }
+
+            UPath path = BlockPath(blockHash);
+            if (!_blocks.FileExists(path))
+            {
+                return null;
+            }
+
+            BlockDigest blockDigest;
+            try
+            {
+                IValue value = Codec.Decode(_blocks.ReadAllBytes(path));
+                if (!(value is Bencodex.Types.Dictionary dict))
+                {
+                    throw new DecodingException(
+                        $"Expected {typeof(Bencodex.Types.Dictionary)} but " +
+                        $"{value.GetType()}");
+                }
+
+                blockDigest = new BlockDigest(dict);
+            }
+            catch (FileNotFoundException)
+            {
+                return null;
+            }
+
+            _blockCache.AddOrUpdate(blockHash, blockDigest);
+            return blockDigest;
         }
 
         /// <inheritdoc/>
@@ -479,12 +469,12 @@ namespace Libplanet.Store
                 PutTransaction(tx);
             }
 
-            WriteContentAddressableFile(_blocks, path, block.ToBencodex(true, false));
-            _blockCache.AddOrUpdate(block.Hash, block.ToRawBlock(false, false));
+            WriteContentAddressableFile(_blocks, path, block.ToBlockDigest().Serialize());
+            _blockCache.AddOrUpdate(block.Hash, block.ToBlockDigest());
         }
 
-        /// <inheritdoc/>
-        public override bool DeleteBlock(HashDigest<SHA256> blockHash)
+        /// <inheritdoc cref="BaseStore.DeleteBlock(BlockHash)"/>
+        public override bool DeleteBlock(BlockHash blockHash)
         {
             var path = BlockPath(blockHash);
             if (_blocks.FileExists(path))
@@ -497,8 +487,8 @@ namespace Libplanet.Store
             return false;
         }
 
-        /// <inheritdoc/>
-        public override bool ContainsBlock(HashDigest<SHA256> blockHash)
+        /// <inheritdoc cref="BaseStore.ContainsBlock(BlockHash)"/>
+        public override bool ContainsBlock(BlockHash blockHash)
         {
             if (_blockCache.ContainsKey(blockHash))
             {
@@ -509,223 +499,114 @@ namespace Libplanet.Store
             return _blocks.FileExists(blockPath);
         }
 
-        /// <inheritdoc/>
-        public override IImmutableDictionary<Address, IValue> GetBlockStates(
-            HashDigest<SHA256> blockHash
+        /// <inheritdoc cref="BaseStore.PutTxExecution(Libplanet.Tx.TxSuccess)"/>
+        public override void PutTxExecution(TxSuccess txSuccess)
+        {
+            UPath path = TxExecutionPath(txSuccess);
+            UPath dirPath = path.GetDirectory();
+            CreateDirectoryRecursively(_txExecutions, dirPath);
+            using Stream f =
+                _txExecutions.OpenFile(path, System.IO.FileMode.OpenOrCreate, FileAccess.Write);
+            Codec.Encode(SerializeTxExecution(txSuccess), f);
+        }
+
+        /// <inheritdoc cref="BaseStore.PutTxExecution(Libplanet.Tx.TxFailure)"/>
+        public override void PutTxExecution(TxFailure txFailure)
+        {
+            UPath path = TxExecutionPath(txFailure);
+            UPath dirPath = path.GetDirectory();
+            CreateDirectoryRecursively(_txExecutions, dirPath);
+            using Stream f =
+                _txExecutions.OpenFile(path, System.IO.FileMode.OpenOrCreate, FileAccess.Write);
+            Codec.Encode(SerializeTxExecution(txFailure), f);
+        }
+
+        /// <inheritdoc cref="BaseStore.GetTxExecution(BlockHash, TxId)"/>
+        public override TxExecution GetTxExecution(BlockHash blockHash, TxId txid)
+        {
+            UPath path = TxExecutionPath(blockHash, txid);
+            if (_txExecutions.FileExists(path))
+            {
+                IValue decoded;
+                using (Stream f = _txExecutions.OpenFile(
+                    path, System.IO.FileMode.Open, FileAccess.Read))
+                {
+                    try
+                    {
+                        decoded = Codec.Decode(f);
+                    }
+                    catch (DecodingException e)
+                    {
+                        const string msg =
+                            "Uncaught exception during " + nameof(GetTxExecution) + ": {Exception}";
+                        _logger.Error(e, msg, e);
+                        return null;
+                    }
+                }
+
+                return DeserializeTxExecution(blockHash, txid, decoded, _logger);
+            }
+
+            return null;
+        }
+
+        /// <inheritdoc cref="BaseStore.PutTxIdBlockHashIndex(TxId, BlockHash)"/>
+        public override void PutTxIdBlockHashIndex(TxId txId, BlockHash blockHash)
+        {
+            var path = TxIdBlockHashIndexPath(txId, blockHash);
+            var dirPath = path.GetDirectory();
+            CreateDirectoryRecursively(_txIdBlockHashIndex, dirPath);
+            _txIdBlockHashIndex.WriteAllBytes(path, blockHash.ToByteArray());
+        }
+
+        public override IEnumerable<BlockHash> IterateTxIdBlockHashIndex(TxId txId)
+        {
+            var txPath = TxPath(txId);
+            if (!_txIdBlockHashIndex.DirectoryExists(txPath))
+            {
+                yield break;
+            }
+
+            foreach (var path in _txIdBlockHashIndex.EnumerateFiles(txPath))
+            {
+                yield return new BlockHash(ByteUtil.ParseHex(path.GetName()));
+            }
+        }
+
+        /// <inheritdoc cref="BaseStore.DeleteTxIdBlockHashIndex(TxId, BlockHash)"/>
+        public override void DeleteTxIdBlockHashIndex(TxId txId, BlockHash blockHash)
+        {
+            var path = TxIdBlockHashIndexPath(txId, blockHash);
+            if (_txIdBlockHashIndex.FileExists(path))
+            {
+                _txIdBlockHashIndex.DeleteFile(path);
+            }
+        }
+
+        /// <inheritdoc cref="BaseStore.SetBlockPerceivedTime(BlockHash, DateTimeOffset)"/>
+        public override void SetBlockPerceivedTime(
+            BlockHash blockHash,
+            DateTimeOffset perceivedTime
         )
         {
-            if (_statesCache.TryGetValue(
-                blockHash,
-                out IImmutableDictionary<Address, IValue> cached))
+            UPath path = BlockPath(blockHash);
+            if (!_blockPerceptions.FileExists(path))
             {
-                return cached;
+                UPath dirPath = path.GetDirectory();
+                CreateDirectoryRecursively(_blockPerceptions, dirPath);
+                _blockPerceptions.WriteAllBytes(path, new byte[0]);
             }
 
-            LiteFileInfo file =
-                _db.FileStorage.FindById(BlockStateFileId(blockHash));
-            if (file is null)
-            {
-                return null;
-            }
-
-            using (var stream = new MemoryStream())
-            {
-                DownloadFile(file, stream);
-                stream.Seek(0, SeekOrigin.Begin);
-
-                var deserialized = (Bencodex.Types.Dictionary)_codec.Decode(stream);
-                ImmutableDictionary<Address, IValue> states = deserialized.ToImmutableDictionary(
-                    kv => new Address((Binary)kv.Key),
-                    kv => kv.Value
-                );
-                _statesCache.AddOrUpdate(blockHash, states);
-                return states;
-            }
+            _blockPerceptions.SetLastWriteTime(path, perceivedTime.LocalDateTime);
         }
 
-        /// <inheritdoc/>
-        public override void SetBlockStates(
-            HashDigest<SHA256> blockHash,
-            IImmutableDictionary<Address, IValue> states)
+        /// <inheritdoc cref="BaseStore.GetBlockPerceivedTime(BlockHash)"/>
+        public override DateTimeOffset? GetBlockPerceivedTime(BlockHash blockHash)
         {
-            _statesCache.AddOrUpdate(blockHash, states);
-            var serialized = new Bencodex.Types.Dictionary(
-                states.Select(kv =>
-                    new KeyValuePair<IKey, IValue>(
-                        new Binary(kv.Key.ToByteArray()),
-                        kv.Value
-                    )
-                )
-            );
-            using (var stream = new MemoryStream())
-            {
-                _codec.Encode(serialized, stream);
-                stream.Seek(0, SeekOrigin.Begin);
-                _db.FileStorage.Upload(
-                    BlockStateFileId(blockHash),
-                    ByteUtil.Hex(blockHash.ToByteArray()),
-                    stream
-                );
-            }
-        }
-
-        public override Tuple<HashDigest<SHA256>, long> LookupStateReference<T>(
-            Guid chainId,
-            Address address,
-            Block<T> lookupUntil)
-        {
-            if (lookupUntil is null)
-            {
-                throw new ArgumentNullException(nameof(lookupUntil));
-            }
-
-            if (_lastStateRefCaches.TryGetValue(
-                    chainId,
-                    out LruCache<Address, Tuple<HashDigest<SHA256>, long>> stateRefCache)
-                && stateRefCache.TryGetValue(
-                    address,
-                    out Tuple<HashDigest<SHA256>, long> cache))
-            {
-                long cachedIndex = cache.Item2;
-
-                if (cachedIndex <= lookupUntil.Index)
-                {
-                    return cache;
-                }
-            }
-
-            Tuple<HashDigest<SHA256>, long> stateRef =
-                IterateStateReferences(chainId, address, lookupUntil.Index, null, limit: 1)
-                .FirstOrDefault();
-
-            if (stateRef is null)
-            {
-                return null;
-            }
-
-            if (!_lastStateRefCaches.ContainsKey(chainId))
-            {
-                _lastStateRefCaches[chainId] =
-                    new LruCache<Address, Tuple<HashDigest<SHA256>, long>>();
-            }
-
-            stateRefCache = _lastStateRefCaches[chainId];
-
-            if (!stateRefCache.TryGetValue(address, out cache) || cache.Item2 < stateRef.Item2)
-            {
-                stateRefCache[address] = new Tuple<HashDigest<SHA256>, long>(
-                    stateRef.Item1,
-                    stateRef.Item2);
-            }
-
-            return stateRef;
-        }
-
-        /// <inheritdoc/>
-        public override IEnumerable<Tuple<HashDigest<SHA256>, long>> IterateStateReferences(
-            Guid chainId,
-            Address address,
-            long? highestIndex,
-            long? lowestIndex,
-            int? limit)
-        {
-            highestIndex = highestIndex ?? long.MaxValue;
-            lowestIndex = lowestIndex ?? 0;
-
-            if (highestIndex < lowestIndex)
-            {
-                var message =
-                    $"highestIndex({highestIndex}) must be greater than or equal to " +
-                    $"lowestIndex({lowestIndex})";
-                throw new ArgumentException(
-                    message,
-                    nameof(highestIndex));
-            }
-
-            string collId = StateRefId(chainId);
-            LiteCollection<StateRefDoc> coll = _db.GetCollection<StateRefDoc>(collId);
-            string addressString = address.ToHex().ToLower(CultureInfo.InvariantCulture);
-            IEnumerable<StateRefDoc> stateRefs = coll.Find(
-                Query.And(
-                    Query.All("BlockIndex", Query.Descending),
-                    Query.EQ("AddressString", addressString),
-                    Query.Between("BlockIndex", lowestIndex, highestIndex)
-                ), limit: limit ?? int.MaxValue
-            );
-            return stateRefs
-                .Select(doc => new Tuple<HashDigest<SHA256>, long>(doc.BlockHash, doc.BlockIndex));
-        }
-
-        /// <inheritdoc/>
-        public override void StoreStateReference(
-            Guid chainId,
-            IImmutableSet<Address> addresses,
-            HashDigest<SHA256> blockHash,
-            long blockIndex)
-        {
-            string collId = StateRefId(chainId);
-            LiteCollection<StateRefDoc> coll = _db.GetCollection<StateRefDoc>(collId);
-            IEnumerable<StateRefDoc> stateRefDocs = addresses
-                .Select(addr => new StateRefDoc
-                {
-                    Address = addr,
-                    BlockIndex = blockIndex,
-                    BlockHash = blockHash,
-                })
-                .Where(doc => !coll.Exists(d => d.Id == doc.Id));
-            coll.InsertBulk(stateRefDocs);
-            coll.EnsureIndex("AddressString");
-            coll.EnsureIndex("BlockIndex");
-
-            if (!_lastStateRefCaches.ContainsKey(chainId))
-            {
-                _lastStateRefCaches[chainId] =
-                    new LruCache<Address, Tuple<HashDigest<SHA256>, long>>();
-            }
-
-            LruCache<Address, Tuple<HashDigest<SHA256>, long>> stateRefCache =
-                _lastStateRefCaches[chainId];
-
-            foreach (Address address in addresses)
-            {
-                _logger.Debug($"Try to set cache {address}");
-                if (!stateRefCache.TryGetValue(address, out Tuple<HashDigest<SHA256>, long> cache)
-                    || cache.Item2 < blockIndex)
-                {
-                    stateRefCache[address] =
-                        new Tuple<HashDigest<SHA256>, long>(blockHash, blockIndex);
-                }
-            }
-        }
-
-        /// <inheritdoc/>
-        public override void ForkStateReferences<T>(
-            Guid sourceChainId,
-            Guid destinationChainId,
-            Block<T> branchPoint)
-        {
-            string srcCollId = StateRefId(sourceChainId);
-            string dstCollId = StateRefId(destinationChainId);
-            LiteCollection<StateRefDoc> srcColl = _db.GetCollection<StateRefDoc>(srcCollId),
-                                        dstColl = _db.GetCollection<StateRefDoc>(dstCollId);
-
-            Query srcQuery = Query.And(
-                Query.GT("BlockIndex", 0),
-                Query.LTE("BlockIndex", branchPoint.Index)
-            );
-            IEnumerable<StateRefDoc> srcStateRefs = srcColl.Find(srcQuery);
-            dstColl.InsertBulk(srcStateRefs);
-
-            if (!dstColl.Exists(_ => true) && CountIndex(sourceChainId) < 1)
-            {
-                throw new ChainIdNotFoundException(
-                    sourceChainId,
-                    "The source chain to be forked does not exist."
-                );
-            }
-
-            dstColl.EnsureIndex("AddressString");
-            dstColl.EnsureIndex("BlockIndex");
+            UPath path = BlockPath(blockHash);
+            return _blockPerceptions.FileExists(path)
+                ? (DateTimeOffset?)_blockPerceptions.GetLastWriteTime(path)
+                : null;
         }
 
         /// <inheritdoc/>
@@ -749,21 +630,34 @@ namespace Libplanet.Store
         /// <inheritdoc/>
         public override long GetTxNonce(Guid chainId, Address address)
         {
-            var collectionId = TxNonceId(chainId);
-            LiteCollection<BsonDocument> collection = _db.GetCollection<BsonDocument>(collectionId);
+            LiteCollection<BsonDocument> collection = TxNonceCollection(chainId);
             var docId = new BsonValue(address.ToByteArray());
             BsonDocument doc = collection.FindById(docId);
-            return doc is null ? 0 : (doc.TryGetValue("v", out BsonValue v) ? v.AsInt64 : 0);
+
+            if (doc is null)
+            {
+                return 0;
+            }
+
+            return doc.TryGetValue("v", out BsonValue v) ? v.AsInt64 : 0;
         }
 
         /// <inheritdoc/>
         public override void IncreaseTxNonce(Guid chainId, Address signer, long delta = 1)
         {
             long nextNonce = GetTxNonce(chainId, signer) + delta;
-            var collectionId = TxNonceId(chainId);
-            LiteCollection<BsonDocument> collection = _db.GetCollection<BsonDocument>(collectionId);
+            LiteCollection<BsonDocument> collection = TxNonceCollection(chainId);
             var docId = new BsonValue(signer.ToByteArray());
             collection.Upsert(docId, new BsonDocument() { ["v"] = new BsonValue(nextNonce) });
+        }
+
+        /// <inheritdoc/>
+        public override void ForkTxNonces(Guid sourceChainId, Guid destinationChainId)
+        {
+            LiteCollection<BsonDocument> srcColl = TxNonceCollection(sourceChainId);
+            LiteCollection<BsonDocument> destColl = TxNonceCollection(destinationChainId);
+
+            destColl.InsertBulk(srcColl.FindAll());
         }
 
         /// <inheritdoc/>
@@ -788,11 +682,15 @@ namespace Libplanet.Store
             return IterateBlockHashes().LongCount();
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
-            _db?.Dispose();
-            _memoryStream?.Dispose();
-            _root.Dispose();
+            if (!_disposed)
+            {
+                _db?.Dispose();
+                _memoryStream?.Dispose();
+                _root.Dispose();
+                _disposed = true;
+            }
         }
 
         internal static Guid ParseChainId(string chainIdString) =>
@@ -800,38 +698,6 @@ namespace Libplanet.Store
 
         internal static string FormatChainId(Guid chainId) =>
             ByteUtil.Hex(chainId.ToByteArray());
-
-        internal override RawBlock? GetRawBlock(HashDigest<SHA256> blockHash)
-        {
-            if (_blockCache.TryGetValue(blockHash, out RawBlock cahcedBlock))
-            {
-                return cahcedBlock;
-            }
-
-            UPath path = BlockPath(blockHash);
-            if (!_blocks.FileExists(path))
-            {
-                return null;
-            }
-
-            RawBlock rawBlock;
-            try
-            {
-                var formatter = new BencodexFormatter<RawBlock>();
-                using (Stream stream = _blocks.OpenFile(
-                    path, System.IO.FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    rawBlock = (RawBlock)formatter.Deserialize(stream);
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                return null;
-            }
-
-            _blockCache.AddOrUpdate(blockHash, rawBlock);
-            return rawBlock;
-        }
 
         private static void CreateDirectoryRecursively(IFileSystem fs, UPath path)
         {
@@ -882,102 +748,55 @@ namespace Libplanet.Store
             }
         }
 
-        private UPath BlockPath(HashDigest<SHA256> blockHash)
+        private UPath BlockPath(in BlockHash blockHash)
         {
             string idHex = ByteUtil.Hex(blockHash.ByteArray);
+            if (idHex.Length < 3)
+            {
+                throw new ArgumentException(
+                    $"Too short block hash: \"{idHex}\".",
+                    nameof(blockHash)
+                );
+            }
+
             return UPath.Root / idHex.Substring(0, 2) / idHex.Substring(2);
         }
 
-        private UPath TxPath(TxId txid)
+        private UPath TxPath(in TxId txid)
         {
             string idHex = txid.ToHex();
             return UPath.Root / idHex.Substring(0, 2) / idHex.Substring(2);
         }
 
-        private string BlockStateFileId(HashDigest<SHA256> blockHash)
-        {
-            return $"state/{blockHash}";
-        }
+        private UPath TxExecutionPath(in BlockHash blockHash, in TxId txid) =>
+            BlockPath(blockHash) / txid.ToHex();
 
-        private string StateRefId(Guid chainId)
-        {
-            return $"{StateRefIdPrefix}{FormatChainId(chainId)}";
-        }
+        private UPath TxExecutionPath(TxExecution txExecution) =>
+            TxExecutionPath(txExecution.BlockHash, txExecution.TxId);
 
-        private string TxNonceId(Guid chainId)
+        private UPath TxIdBlockHashIndexPath(in TxId txid, in BlockHash blockHash) =>
+            TxPath(txid) / blockHash.ToString();
+
+        private string TxNonceId(in Guid chainId)
         {
             return $"{TxNonceIdPrefix}{FormatChainId(chainId)}";
         }
 
-        private void UploadFile(string fileId, string filename, byte[] bytes)
-        {
-            using (var stream = new MemoryStream(bytes))
-            {
-                stream.Seek(0, SeekOrigin.Begin);
-                _db.FileStorage.Upload(fileId, filename, stream);
-            }
-        }
-
-        private void DownloadFile(LiteFileInfo file, Stream stream)
-        {
-            file.CopyTo(stream);
-
-            if (stream.Length > file.Length)
-            {
-                stream.SetLength(file.Length);
-            }
-        }
-
-        private LiteCollection<HashDoc> IndexCollection(Guid chainId)
+        private LiteCollection<HashDoc> IndexCollection(in Guid chainId)
         {
             return _db.GetCollection<HashDoc>($"{IndexColPrefix}{FormatChainId(chainId)}");
         }
 
-        internal class StateRefDoc
+        private LiteCollection<BsonDocument> TxNonceCollection(Guid chainId)
         {
-            public string AddressString { get; set; }
-
-            public long BlockIndex { get; set; }
-
-            public string BlockHashString { get; set; }
-
-            [BsonId]
-            public string Id => AddressString + BlockHashString;
-
-            [BsonIgnore]
-            public Address Address
-            {
-                get
-                {
-                    return new Address(AddressString);
-                }
-
-                set
-                {
-                    AddressString = value.ToHex().ToLower(CultureInfo.InvariantCulture);
-                }
-            }
-
-            [BsonIgnore]
-            public HashDigest<SHA256> BlockHash
-            {
-                get
-                {
-                    return HashDigest<SHA256>.FromString(BlockHashString);
-                }
-
-                set
-                {
-                    BlockHashString = value.ToString();
-                }
-            }
+            return _db.GetCollection<BsonDocument>(TxNonceId(chainId));
         }
 
         private class HashDoc
         {
             public long Id { get; set; }
 
-            public HashDigest<SHA256> Hash { get; set; }
+            public BlockHash Hash { get; set; }
         }
 
         private class StagedTxIdDoc

@@ -10,7 +10,7 @@ using Libplanet.Serialization;
 namespace Libplanet.Tests.Common.Action
 {
     [Serializable]
-    public class BattleResult : IEquatable<BattleResult>, ISerializable
+    public sealed class BattleResult : IEquatable<BattleResult>, ISerializable
     {
         public BattleResult(
             IEnumerable<string> usedWeapons,
@@ -38,8 +38,8 @@ namespace Libplanet.Tests.Common.Action
         public static BattleResult FromBencodex(Bencodex.Types.Dictionary dictionary)
         {
             return new BattleResult(
-                dictionary.GetValue<List>("used_weapons").Select(x => x.ToString()),
-                dictionary.GetValue<List>("targets").Select(x => x.ToString()));
+                dictionary.GetValue<List>("used_weapons").Select(x => ((Text)x).Value),
+                dictionary.GetValue<List>("targets").Select(x => ((Text)x).Value));
         }
 
         public Bencodex.Types.Dictionary ToBencodex() =>
@@ -52,7 +52,7 @@ namespace Libplanet.Tests.Common.Action
 
         public override bool Equals(object other)
         {
-            return other != null && other is IEquatable<BattleResult> o &&
+            return other is IEquatable<BattleResult> o &&
                    o.Equals(this);
         }
 

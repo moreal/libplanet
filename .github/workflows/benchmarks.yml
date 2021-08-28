@@ -14,10 +14,13 @@ jobs:
         - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@main
       if: github.event_name != 'pull_request'
-    - uses: actions/checkout@master
+    - uses: actions/checkout@main
       if: github.event_name == 'pull_request'
       with:
         ref: ${{ github.pull_request.head.sha }}
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
     - run: 'dotnet run -p Libplanet.Benchmarks -c Release -- -j short -f "*"'

@@ -5,20 +5,22 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Libplanet.Stun.Messages;
 using Nito.AsyncEx;
 using Serilog;
 
-[assembly: InternalsVisibleTo("Libplanet.Stun.Tests")]
 namespace Libplanet.Stun
 {
     public class TurnClient : IStunContext, IDisposable
     {
         public const int TurnDefaultPort = 3478;
         private const int AllocateRetry = 5;
+
+        // TURN Permission lifetime was defined in RFC 5766
+        // see also https://tools.ietf.org/html/rfc5766#section-8
+        private static readonly TimeSpan TurnAllocationLifetime = TimeSpan.FromSeconds(777);
         private readonly string _host;
         private readonly int _port;
         private readonly IList<TcpClient> _relayedClients;
@@ -26,10 +28,12 @@ namespace Libplanet.Stun
             _responses;
 
         private readonly AsyncProducerConsumerQueue<ConnectionAttempt> _connectionAttempts;
-        private readonly TcpClient _control;
-        private readonly AsyncLock _connMutex;
+        private readonly ILogger _logger;
 
-        private Task _messageProcessor;
+        private TcpClient _control;
+        private Task _processMessage;
+        private CancellationTokenSource _turnTaskCts;
+        private List<Task> _turnTasks;
 
         public TurnClient(
             string host,
@@ -43,13 +47,14 @@ namespace Libplanet.Stun
             Password = password;
 
             _relayedClients = new List<TcpClient>();
-            _control = new TcpClient();
             _connectionAttempts =
                 new AsyncProducerConsumerQueue<ConnectionAttempt>();
             _responses =
                 new ConcurrentDictionary<byte[], TaskCompletionSource<StunMessage>>(
                     new ByteArrayComparer());
-            _connMutex = new AsyncLock();
+
+            _turnTaskCts = new CancellationTokenSource();
+            _logger = Log.ForContext<TurnClient>();
         }
 
         public string Username { get; }
@@ -60,12 +65,79 @@ namespace Libplanet.Stun
 
         public byte[] Nonce { get; private set; }
 
+        public IPAddress PublicAddress { get; private set; }
+
+        public DnsEndPoint EndPoint { get; private set; }
+
+        public bool BehindNAT { get; private set; }
+
+        public async Task InitializeTurnAsync(CancellationToken cancellationToken)
+        {
+            _control = new TcpClient();
+            await _control.ConnectAsync(_host, _port);
+            _processMessage = ProcessMessage(_turnTaskCts.Token);
+
+            BehindNAT = await IsBehindNAT(cancellationToken);
+            PublicAddress = (await GetMappedAddressAsync(cancellationToken)).Address;
+
+            IPEndPoint ep = await AllocateRequestAsync(TurnAllocationLifetime, cancellationToken);
+            EndPoint = new DnsEndPoint(ep.Address.ToString(), ep.Port);
+        }
+
+        public async Task StartAsync(int listenPort, CancellationToken cancellationToken)
+        {
+            await InitializeTurnAsync(cancellationToken);
+            _ = ReconnectTurn(listenPort, cancellationToken);
+        }
+
+        public async Task ReconnectTurn(int listenPort, CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                try
+                {
+                    if (BehindNAT)
+                    {
+                        _turnTasks = BindMultipleProxies(listenPort, 3, _turnTaskCts.Token);
+                        _turnTasks.Add(RefreshAllocate(_turnTaskCts.Token));
+                    }
+
+                    _turnTasks.Add(_processMessage);
+
+                    await Task.WhenAny(_turnTasks);
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(
+                        $"An unexpected exception occurred during {nameof(StartAsync)}(): {e}");
+                }
+                finally
+                {
+                    _logger.Debug("TURN tasks cancelled. Re-initializing TURN...");
+                    ClearSession();
+                    _turnTaskCts = new CancellationTokenSource();
+
+                    try
+                    {
+                        await InitializeTurnAsync(cancellationToken);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error(
+                            e,
+                            "Failed to initialize due to error ({Exception}); retry...",
+                            e
+                        );
+                        await Task.Delay(1000, cancellationToken);
+                    }
+                }
+            }
+        }
+
         public async Task<IPEndPoint> AllocateRequestAsync(
             TimeSpan lifetime,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            EnsureConnection();
-
             NetworkStream stream = _control.GetStream();
             StunMessage response;
             int retry = 0;
@@ -73,7 +145,7 @@ namespace Libplanet.Stun
             {
                 var request = new AllocateRequest((int)lifetime.TotalSeconds);
                 await SendMessageAsync(stream, request, cancellationToken);
-                response = await ReceiveMessage(request.TransactionId);
+                response = await ReceiveMessageAsync(request.TransactionId, cancellationToken);
 
                 if (response is AllocateErrorResponse allocError)
                 {
@@ -99,12 +171,12 @@ namespace Libplanet.Stun
             IPEndPoint peerAddress,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            EnsureConnection();
-
             NetworkStream stream = _control.GetStream();
             var request = new CreatePermissionRequest(peerAddress);
             await SendMessageAsync(stream, request, cancellationToken);
-            StunMessage response = await ReceiveMessage(request.TransactionId);
+            StunMessage response = await ReceiveMessageAsync(
+                request.TransactionId,
+                cancellationToken);
 
             if (response is CreatePermissionErrorResponse)
             {
@@ -119,24 +191,23 @@ namespace Libplanet.Stun
         {
             while (true)
             {
-                EnsureConnection();
-
                 ConnectionAttempt attempt =
                     await _connectionAttempts.DequeueAsync(cancellationToken);
 
                 byte[] id = attempt.ConnectionId;
                 var bindRequest = new ConnectionBindRequest(id);
                 var relayedClient = new TcpClient(_host, _port);
+                _relayedClients.Add(relayedClient);
                 NetworkStream relayedStream = relayedClient.GetStream();
 
                 try
                 {
                     await SendMessageAsync(relayedStream, bindRequest, cancellationToken);
-                    StunMessage bindResponse = await StunMessage.Parse(relayedStream);
+                    StunMessage bindResponse =
+                        await StunMessage.ParseAsync(relayedStream, cancellationToken);
 
                     if (bindResponse is ConnectionBindSuccessResponse)
                     {
-                        _relayedClients.Add(relayedClient);
                         return relayedStream;
                     }
 
@@ -144,7 +215,10 @@ namespace Libplanet.Stun
                 }
                 catch (IOException e)
                 {
-                    Log.Warning(e, "The connection seems to disconnect before parsing; ignored.");
+                    _logger.Warning(
+                        e,
+                        "The connection seems to disconnect before parsing; ignored."
+                    );
                 }
             }
         }
@@ -152,15 +226,16 @@ namespace Libplanet.Stun
         public async Task<IPEndPoint> GetMappedAddressAsync(
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            EnsureConnection();
-
             NetworkStream stream = _control.GetStream();
             var request = new BindingRequest();
             await SendMessageAsync(stream, request, cancellationToken);
-            StunMessage response = await ReceiveMessage(request.TransactionId);
+            StunMessage response = await ReceiveMessageAsync(
+                request.TransactionId,
+                cancellationToken);
 
             if (response is BindingSuccessResponse success)
             {
+                _logger.Debug($"Mapped address: {success.MappedAddress}");
                 return success.MappedAddress;
             }
 
@@ -173,13 +248,13 @@ namespace Libplanet.Stun
             TimeSpan lifetime,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            EnsureConnection();
-
             NetworkStream stream = _control.GetStream();
             var request = new RefreshRequest((int)lifetime.TotalSeconds);
             await SendMessageAsync(stream, request, cancellationToken);
 
-            StunMessage response = await ReceiveMessage(request.TransactionId);
+            StunMessage response = await ReceiveMessageAsync(
+                request.TransactionId,
+                cancellationToken);
             if (response is RefreshSuccessResponse success)
             {
                 return TimeSpan.FromSeconds(success.Lifetime);
@@ -203,20 +278,102 @@ namespace Libplanet.Stun
             return !_control.Client.LocalEndPoint.Equals(mapped);
         }
 
-        public void Dispose()
+        public async Task<bool> IsConnectable(
+            CancellationToken cancellationToken = default(CancellationToken))
         {
-            _control?.Dispose();
-            foreach (TcpClient c in _relayedClients)
-            {
-                c.Dispose();
-            }
-
             try
             {
-                _messageProcessor?.GetAwaiter().GetResult();
+                using var client = new TcpClient();
+#pragma warning disable PC001 // API not supported on all platforms
+                client.Connect(_host, _port);
+#pragma warning restore PC001 // API not supported on all platforms
+                NetworkStream stream = client.GetStream();
+
+                var request = new BindingRequest();
+                var asBytes = request.Encode(this);
+                await stream.WriteAsync(asBytes, 0, asBytes.Length, cancellationToken);
+                await StunMessage.ParseAsync(stream, cancellationToken);
+
+                return true;
             }
-            catch (IOException)
+            catch (Exception)
             {
+                return false;
+            }
+        }
+
+        public void Dispose()
+        {
+            _logger.Debug($"Disposing {nameof(TurnClient)}...");
+            ClearSession();
+            _logger.Debug($"{nameof(TurnClient)} is disposed.");
+        }
+
+        public async Task BindProxies(
+            int listenPort,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                var tcpClient = new TcpClient();
+#pragma warning disable PC001  // API not supported on all platforms
+                tcpClient.Connect(new IPEndPoint(IPAddress.Loopback, listenPort));
+#pragma warning restore PC001
+                NetworkStream localStream = tcpClient.GetStream();
+                NetworkStream turnStream = await AcceptRelayedStreamAsync(cancellationToken);
+#pragma warning disable CS4014
+
+                const int bufferSize = 8042;
+                Task.WhenAny(
+                    turnStream.CopyToAsync(localStream, bufferSize, cancellationToken),
+                    localStream.CopyToAsync(turnStream, bufferSize, cancellationToken)
+                ).ContinueWith(
+                    t =>
+                    {
+                        turnStream.Dispose();
+                        localStream.Dispose();
+                        tcpClient.Dispose();
+                    },
+                    cancellationToken
+                );
+#pragma warning restore CS4014
+            }
+        }
+
+        private List<Task> BindMultipleProxies(
+            int listenPort,
+            int count,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return Enumerable.Range(1, count)
+                .Select(x => BindProxies(listenPort, cancellationToken))
+                .ToList();
+        }
+
+        private async Task RefreshAllocate(CancellationToken cancellationToken)
+        {
+            TimeSpan lifetime = TurnAllocationLifetime;
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                try
+                {
+                    await Task.Delay(lifetime - TimeSpan.FromMinutes(1), cancellationToken);
+                    _logger.Debug("Refreshing TURN allocation...");
+                    lifetime = await RefreshAllocationAsync(lifetime);
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+                catch (OperationCanceledException e)
+                {
+                    _logger.Warning(e, $"{nameof(RefreshAllocate)}() is cancelled.");
+                    throw;
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(
+                        e,
+                        $"An unexpected exception occurred during {nameof(RefreshAllocate)}(): {e}"
+                    );
+                }
             }
         }
 
@@ -225,8 +382,8 @@ namespace Libplanet.Stun
             StunMessage message,
             CancellationToken cancellationToken)
         {
-            _responses[message.TransactionId] =
-                new TaskCompletionSource<StunMessage>(cancellationToken);
+            var tcs = new TaskCompletionSource<StunMessage>();
+            _responses[message.TransactionId] = tcs;
             var asBytes = message.Encode(this);
             await stream.WriteAsync(
                 asBytes,
@@ -235,58 +392,82 @@ namespace Libplanet.Stun
                 cancellationToken);
         }
 
-        private async Task ProcessMessage()
+        private async Task ProcessMessage(CancellationToken cancellationToken)
         {
-            NetworkStream stream = _control.GetStream();
-            while (_control.Connected)
+            while (!cancellationToken.IsCancellationRequested && _control.Connected)
             {
                 try
                 {
-                    StunMessage message = await StunMessage.Parse(stream);
+                    NetworkStream stream = _control.GetStream();
+                    StunMessage message;
+                    message = await StunMessage.ParseAsync(stream, cancellationToken);
+                    _logger.Debug("Parsed " + nameof(StunMessage) + ": {Message}", message);
 
                     if (message is ConnectionAttempt attempt)
                     {
-                        await _connectionAttempts.EnqueueAsync(attempt);
+                        await _connectionAttempts.EnqueueAsync(attempt, cancellationToken);
                     }
                     else if (_responses.TryGetValue(
                         message.TransactionId,
                         out TaskCompletionSource<StunMessage> tcs))
                     {
-                        tcs.SetResult(message);
+                        // tcs may be already canceled.
+                        tcs.TrySetResult(message);
                     }
+                }
+                catch (TurnClientException e)
+                {
+                    _logger.Error(e, "Failed to parse " + nameof(StunMessage) + ": {Exception}", e);
+                    ClearResponses();
+                    break;
                 }
                 catch (Exception e)
                 {
-                    Log.Error(
+                    _logger.Error(
                         e,
                         $"An unexpected exception occurred during {nameof(ProcessMessage)}(): {e}"
                     );
                 }
             }
+
+            _logger.Debug($"{nameof(ProcessMessage)} is ended. Connected: {_control.Connected}");
         }
 
-        private void EnsureConnection()
+        private async Task<StunMessage> ReceiveMessageAsync(
+            byte[] transactionId,
+            CancellationToken cancellationToken)
         {
-            using (_connMutex.Lock())
-            {
-                if (!_control.Connected)
-                {
-                    // We can't use TcpClient.ConnectAsync() because it hangs when received
-                    // unreachable host (on Linux Mono).
-#pragma warning disable PC001 // API not supported on all platforms
-                    _control.Connect(_host, _port);
-#pragma warning restore PC001 // API not supported on all platforms
-                    _messageProcessor = ProcessMessage();
-                }
-            }
-        }
-
-        private async Task<StunMessage> ReceiveMessage(byte[] transactionId)
-        {
-            StunMessage response = await _responses[transactionId].Task;
+            TaskCompletionSource<StunMessage> tcs = _responses[transactionId];
+            using CancellationTokenRegistration ctr =
+                cancellationToken.Register(() => tcs.TrySetCanceled());
+            StunMessage response = await tcs.Task;
             _responses.Remove(transactionId);
 
             return response;
+        }
+
+        private void ClearSession()
+        {
+            _control?.Dispose();
+            _turnTaskCts.Cancel();
+            _turnTaskCts.Dispose();
+            _turnTasks.Clear();
+            ClearResponses();
+
+            foreach (TcpClient relays in _relayedClients)
+            {
+                relays.Dispose();
+            }
+        }
+
+        private void ClearResponses()
+        {
+            foreach (TaskCompletionSource<StunMessage> tcs in _responses.Values)
+            {
+                tcs.TrySetCanceled();
+            }
+
+            _responses.Clear();
         }
 
         private class ByteArrayComparer : IEqualityComparer<byte[]>

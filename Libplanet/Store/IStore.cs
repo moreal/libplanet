@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Security.Cryptography;
-using Bencodex.Types;
 using Libplanet.Action;
+using Libplanet.Blockchain;
 using Libplanet.Blocks;
 using Libplanet.Tx;
 
@@ -54,16 +53,25 @@ namespace Libplanet.Store
         /// <param name="limit">The maximum number of block hashes to get.</param>
         /// <returns>Block hashes in the index of the <paramref name="chainId"/>, in ascending
         /// order; the genesis block goes first, and the tip block goes last.</returns>
-        IEnumerable<HashDigest<SHA256>> IterateIndexes(
-            Guid chainId,
-            int offset = 0,
-            int? limit = null);
+        IEnumerable<BlockHash> IterateIndexes(Guid chainId, int offset = 0, int? limit = null);
 
-        HashDigest<SHA256>? IndexBlockHash(Guid chainId, long index);
+        /// <summary>
+        /// Determines the block hash by its <paramref name="index"/>.
+        /// </summary>
+        /// <param name="chainId">The chain ID of the index that contains the block.</param>
+        /// <param name="index">The index of the block to query its hash.</param>
+        /// <returns>The block hash of the index in the chain.  If there is no such index,
+        /// it returns <c>null</c>.</returns>
+        BlockHash? IndexBlockHash(Guid chainId, long index);
 
-        long AppendIndex(Guid chainId, HashDigest<SHA256> hash);
-
-        bool DeleteIndex(Guid chainId, HashDigest<SHA256> hash);
+        /// <summary>
+        /// Appends a block to a chain.
+        /// </summary>
+        /// <param name="chainId">The ID of a chain to append a block to.</param>
+        /// <param name="hash">The hash of a block to append.  Assumes the block is already put
+        /// into the store.</param>
+        /// <returns>The index of the appended block.</returns>
+        long AppendIndex(Guid chainId, BlockHash hash);
 
         /// <summary>
         /// Forks block indexes from
@@ -74,43 +82,12 @@ namespace Libplanet.Store
         /// fork.</param>
         /// <param name="destinationChainId">The chain ID of destination
         /// block indexes.</param>
-        /// <param name="branchPoint">The branch point <see cref="Block{T}"/>
-        /// to fork.</param>
+        /// <param name="branchpoint">The branchpoint <see cref="Block{T}"/> to fork.</param>
         /// <exception cref="ChainIdNotFoundException">Thrown when the given
         /// <paramref name="sourceChainId"/> does not exist.</exception>
         /// <seealso cref="IterateIndexes(Guid, int, int?)"/>
-        /// <seealso cref="AppendIndex(Guid, HashDigest{SHA256})"/>
-        void ForkBlockIndexes(
-            Guid sourceChainId,
-            Guid destinationChainId,
-            HashDigest<SHA256> branchPoint);
-
-        /// <summary>
-        /// Lists all addresses that have ever had states.
-        /// </summary>
-        /// <param name="chainId">The ID of the chain to list addresses.</param>
-        /// <returns>All addresses in an arbitrary order.  The order might
-        /// be vary for each call.</returns>
-        IEnumerable<Address> ListAddresses(Guid chainId);
-
-        /// <summary>
-        /// Lists all accounts, that have any states, in the given <paramref name="chainId"/> and
-        /// their state references.
-        /// </summary>
-        /// <param name="chainId">The chain ID to look up state references.</param>
-        /// <param name="lowestIndex">Includes state references only made after the block
-        /// this argument refers to.</param>
-        /// <param name="highestIndex">Excludes state references made after the block
-        /// this argument refers to.</param>
-        /// <returns>A dictionary of account addresses to lists of their corresponding state
-        /// references.  Each list of state references is in ascending order, i.e., the block
-        /// closest to the genesis goes first and the block closest to the tip goes last.</returns>
-        IImmutableDictionary<Address, IImmutableList<HashDigest<SHA256>>>
-            ListAllStateReferences(
-                Guid chainId,
-                long lowestIndex = 0,
-                long highestIndex = long.MaxValue
-            );
+        /// <seealso cref="AppendIndex(Guid, BlockHash)"/>
+        void ForkBlockIndexes(Guid sourceChainId, Guid destinationChainId, BlockHash branchpoint);
 
         /// <summary>
         /// Adds <see cref="TxId"/>s to the pending list so that
@@ -125,7 +102,8 @@ namespace Libplanet.Store
         /// <summary>
         /// Iterates staged <see cref="TxId"/>s.
         /// </summary>
-        /// <returns>Staged <see cref="TxId"/>s.</returns>
+        /// <returns>Staged <see cref="TxId"/>s.  The earliest staged <see cref="TxId"/> goes first,
+        /// and the latest staged <see cref="TxId"/> goes last.</returns>
         IEnumerable<TxId> IterateStagedTransactionIds();
 
         IEnumerable<TxId> IterateTransactionIds();
@@ -145,7 +123,11 @@ namespace Libplanet.Store
 
         bool DeleteTransaction(TxId txid);
 
-        IEnumerable<HashDigest<SHA256>> IterateBlockHashes();
+        /// <summary>
+        /// Lists all block hashes in the store, regardless of their belonging chains.
+        /// </summary>
+        /// <returns>All block hashes in the store.</returns>
+        IEnumerable<BlockHash> IterateBlockHashes();
 
         /// <summary>
         /// Gets the corresponding stored <see cref="Block{T}"/> to the given
@@ -156,7 +138,7 @@ namespace Libplanet.Store
         /// <paramref name="blockHash"/> is stored.</returns>
         /// <typeparam name="T">An <see cref="IAction"/> type.  It should match
         /// to <see cref="Block{T}"/>'s type parameter.</typeparam>
-        Block<T> GetBlock<T>(HashDigest<SHA256> blockHash)
+        Block<T> GetBlock<T>(BlockHash blockHash)
             where T : IAction, new();
 
         /// <summary>
@@ -165,11 +147,20 @@ namespace Libplanet.Store
         /// <param name="blockHash"><see cref="Block{T}.Hash"/> to find.</param>
         /// <remarks>
         /// It provides only limited information, but can be called without any type parameter
-        /// unlike <see cref="GetBlock{T}(HashDigest{SHA256})"/>.
+        /// unlike <see cref="GetBlock{T}(BlockHash)"/>.
         /// </remarks>
         /// <returns>A found block's <see cref="Block{T}.Index"/>, or <c>null</c> if no block having
         /// such <paramref name="blockHash"/> is stored.</returns>
-        long? GetBlockIndex(HashDigest<SHA256> blockHash);
+        long? GetBlockIndex(BlockHash blockHash);
+
+        /// <summary>
+        /// Gets the corresponding stored <see cref="BlockDigest"/> to the given
+        /// <paramref name="blockHash"/>.
+        /// </summary>
+        /// <param name="blockHash"><see cref="Block{T}.Hash"/> to find.</param>
+        /// <returns>A found <see cref="BlockDigest"/>, or <c>null</c> if no block having such
+        /// <paramref name="blockHash"/> is stored.</returns>
+        BlockDigest? GetBlockDigest(BlockHash blockHash);
 
         /// <summary>
         /// Puts the given <paramref name="block"/> in to the store.
@@ -182,7 +173,12 @@ namespace Libplanet.Store
         void PutBlock<T>(Block<T> block)
             where T : IAction, new();
 
-        bool DeleteBlock(HashDigest<SHA256> blockHash);
+        /// <summary>
+        /// Removes a block from the store.
+        /// </summary>
+        /// <param name="blockHash">The hash of a block to remove.</param>
+        /// <returns><c>false</c> if such block does not exist. Otherwise <c>true</c>.</returns>
+        bool DeleteBlock(BlockHash blockHash);
 
         /// <summary>
         /// Determines whether the <see cref="IStore"/> contains <see cref="Block{T}"/>
@@ -194,129 +190,93 @@ namespace Libplanet.Store
         /// <c>true</c> if the <see cref="IStore"/> contains <see cref="Block{T}"/> with
         /// the specified <paramref name="blockHash"/>; otherwise, <c>false</c>.
         /// </returns>
-        bool ContainsBlock(HashDigest<SHA256> blockHash);
+        bool ContainsBlock(BlockHash blockHash);
 
         /// <summary>
-        /// Gets the states updated by actions in the inquired block.
+        /// Records the given <paramref name="txSuccess"/>.
         /// </summary>
-        /// <param name="blockHash"><see cref="Block{T}.Hash"/> to query.
+        /// <remarks>If there is already the record for the same <see cref="TxExecution.BlockHash"/>
+        /// and <see cref="TxExecution.TxId"/>, the record is silently overwritten.</remarks>
+        /// <param name="txSuccess">The successful transaction execution summary to record.
+        /// Must not be <c>null</c>.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="txSuccess"/> is
+        /// <c>null</c>.</exception>
+        /// <seealso cref="PutTxExecution(Libplanet.Tx.TxFailure)"/>
+        /// <seealso cref="GetTxExecution(BlockHash, TxId)"/>
+        void PutTxExecution(TxSuccess txSuccess);
+
+        /// <summary>
+        /// Records the given <paramref name="txFailure"/>.
+        /// </summary>
+        /// <remarks>If there is already the record for the same <see cref="TxExecution.BlockHash"/>
+        /// and <see cref="TxExecution.TxId"/>, the record is silently overwritten.</remarks>
+        /// <param name="txFailure">The failed transaction execution summary to record.
+        /// Must not be <c>null</c>.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="txFailure"/> is
+        /// <c>null</c>.</exception>
+        /// <seealso cref="PutTxExecution(Libplanet.Tx.TxSuccess)"/>
+        /// <seealso cref="GetTxExecution(BlockHash, TxId)"/>
+        void PutTxExecution(TxFailure txFailure);
+
+        /// <summary>
+        /// Retrieves the recorded transaction execution summary.
+        /// </summary>
+        /// <param name="blockHash">The <see cref="Block{T}.Hash"/> of the recorded transaction
+        /// execution to retrieve.</param>
+        /// <param name="txid">The <see cref="Transaction{T}.Id"/> of the recorded transaction
+        /// execution to retrieve.</param>
+        /// <returns>The recorded transaction execution summary.  If it has been never recorded
+        /// <c>null</c> is returned instead.</returns>
+        /// <seealso cref="PutTxExecution(Libplanet.Tx.TxFailure)"/>
+        /// <seealso cref="PutTxExecution(Libplanet.Tx.TxSuccess)"/>
+        TxExecution GetTxExecution(BlockHash blockHash, TxId txid);
+
+        /// <summary>
+        /// Records a index for given pair <paramref name="txId"/> and <paramref name="blockHash"/>.
+        /// If there exist a record for <paramref name="txId"/> already,
+        /// it overwrites the record silently.
+        /// </summary>
+        /// <param name="txId">The <see cref="TxId"/> of the <see cref="Transaction{T}"/>.</param>
+        /// <param name="blockHash">The <see cref="BlockHash"/> of the <see cref="Block{T}"/>.
         /// </param>
-        /// <returns>The states updated by actions in the inquired block.
-        /// If actions definitely do not update any addresses it returns
-        /// an empty map.  If there is no record for the inquired block
-        /// (because actions in it have never been evaluated yet) it returns
-        /// <c>null</c> instead.
-        /// </returns>
-        /// <remarks>It does not return all states built up from the genesis
-        /// block nor delta, but only dirty states by actions the inquired
-        /// block.
-        /// <para>For example, if actions in the genesis block do
-        /// <c>a++; b++</c>, /// and actions in the second block do
-        /// <c>b++; c++</c>, this method /// for the second block returns
-        /// <c>b = 2; c = 1</c> (dirty), not
-        /// <c>a = 1; b = 2; c = 1</c> (all states) nor
-        /// <c>b = 1; c = 1</c> (delta).</para>
-        /// </remarks>
-        IImmutableDictionary<Address, IValue> GetBlockStates(HashDigest<SHA256> blockHash);
+        void PutTxIdBlockHashIndex(TxId txId, BlockHash blockHash);
 
-        void SetBlockStates(
-            HashDigest<SHA256> blockHash,
-            IImmutableDictionary<Address, IValue> states
-        );
-
-#pragma warning disable MEN002
         /// <summary>
-        /// Looks up a state reference, which is a block's <see cref="Block{T}.Hash"/> that contains
-        /// an action mutating the <paramref name="address"/>' state.
+        /// Retrieves the <see cref="BlockHash"/> indexed by the <paramref name="txId"/>.
         /// </summary>
-        /// <param name="chainId">The chain ID to look up a state reference.</param>
-        /// <param name="address">The <see cref="Address"/> to look up.</param>
-        /// <param name="lookupUntil">The upper bound (i.e., the latest block) of the search range.
-        /// <see cref="Block{T}"/>s after <paramref name="lookupUntil"/> are ignored.</param>
-        /// <returns>Returns a nullable tuple consisting of <see cref="Block{T}.Hash"/> and
-        /// <see cref="Block{T}.Index"/> of the <see cref="Block{T}"/> with the state of the
-        /// address.</returns>
-        /// <typeparam name="T">An <see cref="IAction"/> class used with
-        /// <paramref name="lookupUntil"/>.</typeparam>
-        /// <seealso cref="IStore.StoreStateReference(Guid, IImmutableSet{Address}, HashDigest{SHA256}, long)"/>
-        /// <seealso cref="IStore.IterateStateReferences(Guid, Address, long?, long?, int?)"/>
-#pragma warning restore MEN002
-        Tuple<HashDigest<SHA256>, long> LookupStateReference<T>(
-            Guid chainId,
-            Address address,
-            Block<T> lookupUntil)
-            where T : IAction, new();
+        /// <param name="txId">The <see cref="TxId"/> of the <see cref="Transaction{T}"/>.</param>
+        /// <returns><see cref="BlockHash"/> if the index exists. Otherwise <c>null</c>.</returns>
+        BlockHash? GetFirstTxIdBlockHashIndex(TxId txId);
 
         /// <summary>
-        /// Gets pairs of a state reference and a corresponding <see cref="Block{T}.Index"/> of
-        /// the requested <paramref name="address"/> in the specified <paramref name="chainId"/>.
+        /// Retrieves <see cref="BlockHash"/>es indexed by the <paramref name="txId"/>.
         /// </summary>
-        /// <param name="chainId">The chain ID.</param>
-        /// <param name="address">The <see cref="Address"/> to get state references.</param>
-        /// <param name="highestIndex">The highest index of state references to get. If it is
-        /// <c>null</c>, it will be the highest index possible.</param>
-        /// <param name="lowestIndex">The lowest index of state references to get.  If it is
-        /// <c>null</c>, it will be the lowest index possible.</param>
-        /// <param name="limit">The maximum number of state references to get.  If it is
-        /// <c>null</c>, it does not limit the number of state references.</param>
-        /// <returns><em>Ordered</em> pairs of a state reference and a corresponding
-        /// <see cref="Block{T}.Index"/>.  The highest index (i.e., the closest to the tip) goes
-        /// first and the lowest index (i.e., the closest to the genesis) goes last.</returns>
-        /// <exception cref="ArgumentException">Thrown when the given
-        /// <paramref name="highestIndex"/> is less than <paramref name="lowestIndex"/>.</exception>
-        /// <seealso
-        /// cref="StoreStateReference(Guid , IImmutableSet{Address}, HashDigest{SHA256}, long)"/>
-        IEnumerable<Tuple<HashDigest<SHA256>, long>> IterateStateReferences(
-            Guid chainId,
-            Address address,
-            long? highestIndex = null,
-            long? lowestIndex = null,
-            int? limit = null);
+        /// <param name="txId">The <see cref="TxId"/> of the <see cref="Transaction{T}"/>.</param>
+        /// <returns><see cref="BlockHash"/>es if the index exists.</returns>
+        IEnumerable<BlockHash> IterateTxIdBlockHashIndex(TxId txId);
 
         /// <summary>
-        /// Stores a state reference, which is a <see cref="Block{T}.Hash"/>
-        /// that has the state of the <see cref="Address"/> for each updated
-        /// <see cref="Address"/>es by the <see cref="Transaction{T}"/>s in the
-        /// <see cref="Block{T}" />.</summary>
-        /// <param name="chainId">The ID of the chain to store a state reference.</param>
-        /// <param name="addresses">The <see cref="Address"/>es to store state
-        /// reference.</param>
-        /// <param name="blockHash">The <see cref="Block{T}.Hash"/> which has the state
-        /// of the <see cref="Address"/>.</param>
-        /// <param name="blockIndex">The <see cref="Block{T}.Index"/> which has the state
-        /// of the <see cref="Address"/>. This must refer to the same block
-        /// that <paramref name="blockHash"/> refers to.</param>
-        /// <seealso cref="IterateStateReferences(Guid, Address, long?, long?, int?)"/>
-        void StoreStateReference(
-            Guid chainId,
-            IImmutableSet<Address> addresses,
-            HashDigest<SHA256> blockHash,
-            long blockIndex);
-
-        /// <summary>
-        /// Forks state references, which are <see cref="Block{T}.Hash"/>es that
-        /// have the state of the <see cref="Address"/>es, from
-        /// <paramref name="sourceChainId"/> to <paramref name="destinationChainId"/>.
-        /// <para>This method copies state references from
-        /// <paramref name="sourceChainId"/> to <paramref name="destinationChainId"/> and strips
-        /// state references after <paramref name="branchPoint"/>.</para>
+        /// Deletes the index for the <paramref name="txId"/> and <paramref name="blockHash"/>.
         /// </summary>
-        /// <param name="sourceChainId">The chain ID of state references to fork.</param>
-        /// <param name="destinationChainId">The new chain ID to have state references.</param>
-        /// <param name="branchPoint">The branch point <see cref="Block{T}"/>
-        /// to fork.</param>
-        /// <typeparam name="T">An <see cref="IAction"/> class used with
-        /// <paramref name="branchPoint"/>.</typeparam>
-        /// <exception cref="ChainIdNotFoundException">Thrown when the given
-        /// <paramref name="sourceChainId"/> does not exist.</exception>
-        /// <seealso cref="IterateStateReferences(Guid, Address, long?, long?, int?)"/>
-        /// <seealso
-        /// cref="StoreStateReference(Guid, IImmutableSet{Address}, HashDigest{SHA256}, long)"/>
-        void ForkStateReferences<T>(
-            Guid sourceChainId,
-            Guid destinationChainId,
-            Block<T> branchPoint)
-            where T : IAction, new();
+        /// <param name="txId">The <see cref="TxId"/> of the <see cref="Transaction{T}"/>.</param>
+        /// <param name="blockHash">The <see cref="BlockHash"/>
+        /// of the <see cref="Block{T}"/>.</param>.
+        void DeleteTxIdBlockHashIndex(TxId txId, BlockHash blockHash);
+
+        /// <summary>
+        /// Records the perceived time of a block.  If there is already a record, it is overwritten.
+        /// </summary>
+        /// <param name="blockHash"><see cref="Block{T}.Hash"/> to record its perceived time.
+        /// </param>
+        /// <param name="perceivedTime">The perceived time to record.</param>
+        void SetBlockPerceivedTime(BlockHash blockHash, DateTimeOffset perceivedTime);
+
+        /// <summary>
+        /// Queries the perceived time of a block, if it has been recorded.
+        /// </summary>
+        /// <param name="blockHash"><see cref="Block{T}.Hash"/> to query.</param>
+        /// <returns>The perceived time of a block, if it exists.  Otherwise, <c>null</c>.</returns>
+        DateTimeOffset? GetBlockPerceivedTime(BlockHash blockHash);
 
         /// <summary>
         /// Lists all <see cref="Address"/>es that have ever signed <see cref="Transaction{T}"/>,
@@ -371,5 +331,16 @@ namespace Libplanet.Store
         long CountTransactions();
 
         long CountBlocks();
+
+        /// <summary>
+        /// Forks <see cref="Transaction{T}"/> <see cref="Transaction{T}.Nonce"/>s from
+        /// <paramref name="sourceChainId"/> to
+        /// <paramref name="destinationChainId"/>.
+        /// </summary>
+        /// <param name="sourceChainId">The chain <see cref="BlockChain{T}.Id"/> of
+        /// <see cref="Transaction{T}"/> <see cref="Transaction{T}.Nonce"/>s to fork.</param>
+        /// <param name="destinationChainId">The chain <see cref="BlockChain{T}.Id"/> of destination
+        /// <see cref="Transaction{T}"/> <see cref="Transaction{T}.Nonce"/>s.</param>
+        void ForkTxNonces(Guid sourceChainId, Guid destinationChainId);
     }
 }

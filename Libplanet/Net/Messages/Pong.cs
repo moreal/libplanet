@@ -5,22 +5,13 @@ namespace Libplanet.Net.Messages
 {
     internal class Pong : Message
     {
-        public Pong(long? tipIndex)
+        public Pong()
         {
-            TipIndex = tipIndex;
         }
 
         public Pong(NetMQFrame[] body)
         {
-            TipIndex = body[0].ConvertToInt64();
-
-            if (TipIndex < 0)
-            {
-                TipIndex = null;
-            }
         }
-
-        public long? TipIndex { get; set; }
 
         protected override MessageType Type => MessageType.Pong;
 
@@ -28,8 +19,7 @@ namespace Libplanet.Net.Messages
         {
             get
             {
-                yield return new NetMQFrame(
-                    NetworkOrderBitsConverter.GetBytes(TipIndex ?? -1));
+                yield break;
             }
         }
     }

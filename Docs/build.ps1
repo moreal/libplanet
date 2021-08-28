@@ -38,10 +38,10 @@ function Download-File ($From, $To) {
   # Why we prefer curl/wget here?  Because in some environments
   # (e.g., Travis CI) .NET's root certificates are seemingly outdated,
   # or at least, an error "Could not create SSL/TLS secure channel" occurs.
-  if (Get-Command curl -ErrorAction SilentlyContinue) {
-    curl -L -o "$To" "$From"
-  } elseif (Get-Command wget -ErrorAction SilentlyContinue) {
+  if (Get-Command wget -ErrorAction SilentlyContinue) {
     wget -O "$To" "$From"
+  } elseif (Get-Command curl -ErrorAction SilentlyContinue) {
+    curl -L -o "$To" "$From"
   } else {
     Invoke-WebRequest -OutFile "$To" "$From"
   }
@@ -50,7 +50,7 @@ function Download-File ($From, $To) {
 # Download docfx if not exist yet.
 if (-not (Test-Path "$BaseDir/docfx")) {
   Download-File `
-    "https://github.com/dotnet/docfx/releases/download/v2.45.1/docfx.zip" `
+    "https://github.com/dotnet/docfx/releases/download/v2.56.6/docfx.zip" `
     -To "$BaseDir/docfx.zip"
   New-Item -ItemType directory -Path "$BaseDir/docfx"
   [System.IO.Compression.ZipFile]::ExtractToDirectory(

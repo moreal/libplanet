@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
@@ -5,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using Bencodex.Types;
 using Libplanet.Crypto;
 using Libplanet.Serialization;
 using Org.BouncyCastle.Crypto.Digests;
@@ -93,24 +95,17 @@ namespace Libplanet
         {
         }
 
-        public Address(
-            SerializationInfo info,
-            StreamingContext context)
-            : this(info.GetValue<byte[]>("address"))
-        {
-        }
-
         /// <summary>
         /// Derives the corresponding <see cref="Address"/> from a <see
         /// cref="PublicKey"/>.
         /// <para>Note that there is an equivalent extension method
-        /// <see cref="AddressExtension.ToAddress(PublicKey)"/>, which enables
+        /// <see cref="AddressExtensions.ToAddress(PublicKey)"/>, which enables
         /// a code like <c>publicKey.ToAddress()</c> instead of
         /// <c>new Address(publicKey)</c>, for convenience.</para>
         /// </summary>
         /// <param name="publicKey">A <see cref="PublicKey"/> to derive
         /// the corresponding <see cref="Address"/> from.</param>
-        /// <seealso cref="AddressExtension.ToAddress(PublicKey)"/>
+        /// <seealso cref="AddressExtensions.ToAddress(PublicKey)"/>
         public Address(PublicKey publicKey)
             : this(DeriveAddress(publicKey))
         {
@@ -139,6 +134,28 @@ namespace Libplanet
         }
 
         /// <summary>
+        /// Creates an <see cref="Address"/> instance from the given Bencodex <see cref="Binary"/>
+        /// (i.e., <paramref name="address"/>).
+        /// </summary>
+        /// <param name="address">A Bencodex <see cref="Binary"/> of 20 <see cref="byte"/>s which
+        /// represents an <see cref="Address"/>.
+        /// </param>
+        /// <exception cref="ArgumentException">Thrown when the given <paramref name="address"/>
+        /// did not lengthen 20 bytes.</exception>
+        public Address(Binary address)
+            : this(address.ByteArray)
+        {
+        }
+
+        private Address(
+            SerializationInfo info,
+            StreamingContext context)
+            : this(info?.GetValue<byte[]>("address") ??
+                throw new SerializationException("Missing the address field."))
+        {
+        }
+
+        /// <summary>
         /// An immutable array of 20 <see cref="byte"/>s that represent this
         /// <see cref="Address"/>.
         /// </summary>
@@ -157,6 +174,10 @@ namespace Libplanet
                 return _byteArray;
             }
         }
+
+        public static bool operator ==(Address left, Address right) => Operator.Weave(left, right);
+
+        public static bool operator !=(Address left, Address right) => Operator.Weave(left, right);
 
         /// <summary>
         /// Gets a mutable array of 20 <see cref="byte"/>s that represent
@@ -219,9 +240,7 @@ namespace Libplanet
         }
 
         /// <inheritdoc />
-        public void GetObjectData(
-            SerializationInfo info,
-            StreamingContext context)
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("address", ToByteArray());
         }
@@ -242,7 +261,7 @@ namespace Libplanet
             return 0;
         }
 
-        int IComparable.CompareTo(object obj)
+        int IComparable.CompareTo(object? obj)
         {
             if (obj is Address other)
             {

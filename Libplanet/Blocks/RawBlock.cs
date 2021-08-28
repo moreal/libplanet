@@ -1,120 +1,49 @@
-using System.Collections;
-using System.Runtime.Serialization;
-using Libplanet.Serialization;
+using System.Collections.Immutable;
+using System.Linq;
+using Bencodex.Types;
 
 namespace Libplanet.Blocks
 {
-    internal readonly struct RawBlock : ISerializable
+    internal readonly struct RawBlock
     {
-        public RawBlock(
-            long index,
-            string timestamp,
-            byte[] nonce,
-            byte[] miner,
-            long difficulty,
-            byte[] previousHash,
-            IEnumerable transactions)
-            : this(
-                index,
-                timestamp,
-                nonce,
-                miner,
-                difficulty,
-                previousHash,
-                transactions,
-                null
-            )
-        {
-        }
+        public static readonly byte[] HeaderKey = { 0x48 }; // 'H'
+
+        public static readonly byte[] TransactionsKey = { 0x54 }; // 'T'
 
         public RawBlock(
-            long index,
-            string timestamp,
-            byte[] nonce,
-            byte[] miner,
-            long difficulty,
-            byte[] previousHash,
-            IEnumerable transactions,
-            byte[] hash)
+            BlockHeader header,
+            ImmutableArray<ImmutableArray<byte>> transactions)
         {
-            Index = index;
-            Timestamp = timestamp;
-            Nonce = nonce;
-            Miner = miner;
-            Difficulty = difficulty;
-            PreviousHash = previousHash;
+            Header = header;
             Transactions = transactions;
-            Hash = hash;
         }
 
-        internal RawBlock(SerializationInfo info, StreamingContext context)
-            : this(
-                index: info.GetInt64("index"),
-                timestamp: info.GetString("timestamp"),
-                nonce: info.GetValue<byte[]>("nonce"),
-                miner: info.GetValue<byte[]>("reward_beneficiary"),
-                difficulty: info.GetInt32("difficulty"),
-                previousHash: info.GetValueOrDefault<byte[]>(
-                    "previous_hash",
-                    null
-                ),
-                transactions: info.GetValue<IEnumerable>("transactions"),
-                hash: info.GetValue<byte[]>("hash")
-            )
+        public RawBlock(Bencodex.Types.Dictionary dict)
         {
+            Header = new BlockHeader(dict.GetValue<Bencodex.Types.Dictionary>(HeaderKey));
+            Transactions = dict.ContainsKey((IKey)(Binary)TransactionsKey)
+                ? dict.GetValue<Bencodex.Types.List>(TransactionsKey)
+                    .Select(tx => ((Binary)tx).ToImmutableArray()).ToImmutableArray()
+                : ImmutableArray<ImmutableArray<byte>>.Empty;
         }
 
-        public long Index { get; }
+        public BlockHeader Header { get; }
 
-        public string Timestamp { get; }
+        public ImmutableArray<ImmutableArray<byte>> Transactions { get; }
 
-        public byte[] Nonce { get; }
-
-        public byte[] Miner { get; }
-
-        public long Difficulty { get; }
-
-        public byte[] PreviousHash { get; }
-
-        public byte[] Hash { get; }
-
-        public IEnumerable Transactions { get; }
-
-        public void GetObjectData(
-            SerializationInfo info,
-            StreamingContext context
-        )
+        public Bencodex.Types.Dictionary ToBencodex()
         {
-            info.AddValue("index", Index);
-            info.AddValue("timestamp", Timestamp);
-            info.AddValue("reward_beneficiary", Miner);
-            info.AddValue("difficulty", Difficulty);
-            info.AddValue("transactions", Transactions);
-            info.AddValue("nonce", Nonce);
+            var dict = Bencodex.Types.Dictionary.Empty
+                .Add(HeaderKey, Header.ToBencodex());
 
-            if (PreviousHash != null)
+            if (Transactions.Any())
             {
-                info.AddValue("previous_hash", PreviousHash);
+                var transactions = new Bencodex.Types.List(
+                        Transactions.Select(tx => (IValue)(Binary)tx.ToArray()));
+                dict = dict.Add(TransactionsKey, (IValue)transactions);
             }
 
-            if (Hash != null)
-            {
-                info.AddValue("hash", Hash);
-            }
-        }
-
-        public RawBlock AddHash(byte[] hash)
-        {
-            return new RawBlock(
-                index: Index,
-                timestamp: Timestamp,
-                miner: Miner,
-                difficulty: Difficulty,
-                nonce: Nonce,
-                previousHash: PreviousHash,
-                transactions: Transactions,
-                hash: hash
-            );
+            return dict;
         }
     }
 }

@@ -1,16 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics.Contracts;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Security.Cryptography;
+using Bencodex;
 using Bencodex.Types;
 using Libplanet.Action;
+using Libplanet.Blocks;
 using Libplanet.Crypto;
-using Libplanet.Serialization;
 
 namespace Libplanet.Tx
 {
@@ -27,12 +25,18 @@ namespace Libplanet.Tx
     /// </typeparam>
     /// <seealso cref="IAction"/>
     /// <seealso cref="PolymorphicAction{T}"/>
-    public class Transaction<T> : ISerializable, IEquatable<Transaction<T>>
+    public sealed class Transaction<T> : IEquatable<Transaction<T>>
         where T : IAction, new()
     {
         private const string TimestampFormat = "yyyy-MM-ddTHH:mm:ss.ffffffZ";
 
+        // If a tx is longer than 50 KiB don't cache its bytes representation to _bytes.
+        private const int BytesCacheThreshold = 50 * 1024;
+
+        private TxId? _id;
         private byte[] _signature;
+        private byte[] _bytes;
+        private int _bytesLength;
 
         /// <summary>
         /// Creates a new <see cref="Transaction{T}"/>.
@@ -42,7 +46,7 @@ namespace Libplanet.Tx
         /// this constructor is only useful when all details of
         /// a <see cref="Transaction{T}"/> need to be manually adjusted.
         /// For the most cases, the fa&#xe7;ade factory <see
-        /// cref="Create(long, PrivateKey, IEnumerable{T},
+        /// cref="Create(long, PrivateKey, BlockHash?, IEnumerable{T},
         /// IImmutableSet{Address}, DateTimeOffset?)"/> is more useful.</para>
         /// </summary>
         /// <param name="nonce">The number of previous
@@ -58,6 +62,11 @@ namespace Libplanet.Tx
         /// name="signer"/> address <see cref="InvalidTxPublicKeyException"/>
         /// is thrown.  This cannot be <c>null</c>.  This goes to
         /// the <see cref="PublicKey"/> property.</param>
+        /// <param name="genesisHash">A <see cref="HashDigest{SHA256}"/> value
+        /// of the genesis which this <see cref="Transaction{T}"/> is made from.
+        /// This can be <c>null</c> iff the transaction is contained
+        /// in the genesis block.
+        /// </param>
         /// <param name="updatedAddresses"><see cref="Address"/>es whose
         /// states affected by <paramref name="actions"/>.  This goes to
         /// the <see cref="UpdatedAddresses"/> property.</param>
@@ -77,38 +86,50 @@ namespace Libplanet.Tx
         /// is passed to <paramref name="signature"/>,
         /// <paramref name="actions"/>, or <paramref name="publicKey"/>.
         /// </exception>
-        /// <exception cref="InvalidTxSignatureException">Thrown when its
-        /// <paramref name="signature"/> is invalid or not signed by
-        /// the account who corresponds to <paramref name="publicKey"/>.
-        /// </exception>
-        /// <exception cref="InvalidTxPublicKeyException">Thrown when its
-        /// <paramref name="signer"/> is not derived from its
-        /// <paramref name="publicKey"/>.</exception>
         public Transaction(
             long nonce,
             Address signer,
             PublicKey publicKey,
+            BlockHash? genesisHash,
             IImmutableSet<Address> updatedAddresses,
             DateTimeOffset timestamp,
             IEnumerable<T> actions,
             byte[] signature)
-            : this(
-                nonce,
-                signer,
-                publicKey,
-                updatedAddresses,
-                timestamp,
-                actions,
-                signature,
-                true)
+        {
+            Nonce = nonce;
+            Signer = signer;
+            GenesisHash = genesisHash;
+            UpdatedAddresses = updatedAddresses ??
+                               throw new ArgumentNullException(nameof(updatedAddresses));
+            Signature = signature ??
+                        throw new ArgumentNullException(nameof(signature));
+            Timestamp = timestamp;
+            Actions = actions?.ToImmutableList() ??
+                      throw new ArgumentNullException(nameof(actions));
+            PublicKey = publicKey ??
+                        throw new ArgumentNullException(nameof(publicKey));
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Transaction{T}"/> instance from its serialization.
+        /// </summary>
+        /// <param name="dict">The <see cref="Bencodex.Types.Dictionary"/>
+        /// representation of <see cref="Transaction{T}"/> instance.
+        /// </param>
+        public Transaction(Bencodex.Types.Dictionary dict)
+            : this(new RawTransaction(dict))
         {
         }
 
+#pragma warning disable SA1118 // Parameter spans multiple line
         internal Transaction(RawTransaction rawTx)
             : this(
                 rawTx.Nonce,
                 new Address(rawTx.Signer),
                 new PublicKey(rawTx.PublicKey.ToArray()),
+                rawTx.GenesisHash != ImmutableArray<byte>.Empty
+                    ? new BlockHash(rawTx.GenesisHash.ToArray())
+                    : (BlockHash?)null,
                 rawTx.UpdatedAddresses.Select(
                     a => new Address(a)
                 ).ToImmutableHashSet(),
@@ -117,47 +138,8 @@ namespace Libplanet.Tx
                     TimestampFormat,
                     CultureInfo.InvariantCulture).ToUniversalTime(),
                 rawTx.Actions.Select(ToAction).ToImmutableList(),
-                rawTx.Signature.ToArray(),
-                false)
-        {
-        }
-
-        internal Transaction(
-            long nonce,
-            Address signer,
-            PublicKey publicKey,
-            IImmutableSet<Address> updatedAddresses,
-            DateTimeOffset timestamp,
-            IEnumerable<T> actions,
-            byte[] signature,
-            bool validate)
-        {
-            Nonce = nonce;
-            Signer = signer;
-            UpdatedAddresses = updatedAddresses ??
-                    throw new ArgumentNullException(nameof(updatedAddresses));
-            Signature = signature ??
-                    throw new ArgumentNullException(nameof(signature));
-            Timestamp = timestamp;
-            Actions = actions?.ToImmutableList() ??
-                      throw new ArgumentNullException(nameof(actions));
-            PublicKey = publicKey ??
-                        throw new ArgumentNullException(nameof(publicKey));
-
-            using (var hasher = SHA256.Create())
-            {
-                byte[] payload = ToBencodex(true);
-                Id = new TxId(hasher.ComputeHash(payload));
-            }
-
-            if (validate)
-            {
-                Validate();
-            }
-        }
-
-        private Transaction(SerializationInfo info, StreamingContext context)
-            : this(new RawTransaction(info, context))
+                rawTx.Signature.ToArray())
+#pragma warning restore SA1118 // Parameter spans multiple line
         {
         }
 
@@ -165,6 +147,7 @@ namespace Libplanet.Tx
             long nonce,
             Address signer,
             PublicKey publicKey,
+            BlockHash? genesisHash,
             IImmutableSet<Address> updatedAddresses,
             DateTimeOffset timestamp,
             IEnumerable<T> actions)
@@ -172,11 +155,11 @@ namespace Libplanet.Tx
                 nonce,
                 signer,
                 publicKey,
+                genesisHash,
                 updatedAddresses,
                 timestamp,
                 actions.ToImmutableList(),
-                new byte[0],
-                false)
+                new byte[0])
         {
         }
 
@@ -186,7 +169,20 @@ namespace Libplanet.Tx
         /// <para>For more characteristics, see <see cref="TxId"/> type.</para>
         /// </summary>
         /// <seealso cref="TxId"/>
-        public TxId Id { get; }
+        public TxId Id
+        {
+            get
+            {
+                if (!(_id is { } nonNull))
+                {
+                    using var hasher = SHA256.Create();
+                    byte[] payload = Serialize(true);
+                    _id = nonNull = new TxId(hasher.ComputeHash(payload));
+                }
+
+                return nonNull;
+            }
+        }
 
         /// <summary>
         /// The number of previous <see cref="Transaction{T}"/>s committed by
@@ -204,6 +200,8 @@ namespace Libplanet.Tx
         /// <see cref="Address"/>es whose states affected by
         /// <see cref="Actions"/>.
         /// </summary>
+        // TODO: We should remove this property.
+        // See also https://github.com/planetarium/libplanet/issues/368
         public IImmutableSet<Address> UpdatedAddresses { get; }
 
         /// <summary>
@@ -251,26 +249,70 @@ namespace Libplanet.Tx
         public PublicKey PublicKey { get; }
 
         /// <summary>
-        /// Decodes a transaction's
-        /// <a href="https://bencodex.org/">Bencodex</a> representation.
+        /// A <see cref="HashDigest{SHA256}"/> value of the genesis which this
+        /// <see cref="Transaction{T}"/> is made from.
+        /// This can be <c>null</c> iff the transaction is contained
+        /// in the genesis block.
         /// </summary>
-        /// <param name="bytes">A <a href="https://bencodex.org/">Bencodex</a>
-        /// representation of a transaction.</param>
-        /// <returns>A decoded <see cref="Transaction{T}"/> object.</returns>
-        /// <seealso cref="ToBencodex(bool)"/>
-        public static Transaction<T> FromBencodex(byte[] bytes)
+        public BlockHash? GenesisHash { get; }
+
+        /// <summary>
+        /// The bytes length in its serialized format.
+        /// </summary>
+        public int BytesLength
         {
-            var serializer = new BencodexFormatter<Transaction<T>>();
-            using (var stream = new MemoryStream(bytes))
+            get
             {
-                // FIXME: Shouldn't it call Validate() here?
-                return (Transaction<T>)serializer.Deserialize(stream);
+                // Note that Serialize() by itself caches _byteLength, so that this ByteLength
+                // property never invokes Serialize() more than once.
+                return _bytesLength > 0 ? _bytesLength : Serialize(true).Length;
             }
         }
 
         /// <summary>
+        /// Decodes a <see cref="Transaction{T}"/>'s
+        /// <a href="https://bencodex.org/">Bencodex</a> representation.
+        /// </summary>
+        /// <param name="bytes">A <a href="https://bencodex.org/">Bencodex</a>
+        /// representation of a <see cref="Transaction{T}"/>.</param>
+        /// <param name="validate">Whether to validate the transaction.</param>
+        /// <returns>A decoded <see cref="Transaction{T}"/> object.</returns>
+        /// <exception cref="InvalidTxSignatureException">Thrown when its
+        /// <see cref="Signature"/> is invalid or not signed by
+        /// the account who corresponds to <see cref="PublicKey"/>.
+        /// </exception>
+        /// <exception cref="InvalidTxPublicKeyException">Thrown when its
+        /// <see cref="Signer"/> is not derived from its
+        /// <see cref="PublicKey"/>.</exception>
+        /// <seealso cref="Serialize(bool)"/>
+        public static Transaction<T> Deserialize(byte[] bytes, bool validate = true)
+        {
+            IValue value = new Codec().Decode(bytes);
+            if (!(value is Bencodex.Types.Dictionary dict))
+            {
+                throw new DecodingException(
+                    $"Expected {typeof(Bencodex.Types.Dictionary)} but " +
+                    $"{value.GetType()}");
+            }
+
+            var tx = new Transaction<T>(dict);
+            if (validate)
+            {
+                tx.Validate();
+            }
+
+            if (bytes.Length < BytesCacheThreshold)
+            {
+                tx._bytes = bytes;
+            }
+
+            tx._bytesLength = bytes.Length;
+            return tx;
+        }
+
+        /// <summary>
         /// A fa&#xe7;ade factory to create a new <see cref="Transaction{T}"/>.
-        /// Unlike the <see cref="Transaction(long, Address, PublicKey,
+        /// Unlike the <see cref="Transaction(long, Address, PublicKey, BlockHash?,
         /// IImmutableSet{Address}, DateTimeOffset, IEnumerable{T}, byte[])"/>
         /// constructor, it automatically fills the following values from:
         /// <list type="table">
@@ -330,6 +372,11 @@ namespace Libplanet.Tx
         /// the <see cref="Signer"/>, <see cref="PublicKey"/>, and
         /// <see cref="Signature"/> properties, but this in itself is not
         /// included in the transaction.</param>
+        /// <param name="genesisHash">A <see cref="HashDigest{SHA256}"/> value
+        /// of the genesis which this <see cref="Transaction{T}"/> is made from.
+        /// This can be <c>null</c> iff the transaction is contained
+        /// in the genesis block.
+        /// </param>
         /// <param name="actions">A list of <see cref="IAction"/>s.  This
         /// can be empty, but cannot be <c>null</c>.  This goes to
         /// the <see cref="Actions"/> property, and <see cref="IAction"/>s
@@ -351,24 +398,12 @@ namespace Libplanet.Tx
         /// the given <paramref name="privateKey"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <c>null</c>
         /// is passed to <paramref name="privateKey"/> or
-        /// or <paramref name="actions"/>.
-        /// </exception>
-        /// <exception cref="UnexpectedlyTerminatedActionException">
-        /// Thrown when one of <paramref name="actions"/> throws some
-        /// exception during their rehearsal.
-        /// <para>This exception is thrown probably because the logic of some of
-        /// the <paramref name="actions"/> is not enough generic so that
-        /// it can cover every case including &#x201c;rehearsal mode.&#x201d;
-        /// The <see cref="IActionContext.Rehearsal"/> property also might be
-        /// useful to make the <see cref="IAction"/> can deal with the case of
-        /// rehearsal mode.</para>
-        /// <para>The actual exception that an <see cref="IAction"/> threw
-        /// is stored in its <see cref="Exception.InnerException"/> property.
-        /// </para>
+        /// <paramref name="actions"/>.
         /// </exception>
         public static Transaction<T> Create(
             long nonce,
             PrivateKey privateKey,
+            BlockHash? genesisHash,
             IEnumerable<T> actions,
             IImmutableSet<Address> updatedAddresses = null,
             DateTimeOffset? timestamp = null
@@ -379,7 +414,120 @@ namespace Libplanet.Tx
                 throw new ArgumentNullException(nameof(privateKey));
             }
 
-            PublicKey publicKey = privateKey.PublicKey;
+            Transaction<T> unsignedTransaction = CreateUnsigned(
+                nonce,
+                privateKey.PublicKey,
+                genesisHash,
+                actions,
+                updatedAddresses,
+                timestamp);
+            byte[] payload = unsignedTransaction.Serialize(false);
+            byte[] sig = privateKey.Sign(payload);
+            return new Transaction<T>(
+                unsignedTransaction.Nonce,
+                unsignedTransaction.Signer,
+                unsignedTransaction.PublicKey,
+                unsignedTransaction.GenesisHash,
+                unsignedTransaction.UpdatedAddresses,
+                unsignedTransaction.Timestamp,
+                unsignedTransaction.Actions,
+                sig);
+        }
+
+        /// <summary>
+        /// A fa&#xe7;ade factory to create a new <see cref="Transaction{T}"/>.
+        /// Unlike the <see cref="Transaction(long, Address, PublicKey, BlockHash?,
+        /// IImmutableSet{Address}, DateTimeOffset, IEnumerable{T}, byte[])"/>
+        /// constructor, it automatically fills the following values from:
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Property</term>
+        /// <description>Parameter the filled value derived from</description>
+        /// </listheader>
+        /// <item>
+        /// <term><see cref="Signer"/></term>
+        /// <description><paramref name="publicKey"/></description>
+        /// </item>
+        /// <item>
+        /// <term><see cref="PublicKey"/></term>
+        /// <description><paramref name="publicKey"/></description>
+        /// </item>
+        /// <item>
+        /// <term><see cref="UpdatedAddresses"/></term>
+        /// <description><paramref name="actions"/> and
+        /// <paramref name="updatedAddresses"/></description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <remarks>
+        /// This factory method tries its best to fill the <see
+        /// cref="UpdatedAddresses"/> property by actually evaluating
+        /// the given <paramref name="actions"/> (we call it &#x201c;rehearsal
+        /// mode&#x201d;), but remember that its result
+        /// is approximated in some degree, because the result of
+        /// <paramref name="actions"/> are not deterministic until
+        /// the <see cref="Transaction{T}"/> belongs to a <see
+        /// cref="Libplanet.Blocks.Block{T}"/>.
+        /// <para>If an <see cref="IAction"/> depends on previous states or
+        /// some randomness to determine what <see cref="Address"/> to update,
+        /// the automatically filled <see cref="UpdatedAddresses"/> became
+        /// mismatched from the <see cref="Address"/>es
+        /// <paramref name="actions"/> actually update after
+        /// a <see cref="Libplanet.Blocks.Block{T}"/> is mined.
+        /// Although such case would be rare, a programmer could manually give
+        /// the <paramref name="updatedAddresses"/> parameter
+        /// the <see cref="Address"/>es they predict to be updated.</para>
+        /// <para>If an <see cref="IAction"/> oversimplifies the assumption
+        /// about the <see cref="Libplanet.Blocks.Block{T}"/> it belongs to,
+        /// runtime exceptions could be thrown from this factory method.
+        /// The best solution to that is not to oversimplify things,
+        /// there is an option to check <see cref="IActionContext"/>'s
+        /// <see cref="IActionContext.Rehearsal"/> is <c>true</c> and
+        /// a conditional logic for the case.</para>
+        /// </remarks>
+        /// <param name="nonce">The number of previous
+        /// <see cref="Transaction{T}"/>s committed by the <see cref="Signer"/>
+        /// of this transaction.  This goes to the
+        /// <see cref="Transaction{T}.Nonce"/> property.</param>
+        /// <param name="publicKey">A <see cref="PublicKey"/> of the account
+        /// who creates a new transaction.  This key is used to fill
+        /// the <see cref="Signer"/> and <see cref="PublicKey"/> properties,
+        /// but this in itself is not included in the transaction.</param>
+        /// <param name="genesisHash">A <see cref="HashDigest{SHA256}"/> value
+        /// of the genesis which this <see cref="Transaction{T}"/> is made from.
+        /// This can be <c>null</c> iff the transaction is contained
+        /// in the genesis block.
+        /// </param>
+        /// <param name="actions">A list of <see cref="IAction"/>s.  This
+        /// can be empty, but cannot be <c>null</c>.  This goes to
+        /// the <see cref="Actions"/> property, and <see cref="IAction"/>s
+        /// are evaluated before a <see cref="Transaction{T}"/> is created
+        /// in order to fill the <see cref="UpdatedAddresses"/>.  See also
+        /// <em>Remarks</em> section.</param>
+        /// <param name="updatedAddresses"><see cref="Address"/>es whose
+        /// states affected by <paramref name="actions"/>.
+        /// These <see cref="Address"/>es are also included in
+        /// the <see cref="UpdatedAddresses"/> property, besides
+        /// <see cref="Address"/>es projected by evaluating
+        /// <paramref name="actions"/>.  See also <em>Remarks</em> section.
+        /// </param>
+        /// <param name="timestamp">The time this <see cref="Transaction{T}"/>
+        /// is created.  This goes to the <see cref="Timestamp"/>
+        /// property.  If <c>null</c> (which is default) is passed this will
+        /// be the current time.</param>
+        /// <returns>A created new <see cref="Transaction{T}"/> unsigned.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <c>null</c>
+        /// is passed to <paramref name="actions"/>.
+        /// </exception>
+        public static Transaction<T> CreateUnsigned(
+            long nonce,
+            PublicKey publicKey,
+            BlockHash? genesisHash,
+            IEnumerable<T> actions,
+            IImmutableSet<Address> updatedAddresses = null,
+            DateTimeOffset? timestamp = null
+        )
+        {
             var signer = new Address(publicKey);
 
             if (ReferenceEquals(updatedAddresses, null))
@@ -390,211 +538,106 @@ namespace Libplanet.Tx
             DateTimeOffset ts = timestamp ?? DateTimeOffset.UtcNow;
 
             ImmutableArray<T> actionsArray = actions.ToImmutableArray();
-            byte[] payload = new Transaction<T>(
-                nonce,
-                signer,
-                publicKey,
-                updatedAddresses,
-                ts,
-                actionsArray
-            ).ToBencodex(false);
-
             if (!actionsArray.IsEmpty)
             {
-                IAccountStateDelta delta = new Transaction<T>(
-                    nonce,
-                    signer,
-                    publicKey,
-                    updatedAddresses,
-                    ts,
-                    actionsArray
-                ).EvaluateActions(
-                    default(HashDigest<SHA256>),
-                    0,
-                    new AccountStateDeltaImpl(_ => null),
-                    signer,
-                    rehearsal: true
-                );
-                if (!updatedAddresses.IsSupersetOf(delta.UpdatedAddresses))
-                {
-                    updatedAddresses =
-                        updatedAddresses.Union(delta.UpdatedAddresses);
-                    payload = new Transaction<T>(
+                // FIXME: Although we are assuming all block hashes are SHA256 digest, we should
+                // parametrize this in the future.
+                BlockHash emptyBlockHash = BlockHash.FromHashDigest(default(HashDigest<SHA256>));
+
+                var evalUpdatedAddresses = ActionEvaluator<T>.GetUpdatedAddresses(
+                    new Transaction<T>(
                         nonce,
                         signer,
                         publicKey,
+                        genesisHash,
                         updatedAddresses,
                         ts,
-                        actionsArray
-                    ).ToBencodex(false);
+                        actionsArray));
+                if (!updatedAddresses.IsSupersetOf(evalUpdatedAddresses))
+                {
+                    updatedAddresses = updatedAddresses.Union(evalUpdatedAddresses);
                 }
             }
 
-            byte[] sig = privateKey.Sign(payload);
             return new Transaction<T>(
                 nonce,
                 signer,
                 publicKey,
+                genesisHash,
                 updatedAddresses,
                 ts,
-                actionsArray,
-                sig
-            );
+                actionsArray);
         }
 
         /// <summary>
-        /// Encodes this <see cref="Transaction{T}"/> into a <see cref="byte"/>
-        /// array.
-        /// <para>This is an inverse function of
-        /// <see cref="FromBencodex(byte[])"/> method
-        /// where <paramref name="sign"/> is <c>true</c>.</para>
+        /// Encodes this <see cref="Transaction{T}"/> into a <see cref="byte"/> array.
         /// </summary>
         /// <param name="sign">Whether to include its <see cref="Signature"/>.
-        /// Note that an encoding without signature cannot be decoded using
-        /// <see cref="FromBencodex(byte[])"/> method.
         /// </param>
         /// <returns>A <a href="https://bencodex.org/">Bencodex</a>
         /// representation of this <see cref="Transaction{T}"/>.</returns>
-        /// <seealso cref="FromBencodex(byte[])"/>
-        public byte[] ToBencodex(bool sign)
+        public byte[] Serialize(bool sign)
         {
-            var serializer = new BencodexFormatter<Transaction<T>>
+            Codec codec = null;
+            if (_bytes is { })
             {
-                Context = new StreamingContext(
-                    StreamingContextStates.All,
-                    new TransactionSerializationContext(sign)
-                ),
-            };
-            using (var stream = new MemoryStream())
-            {
-                serializer.Serialize(stream, this);
-                return stream.ToArray();
+                if (sign)
+                {
+                    return _bytes;
+                }
+
+                // Poor man's way to optimize serialization without signature...
+                // FIXME: We need to rather reorganize the serialization layout
+                //        & optimize Bencodex.Codec in general.
+                if (_signature is { } && _signature.Length > 0)
+                {
+                    codec = new Codec();
+                    byte[] sigDict =
+                        codec.Encode(Dictionary.Empty.Add(RawTransaction.SignatureKey, _signature));
+                    var sigField = new byte[sigDict.Length - 1];
+                    Array.Copy(sigDict, 1, sigField, 0, sigField.Length);
+                    int sigOffset = _bytes.IndexOf(sigField);
+                    if (sigOffset > 0)
+                    {
+                        int sigEnd = sigOffset + _signature.Length;
+                        var buffer = new byte[_bytes.Length - sigField.Length];
+                        Array.Copy(_bytes, buffer, sigOffset);
+                        Array.Copy(_bytes, sigEnd, buffer, sigOffset, _bytesLength - sigEnd);
+                        return buffer;
+                    }
+                }
             }
+
+            codec ??= new Codec();
+            byte[] serialized = codec.Encode(ToBencodex(sign));
+            if (sign)
+            {
+                if (serialized.Length < BytesCacheThreshold)
+                {
+                    _bytes = serialized;
+                }
+
+                _bytesLength = serialized.Length;
+            }
+
+            return serialized;
         }
 
         /// <summary>
-        /// Executes the <see cref="Actions"/> step by step, and emits
-        /// <see cref="ActionEvaluation"/> for each step.
-        /// <para>If the needed value is only the final states,
-        /// use <see cref="EvaluateActions"/> method instead.</para>
+        /// Encodes this <see cref="Transaction{T}"/> into a <see cref="IValue"/>.
         /// </summary>
-        /// <param name="blockHash">The <see
-        /// cref="Libplanet.Blocks.Block{T}.Hash"/> of
-        /// <see cref="Libplanet.Blocks.Block{T}"/> that this
-        /// <see cref="Transaction{T}"/> will belong to.</param>
-        /// <param name="blockIndex">The <see
-        /// cref="Libplanet.Blocks.Block{T}.Index"/> of
-        /// <see cref="Libplanet.Blocks.Block{T}"/> that this
-        /// <see cref="Transaction{T}"/> will belong to.</param>
-        /// <param name="previousStates">The states immediately before
-        /// <see cref="Actions"/> being executed.  Note that its
-        /// <see cref="IAccountStateDelta.UpdatedAddresses"/> are remained
-        /// to the returned next states.</param>
-        /// <param name="minerAddress">An address of block miner.</param>
-        /// <param name="rehearsal">Pass <c>true</c> if it is intended
-        /// to be dry-run (i.e., the returned result will be never used).
-        /// The default value is <c>false</c>.</param>
-        /// <returns>Enumerates <see cref="ActionEvaluation"/>s for each one in
-        /// <see cref="Actions"/>.
-        /// The order is the same to the <see cref="Actions"/>.
-        /// Note that each <see cref="IActionContext.Random"/> object has
-        /// a unconsumed state.
-        /// </returns>
-        /// <exception cref="UnexpectedlyTerminatedActionException">
-        /// Thrown when one of <see cref="Actions"/> throws some
-        /// exception during <paramref name="rehearsal"/> mode.
-        /// The actual exception that an <see cref="IAction"/> threw
-        /// is stored in its <see cref="Exception.InnerException"/> property.
-        /// It is never thrown if the <paramref name="rehearsal"/> option is
-        /// <c>false</c>.
-        /// </exception>
-        [Pure]
-        public IEnumerable<ActionEvaluation>
-        EvaluateActionsGradually(
-            HashDigest<SHA256> blockHash,
-            long blockIndex,
-            IAccountStateDelta previousStates,
-            Address minerAddress,
-            bool rehearsal = false
-        )
-        {
-            return ActionEvaluation.EvaluateActionsGradually(
-                blockHash,
-                blockIndex,
-                Id,
-                previousStates,
-                minerAddress,
-                Signer,
-                Signature,
-                Actions.Cast<IAction>().ToImmutableList(),
-                rehearsal);
-       }
+        /// <param name="sign">Whether to include its <see cref="Signature"/>.
+        /// Note that an encoding without signature cannot be decoded.
+        /// </param>
+        /// <returns>A <see cref="Bencodex.Types.Dictionary"/> typed
+        /// <a href="https://bencodex.org/">Bencodex</a>
+        /// representation of this <see cref="Transaction{T}"/>.</returns>
+        public Bencodex.Types.Dictionary ToBencodex(bool sign) =>
+            ToRawTransaction(sign).ToBencodex();
 
         /// <summary>
-        /// Executes the <see cref="Actions"/> and gets the result states.
-        /// </summary>
-        /// <param name="blockHash">The <see
-        /// cref="Libplanet.Blocks.Block{T}.Hash"/> of
-        /// <see cref="Libplanet.Blocks.Block{T}"/> that this
-        /// <see cref="Transaction{T}"/> will belong to.</param>
-        /// <param name="blockIndex">The <see
-        /// cref="Libplanet.Blocks.Block{T}.Index"/> of
-        /// <see cref="Libplanet.Blocks.Block{T}"/> that this
-        /// <see cref="Transaction{T}"/> will belong to.</param>
-        /// <param name="previousStates">The states immediately before
-        /// <see cref="Actions"/> being executed.  Note that its
-        /// <see cref="IAccountStateDelta.UpdatedAddresses"/> are remained
-        /// to the returned next states.</param>
-        /// <param name="minerAddress">An address of block miner.</param>
-        /// <param name="rehearsal">Pass <c>true</c> if it is intended
-        /// to be dry-run (i.e., the returned result will be never used).
-        /// The default value is <c>false</c>.</param>
-        /// <returns>The states immediately after <see cref="Actions"/>
-        /// being executed.  Note that it maintains
-        /// <see cref="IAccountStateDelta.UpdatedAddresses"/> of the given
-        /// <paramref name="previousStates"/> as well.</returns>
-        /// <exception cref="UnexpectedlyTerminatedActionException">
-        /// Thrown when one of <see cref="Actions"/> throws some
-        /// exception during <paramref name="rehearsal"/> mode.
-        /// The actual exception that an <see cref="IAction"/> threw
-        /// is stored in its <see cref="Exception.InnerException"/> property.
-        /// It is never thrown if the <paramref name="rehearsal"/> option is
-        /// <c>false</c>.
-        /// </exception>
-        [Pure]
-        public IAccountStateDelta EvaluateActions(
-            HashDigest<SHA256> blockHash,
-            long blockIndex,
-            IAccountStateDelta previousStates,
-            Address minerAddress,
-            bool rehearsal = false
-        )
-        {
-            var evaluations = EvaluateActionsGradually(
-                blockHash,
-                blockIndex,
-                previousStates,
-                minerAddress,
-                rehearsal: rehearsal
-            );
-
-            ActionEvaluation lastEvaluation;
-            try
-            {
-                lastEvaluation = evaluations.Last();
-            }
-            catch (InvalidOperationException)
-            {
-                // If "evaluations" is empty:
-                return previousStates;
-            }
-
-            return lastEvaluation.OutputStates;
-        }
-
-        /// <summary>
-        /// Validates this <see cref="Transaction{T}"/>.  If there is something
-        /// invalid it throws an exception.  If valid it does nothing.
+        /// Validates this <see cref="Transaction{T}"/> and throws an appropriate exception
+        /// if not valid.
         /// </summary>
         /// <exception cref="InvalidTxSignatureException">Thrown when its
         /// <see cref="Transaction{T}.Signature"/> is invalid or not signed by
@@ -605,7 +648,7 @@ namespace Libplanet.Tx
         /// <see cref="Transaction{T}.PublicKey"/>.</exception>
         public void Validate()
         {
-            if (!PublicKey.Verify(ToBencodex(false), Signature))
+            if (Signature.Length == 0 || !PublicKey.Verify(Serialize(false), Signature))
             {
                 string message =
                     $"The signature ({ByteUtil.Hex(Signature)}) is failed " +
@@ -620,18 +663,6 @@ namespace Libplanet.Tx
                     $"is not matched to the address ({Signer}).";
                 throw new InvalidTxPublicKeyException(Id, message);
             }
-        }
-
-        /// <inheritdoc />
-        public void GetObjectData(
-            SerializationInfo info,
-            StreamingContext context)
-        {
-            bool includeSignature =
-                context.Context is TransactionSerializationContext txContext &&
-                txContext.IncludeSignature;
-            RawTransaction rawTx = ToRawTransaction(includeSignature);
-            rawTx.GetObjectData(info, context);
         }
 
         /// <inheritdoc />
@@ -659,14 +690,17 @@ namespace Libplanet.Tx
 
         internal RawTransaction ToRawTransaction(bool includeSign)
         {
+            ImmutableArray<byte> genesisHash =
+                GenesisHash?.ToByteArray().ToImmutableArray() ?? ImmutableArray<byte>.Empty;
             var rawTx = new RawTransaction(
                 nonce: Nonce,
                 signer: Signer.ByteArray,
+                genesisHash: genesisHash,
                 updatedAddresses: UpdatedAddresses.Select(a =>
                     a.ByteArray).ToImmutableArray(),
                 publicKey: PublicKey.Format(false).ToImmutableArray(),
                 timestamp: Timestamp.ToString(TimestampFormat, CultureInfo.InvariantCulture),
-                actions: Actions.Select(a => a.PlainValue)
+                actions: Actions.Select(a => a.PlainValue).ToImmutableArray()
             );
 
             if (includeSign)

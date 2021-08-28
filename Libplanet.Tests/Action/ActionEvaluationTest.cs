@@ -1,29 +1,52 @@
 using Bencodex.Types;
 using Libplanet.Action;
+using Libplanet.Assets;
 using Libplanet.Crypto;
 using Libplanet.Tests.Common.Action;
+using Serilog;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Libplanet.Tests.Action
 {
     public class ActionEvaluationTest
     {
+        private readonly ILogger _logger;
+
+        public ActionEvaluationTest(ITestOutputHelper output)
+        {
+            Log.Logger = _logger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .Enrich.WithThreadId()
+                .WriteTo.TestOutput(output)
+                .CreateLogger()
+                .ForContext<ActionEvaluationTest>();
+        }
+
         [Fact]
         public void Constructor()
         {
-            Address address = new PrivateKey().PublicKey.ToAddress();
+            var txid = new System.Random().NextTxId();
+            Address address = new PrivateKey().ToAddress();
             var evaluation = new ActionEvaluation(
                 new DumbAction(address, "item"),
                 new ActionContext(
                     address,
+                    txid,
                     address,
                     1,
-                    new AccountStateDeltaImpl(_ => null),
+                    new AccountStateDeltaImpl(
+                        _ => null,
+                        (_, c) => new FungibleAssetValue(c),
+                        address
+                    ),
                     123,
                     false
                 ),
                 new AccountStateDeltaImpl(
-                    a => a.Equals(address) ? (Text)"item" : null
+                    a => a.Equals(address) ? (Text)"item" : null,
+                    (_, c) => new FungibleAssetValue(c),
+                    address
                 )
             );
             var action = (DumbAction)evaluation.Action;
@@ -31,6 +54,7 @@ namespace Libplanet.Tests.Action
             Assert.Equal(address, action.TargetAddress);
             Assert.Equal("item", action.Item);
             Assert.Equal(address, evaluation.InputContext.Signer);
+            Assert.Equal(txid, evaluation.InputContext.TxId);
             Assert.Equal(address, evaluation.InputContext.Miner);
             Assert.Equal(1, evaluation.InputContext.BlockIndex);
             Assert.Null(

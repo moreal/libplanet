@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Security.Cryptography;
 using Xunit;
@@ -14,9 +15,13 @@ namespace Libplanet.Tests
         public void AnswerSatisfiesDifficulty(byte[] challenge, long difficulty)
         {
             byte[] Stamp(Nonce nonce) => challenge.Concat(nonce.ToByteArray()).ToArray();
-            var answer = Hashcash.Answer(Stamp, difficulty);
-            var digest = Hashcash.Hash(Stamp(answer));
-            Assert.True(digest.Satisfies(difficulty));
+            (Nonce answer, ImmutableArray<byte> digest) =
+                Hashcash.Answer(Stamp, HashAlgorithmType.Of<SHA256>(), difficulty);
+            Assert.True(Satisfies(digest.ToArray(), difficulty));
+            TestUtils.AssertBytesEqual(
+                digest.ToArray(),
+                SHA256.Create().ComputeHash(Stamp(answer))
+            );
         }
 
         [Fact]
@@ -54,7 +59,7 @@ namespace Libplanet.Tests
                 digest = bytes;
             }
 
-            return new HashDigest<SHA256>(digest).Satisfies(difficulty);
+            return ByteUtil.Satisfies(digest, difficulty);
         }
     }
 

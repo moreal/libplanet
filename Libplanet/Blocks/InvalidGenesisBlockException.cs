@@ -1,5 +1,5 @@
+#nullable enable
 using System.Diagnostics.Contracts;
-using System.Security.Cryptography;
 using Libplanet.Blockchain;
 using Libplanet.Store;
 
@@ -8,7 +8,9 @@ namespace Libplanet.Blocks
     /// <summary>
     /// The exception that is thrown when the genesis block the <see cref="IStore"/> contains
     /// mismatches to the genesis block the <see cref="BlockChain{T}"/> constructor (i.e., network)
-    /// expects.
+    /// expects or the first block of <see cref="BlockLocator"/> which the <see cref="IStore"/>
+    /// doesn't contain, because the block which <see cref="IStore"/> doesn't means
+    /// the genesis block in other network.
     /// </summary>
     public class InvalidGenesisBlockException : InvalidBlockException
     {
@@ -21,9 +23,10 @@ namespace Libplanet.Blocks
         /// </param>
         /// <param name="message">The message that describes the error.</param>
         public InvalidGenesisBlockException(
-            HashDigest<SHA256> networkExpected,
-            HashDigest<SHA256> stored,
-            string message)
+            BlockHash networkExpected,
+            BlockHash stored,
+            string message
+        )
             : base(message)
         {
             NetworkExpected = networkExpected;
@@ -34,12 +37,12 @@ namespace Libplanet.Blocks
         /// The genesis block that the network expects.
         /// </summary>
         [Pure]
-        public HashDigest<SHA256> NetworkExpected { get; }
+        public BlockHash NetworkExpected { get; }
 
         /// <summary>
         /// The genesis block that a local <see cref="IStore"/> contains.
         /// </summary>
         [Pure]
-        public HashDigest<SHA256> Stored { get; }
+        public BlockHash Stored { get; }
     }
 }

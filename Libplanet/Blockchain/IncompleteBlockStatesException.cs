@@ -1,5 +1,5 @@
+#nullable enable
 using System;
-using System.Security.Cryptography;
 using Libplanet.Blocks;
 
 namespace Libplanet.Blockchain
@@ -20,12 +20,12 @@ namespace Libplanet.Blockchain
         /// <param name="message">Specifies the <see cref="Exception.Message"/>.
         /// </param>
         public IncompleteBlockStatesException(
-            HashDigest<SHA256> blockHash,
-            string message = null)
+            BlockHash blockHash,
+            string? message = null)
             : base(
                 message is null
-                    ? $"{blockHash} lacks states"
-                    : $"{message}\nBlock that lacks states: {blockHash}")
+                    ? $"The block {blockHash} lacks its states"
+                    : $"{message}\nThe Block that lacks its states: {blockHash}")
         {
             BlockHash = blockHash;
         }
@@ -34,6 +34,6 @@ namespace Libplanet.Blockchain
         /// The <see cref="Block{T}.Hash"/> of <see cref="Block{T}"/> that
         /// a <see cref="BlockChain{T}"/> lacks the states.
         /// </summary>
-        public HashDigest<SHA256> BlockHash { get; }
+        public BlockHash BlockHash { get; }
     }
 }

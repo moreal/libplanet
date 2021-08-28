@@ -12,7 +12,7 @@ namespace Libplanet.Tests.Action
         [Fact]
         public void PlainValue()
         {
-            var addr = new PrivateKey().PublicKey.ToAddress();
+            var addr = new PrivateKey().ToAddress();
             var pa = new PolymorphicAction<BaseAction>(
                 new Attack
                 {
@@ -29,7 +29,7 @@ namespace Libplanet.Tests.Action
                     {
                         [(Text)"weapon"] = (Text)"frying pan",
                         [(Text)"target"] = (Text)"mosquito",
-                        [(Text)"target_address"] = new Binary(addr.ToByteArray()),
+                        [(Text)"target_address"] = new Binary(addr.ByteArray),
                     }),
                 }),
                 pa.PlainValue
@@ -39,7 +39,7 @@ namespace Libplanet.Tests.Action
         [Fact]
         public void LoadPlainValue()
         {
-            var addr = new PrivateKey().PublicKey.ToAddress();
+            var addr = new PrivateKey().ToAddress();
 #pragma warning disable 612
             var pa = new PolymorphicAction<BaseAction>();
 #pragma warning restore 612
@@ -51,7 +51,7 @@ namespace Libplanet.Tests.Action
                     {
                         [(Text)"weapon"] = (Text)"frying pan",
                         [(Text)"target"] = (Text)"mosquito",
-                        [(Text)"target_address"] = new Binary(addr.ToByteArray()),
+                        [(Text)"target_address"] = new Binary(addr.ByteArray),
                     }),
                 })
             );
@@ -66,7 +66,7 @@ namespace Libplanet.Tests.Action
         [Fact]
         public void ImplicitlyCastFromInnerActionType()
         {
-            var addr = new PrivateKey().PublicKey.ToAddress();
+            var addr = new PrivateKey().ToAddress();
             var a = new Attack
             {
                 Weapon = "frying pan",
@@ -80,48 +80,26 @@ namespace Libplanet.Tests.Action
         [Fact]
         public void DetectLackOfActionType()
         {
-            var action = new ActionNotAttributeAnnotated();
+            var action = new NullAction();
 
             Assert.Throws<MissingActionTypeException>(
-                () => new PolymorphicAction<ActionNotAttributeAnnotated>(action)
+                () => new PolymorphicAction<NullAction>(action)
             );
         }
 
-        private class ActionNotAttributeAnnotated : IAction
+        [Fact]
+        public void PolymorphicActionToString()
         {
-            public ActionNotAttributeAnnotated()
-            {
-            }
-
-            public IValue PlainValue =>
-                default(Dictionary);
-
-            public void LoadPlainValue(
-                Dictionary plainValue)
-            {
-            }
-
-            public void LoadPlainValue(IValue plainValue)
-            {
-                LoadPlainValue((Dictionary)plainValue);
-            }
-
-            public IAccountStateDelta Execute(IActionContext context)
-            {
-                return context.PreviousStates;
-            }
-
-            public void Render(
-                IActionContext context,
-                IAccountStateDelta nextStates)
-            {
-            }
-
-            public void Unrender(
-                IActionContext context,
-                IAccountStateDelta nextStates)
-            {
-            }
+            Assert.Equal(
+                "Libplanet.Action.PolymorphicAction<Libplanet.Tests.Common.Action.Sleep>",
+                new PolymorphicAction<BaseAction>(new Sleep()).ToString());
+            Assert.Equal(
+                "Libplanet.Action.PolymorphicAction<Libplanet.Tests.Common.Action.Attack>",
+                new PolymorphicAction<BaseAction>(new Attack()).ToString());
+            Assert.Equal(
+                "Libplanet.Action.PolymorphicAction" +
+                "<Libplanet.Tests.Common.Action.DetectRehearsal>",
+                new PolymorphicAction<BaseAction>(new DetectRehearsal()).ToString());
         }
     }
 }

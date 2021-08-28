@@ -2,18 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Security.Cryptography;
+using Libplanet.Action;
 using Libplanet.Blocks;
 using Libplanet.Crypto;
 using Libplanet.Store;
+using Libplanet.Store.Trie;
 using Libplanet.Tests.Common.Action;
+using Libplanet.Tests.Store.Trie;
 using Libplanet.Tx;
 
 namespace Libplanet.Tests.Store
 {
     public abstract class StoreFixture : IDisposable
     {
-        public StoreFixture()
+        protected StoreFixture(IAction blockAction = null)
         {
+            Path = null;
+
+            Scheme = string.Empty;
+
             StoreChainId = Guid.NewGuid();
 
             Address1 = new Address(new byte[]
@@ -62,21 +69,21 @@ namespace Libplanet.Tests.Store
                 0x88, 0x69, 0x58, 0xbc, 0x3e, 0x85, 0x60, 0x92, 0x9c, 0xcc,
                 0x9c, 0xee,
             });
-            Hash1 = new HashDigest<SHA256>(new byte[]
+            Hash1 = new BlockHash(new byte[]
             {
                 0x45, 0xa2, 0x21, 0x87, 0xe2, 0xd8, 0x85, 0x0b, 0xb3, 0x57,
                 0x88, 0x69, 0x58, 0xbc, 0x3e, 0x85, 0x60, 0x92, 0x9c, 0xcc,
                 0x88, 0x69, 0x58, 0xbc, 0x3e, 0x85, 0x60, 0x92, 0x9c, 0xcc,
                 0x9c, 0xcc,
             });
-            Hash2 = new HashDigest<SHA256>(new byte[]
+            Hash2 = new BlockHash(new byte[]
             {
                 0x45, 0xa2, 0x21, 0x87, 0xe2, 0xd8, 0x85, 0x0b, 0xb3, 0x57,
                 0x88, 0x69, 0x58, 0xbc, 0x3e, 0x85, 0x60, 0x92, 0x9c, 0xcc,
                 0x88, 0x69, 0x58, 0xbc, 0x3e, 0x85, 0x60, 0x92, 0x9c, 0xcc,
                 0x9c, 0xdd,
             });
-            Hash3 = new HashDigest<SHA256>(new byte[]
+            Hash3 = new BlockHash(new byte[]
             {
                 0x45, 0xa2, 0x21, 0x87, 0xe2, 0xd8, 0x85, 0x0b, 0xb3, 0x57,
                 0x88, 0x69, 0x58, 0xbc, 0x3e, 0x85, 0x60, 0x92, 0x9c, 0xcc,
@@ -84,15 +91,25 @@ namespace Libplanet.Tests.Store
                 0x9c, 0xee,
             });
 
-            GenesisBlock = TestUtils.MineGenesis<DumbAction>();
-            Block1 = TestUtils.MineNext(GenesisBlock);
-            Block2 = TestUtils.MineNext(Block1);
-            Block3 = TestUtils.MineNext(Block2);
+            var stateStore =
+                new TrieStateStore(new MemoryKeyValueStore(), new MemoryKeyValueStore());
+            GenesisBlock = TestUtils.MineGenesis<DumbAction>(GetHashAlgorithm)
+                .AttachStateRootHash(GetHashAlgorithm(0), stateStore, blockAction);
+            Block1 = TestUtils.MineNext(GenesisBlock, GetHashAlgorithm)
+                .AttachStateRootHash(GetHashAlgorithm(1), stateStore, blockAction);
+            Block2 = TestUtils.MineNext(Block1, GetHashAlgorithm)
+                .AttachStateRootHash(GetHashAlgorithm(2), stateStore, blockAction);
+            Block3 = TestUtils.MineNext(Block2, GetHashAlgorithm)
+                .AttachStateRootHash(GetHashAlgorithm(3), stateStore, blockAction);
 
             Transaction1 = MakeTransaction(new List<DumbAction>(), ImmutableHashSet<Address>.Empty);
             Transaction2 = MakeTransaction(new List<DumbAction>(), ImmutableHashSet<Address>.Empty);
             Transaction3 = MakeTransaction(new List<DumbAction>(), ImmutableHashSet<Address>.Empty);
         }
+
+        public string Path { get; set; }
+
+        public string Scheme { get; set; }
 
         public Guid StoreChainId { get; }
 
@@ -112,11 +129,11 @@ namespace Libplanet.Tests.Store
 
         public TxId TxId3 { get; }
 
-        public HashDigest<SHA256> Hash1 { get; }
+        public BlockHash Hash1 { get; }
 
-        public HashDigest<SHA256> Hash2 { get; }
+        public BlockHash Hash2 { get; }
 
-        public HashDigest<SHA256> Hash3 { get; }
+        public BlockHash Hash3 { get; }
 
         public Block<DumbAction> GenesisBlock { get; }
 
@@ -134,6 +151,12 @@ namespace Libplanet.Tests.Store
 
         public IStore Store { get; set; }
 
+        public IStateStore StateStore { get; set; }
+
+        public IKeyValueStore StateHashKeyValueStore { get; set; }
+
+        public IKeyValueStore StateKeyValueStore { get; set; }
+
         public abstract void Dispose();
 
         public Transaction<DumbAction> MakeTransaction(
@@ -145,15 +168,18 @@ namespace Libplanet.Tests.Store
         )
         {
             privateKey = privateKey ?? new PrivateKey();
-            timestamp = timestamp ??
-                new DateTimeOffset(2018, 11, 21, 0, 0, 0, TimeSpan.Zero);
+            timestamp = timestamp ?? DateTimeOffset.UtcNow;
+
             return Transaction<DumbAction>.Create(
                 nonce,
                 privateKey,
+                GenesisBlock.Hash,
                 actions ?? new DumbAction[0],
                 updatedAddresses,
                 timestamp
             );
         }
+
+        public HashAlgorithmType GetHashAlgorithm(long index) => HashAlgorithmType.Of<SHA256>();
     }
 }
