@@ -1,6 +1,135 @@
 Libplanet changelog
 ===================
 
+Version 0.22.0
+--------------
+
+To be released.
+
+### Deprecated APIs
+
+### Backward-incompatible API changes
+
+### Backward-incompatible network protocol changes
+
+### Backward-incompatible storage format changes
+
+### Added APIs
+
+### Behavioral changes
+
+ -  `Swarm<T>` became to append blocks to forked chain to avoid locking
+    the canonical chain while syncing recent blocks. [[#1606]]
+
+### Bug fixes
+
+### CLI tools
+
+[#1606]: https://github.com/planetarium/libplanet/pull/1606
+
+
+Version 0.21.0
+--------------
+
+Released on November 16, 2021.
+
+### Backward-incompatible API changes
+
+ -  (Libplanet.RocksDBStore) Removed `MonoRocksDBStore` class.
+    [[#1513], [#1579]]
+ -  Removed `rehearsal` parameter from `ITrie.Commit()` method.
+    [[#1554], [#1570]]
+ -  Removed `rehearsal` parameter from `StateStoreExtensions.Commit()`
+    extension method.  [[#1554], [#1570]]
+ -  Removed `ITransport.RunAsync()` method.
+    `ITransport.StartAsync()` now conducts operation that
+    `ITransport.RunAsync()` used to conduct.  [[#1523]]
+ -  Removed `ITransport.ReplyMessage()` method which was non-blocking.
+    Instead, added `ITransport.ReplyMessageAsync()` asynchronous method
+    which is awaited until the reply message is sent.  [[#1523]]
+ -  The type of `ITransport.ProcessMessageHandler` became
+    `AsyncDelegate<T>` (which was `EventHandler`).  [[#1523]]
+ -  Removed unused `BlockChain<T>` type parameter from
+    `IStagePolicy<T>.Iterate()` method.  [[#1553], [#1556]]
+ -  Removed unsued `HashAlgorithmTable` class.  [[#1600]]
+ -  `BlockChain<T>.MineBlock()` and `BlockChain<T>.GatherTransactionsToMine()`
+    now additionally accepts `maxBlockBytes` parameter of type `int`.  [[#1600]]
+ -  Removed `BlockInsufficientTxsException` and
+    `BlockExceedingTransactionsException` classes.  [[#1504], [#1600]]
+
+### Added APIs
+
+ -  Added `ITransport.MessageHistory` property.  [[#1523]]
+ -  Added `ITransport.WaitForRunning()` method.  [[#1523]]
+ -  Added `TcpTransport` class which implements `ITransport` interface.
+    [[#1523]]
+ -  Added `SwarmOptions.Type` property.  [[#1523]]
+ -  Added `SwarmOptions.TransportType` enum.  [[#1523]]
+ -  Added `AsyncDelegate<T>` class.  [[#1523]]
+ -  Added `InvalidMagicCookieException` class.  [[#1523]]
+ -  Added `MessageCodec` class which inherits `IMessageCodec<T>`.
+    [[#1523]]
+ -  Added `IStagePolicy<T>.GetNextTxNonce()` method.  [[#1553], [#1556]]
+ -  Added `InvalidBlockBytesLengthException`, `InvalidBlockTxCountException`,
+    `InvalidBlockHashAlgorithmTypeException`, and
+    `InvalidBlockTxCountPerSignerException` classes.  [[#1504], [#1600]]
+
+### Behavioral changes
+
+ -  Improved performance of `MerkleTrie.Commit()` and
+    `BlockChain<T>.ExecuteActions()` methods.   [[#1554], [#1570]]
+ -  `Swarm<T>.MineBlock()` now throws `OperationCanceledException` instead
+    of `BlockInsufficientTxsException` when there are no sufficient number
+    of blocks to mine.  [[#1600]]
+ -  Default implementation `BlockPolicy<T>.ValidateNextBlock()`
+    of `IBlockPolicy<T>` now validates the type for `Block<T>.HashAlgorithm`,
+    size for `Block<T>.BytesLength`, and count for `Block<T>.Transactions`.
+    [[#1504], [#1600]]
+
+### CLI tools
+
+ -  `planet stats` command's `-p`/`--path` option no more supports the store
+    type `monorocksdb`.  [[#1513], [#1579]]
+ -  Subcommands under `planet store` no more supports the store type
+    `monorocksdb`.  [[#1513], [#1579]]
+
+[#1504]: https://github.com/planetarium/libplanet/issues/1504
+[#1554]: https://github.com/planetarium/libplanet/issues/1554
+[#1570]: https://github.com/planetarium/libplanet/pull/1570
+[#1579]: https://github.com/planetarium/libplanet/pull/1579
+[#1523]: https://github.com/planetarium/libplanet/pull/1523
+[#1600]: https://github.com/planetarium/libplanet/pull/1600
+
+
+Version 0.20.2
+--------------
+
+Released on November 9, 2021.
+
+ -  (Libplnaet.RocksDBStore) Fixed `DefaultStore.ForkBlockIndexes()` method's
+    bug that it had been thrown `ChainIdNotFoundException` when received a
+    chain forked from already deleted.  [[#1591], [#1592]]
+ -  Fixed improper implementations of `BlockExceedingTransactionsException`
+    `InvalidBlockBytesLengthException` in regards to serialization and
+    related tests.  [[#1594]]
+
+[#1591]: https://github.com/planetarium/libplanet/issues/1591
+[#1592]: https://github.com/planetarium/libplanet/pull/1592
+[#1594]: https://github.com/planetarium/libplanet/pull/1594
+
+
+Version 0.20.1
+--------------
+
+Released on November 8, 2021.
+
+ -  `Swarm<T>` became to broadcast a new block to peers immediately after
+    `Swarm<T>.BlockChain`'s `Tip` changes while it is `Running`.
+    [[#1582], [#1586]]
+
+[#1586]: https://github.com/planetarium/libplanet/pull/1586
+
+
 Version 0.20.0
 --------------
 
