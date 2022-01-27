@@ -105,6 +105,9 @@ namespace Libplanet.Blockchain
             using CancellationTokenSource cancellationTokenSource =
                 CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, cts.Token);
 
+            var totalStopwatch = new Stopwatch();
+            var stopwatch = new Stopwatch();
+
             void WatchTip(object target, (Block<T> OldTip, Block<T> NewTip) tip)
             {
                 try
@@ -116,6 +119,9 @@ namespace Libplanet.Blockchain
                     // Ignore if mining was already finished.
                 }
             }
+
+            _logger.Debug($"{nameof(MineBlock)} started");
+            totalStopwatch.Start();
 
             long index = Count;
             long difficulty = Policy.GetNextBlockDifficulty(this);
@@ -144,6 +150,8 @@ namespace Libplanet.Blockchain
                 Timestamp = timestamp,
             };
 
+            _logger.Debug($"{nameof(GatherTransactionsToMine)} started");
+            stopwatch.Restart();
             var transactionsToMine = GatherTransactionsToMine(
                 metadata,
                 maxBlockBytes: maxBlockBytes,
@@ -151,6 +159,10 @@ namespace Libplanet.Blockchain
                 maxTransactionsPerSigner: maxTransactionsPerSigner,
                 txPriority: txPriority
             );
+            stopwatch.Stop();
+            _logger.Debug(
+                $"{nameof(GatherTransactionsToMine)} finished after" +
+                $" {stopwatch.ElapsedMilliseconds} (MineBlock)");
 
             if (transactionsToMine.Count < Policy.GetMinTransactionsPerBlock(index))
             {
@@ -196,10 +208,27 @@ namespace Libplanet.Blockchain
                 TipChanged -= WatchTip;
             }
 
+            stopwatch.Restart();
             (Block<T> block, IReadOnlyList<ActionEvaluation> actionEvaluations) =
                 preEval.EvaluateActions(miner, this);
+            stopwatch.Stop();
+            _logger.Debug(
+                $"{nameof(preEval.EvaluateActions)} finished after" +
+                $" {stopwatch.ElapsedMilliseconds} (MineBlock)");
+
+            stopwatch.Restart();
             IEnumerable<TxExecution> txExecutions = MakeTxExecutions(block, actionEvaluations);
+            stopwatch.Stop();
+            _logger.Debug(
+                $"{nameof(MakeTxExecutions)} finished after" +
+                $" {stopwatch.ElapsedMilliseconds} (MineBlock)");
+
+            stopwatch.Restart();
             UpdateTxExecutions(txExecutions);
+            stopwatch.Stop();
+            _logger.Debug(
+                $"{nameof(UpdateTxExecutions)} finished after" +
+                $" {stopwatch.ElapsedMilliseconds} (MineBlock)");
 
             _logger.Debug(
                 "{SessionId}/{ProcessId}: Mined block #{Index} {Hash} " +
@@ -213,13 +242,23 @@ namespace Libplanet.Blockchain
 
             if (append)
             {
+                stopwatch.Restart();
                 Append(
                     block,
                     evaluateActions: true,
                     renderBlocks: true,
                     renderActions: true,
                     actionEvaluations: actionEvaluations);
+                stopwatch.Stop();
+                _logger.Debug(
+                    $"{nameof(Append)} finished after" +
+                    $" {stopwatch.ElapsedMilliseconds} (MineBlock)");
             }
+
+            totalStopwatch.Stop();
+            _logger.Debug(
+                $"{nameof(MineBlock)} finished after" +
+                $" {totalStopwatch.ElapsedMilliseconds} (MineBlock)");
 
             return block;
         }
