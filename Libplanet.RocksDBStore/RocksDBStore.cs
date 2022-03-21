@@ -472,13 +472,13 @@ namespace Libplanet.RocksDBStore
                         txDb = RocksDBUtils.OpenRocksDb(_options, TxDbPath(txDbName));
                         _txDbCache.AddOrUpdate(txDbName, txDb);
                     }
+
+                    byte[] txBytes = txDb.Get(key);
+
+                    Transaction<T> tx = Transaction<T>.Deserialize(txBytes, false);
+                    _txCache.AddOrUpdate(txid, tx);
+                    return tx;
                 }
-
-                byte[] txBytes = txDb.Get(key);
-
-                Transaction<T> tx = Transaction<T>.Deserialize(txBytes, false);
-                _txCache.AddOrUpdate(txid, tx);
-                return tx;
             }
             catch (Exception e)
             {
@@ -518,11 +518,11 @@ namespace Libplanet.RocksDBStore
                         txDb = RocksDBUtils.OpenRocksDb(_options, TxDbPath(txDbName));
                         _txDbCache.AddOrUpdate(txDbName, txDb);
                     }
-                }
 
-                txDb.Put(key, tx.Serialize(true));
-                _txIndexDb.Put(key, RocksDBStoreBitConverter.GetBytes(txDbName));
-                _txCache.AddOrUpdate(tx.Id, tx);
+                    txDb.Put(key, tx.Serialize(true));
+                    _txIndexDb.Put(key, RocksDBStoreBitConverter.GetBytes(txDbName));
+                    _txCache.AddOrUpdate(tx.Id, tx);
+                }
             }
             catch (Exception e)
             {
@@ -557,13 +557,13 @@ namespace Libplanet.RocksDBStore
                         txDb = RocksDBUtils.OpenRocksDb(_options, TxDbPath(txDbName));
                         _txDbCache.AddOrUpdate(txDbName, txDb);
                     }
+
+                    _txCache.Remove(txid);
+                    _txIndexDb.Remove(key);
+                    txDb.Remove(key);
+
+                    return true;
                 }
-
-                _txCache.Remove(txid);
-                _txIndexDb.Remove(key);
-                txDb.Remove(key);
-
-                return true;
             }
             catch (Exception e)
             {
@@ -637,17 +637,17 @@ namespace Libplanet.RocksDBStore
                         blockDb = RocksDBUtils.OpenRocksDb(_options, BlockDbPath(blockDbName));
                         _blockDbCache.AddOrUpdate(blockDbName, blockDb);
                     }
+
+                    if (!(blockDb.Get(key) is byte[] blockBytes))
+                    {
+                        return null;
+                    }
+
+                    BlockDigest blockDigest = BlockDigest.Deserialize(blockBytes);
+
+                    _blockCache.AddOrUpdate(blockHash, blockDigest);
+                    return blockDigest;
                 }
-
-                if (!(blockDb.Get(key) is byte[] blockBytes))
-                {
-                    return null;
-                }
-
-                BlockDigest blockDigest = BlockDigest.Deserialize(blockBytes);
-
-                _blockCache.AddOrUpdate(blockHash, blockDigest);
-                return blockDigest;
             }
             catch (Exception e)
             {
@@ -695,13 +695,13 @@ namespace Libplanet.RocksDBStore
                         blockDb = RocksDBUtils.OpenRocksDb(_options, BlockDbPath(blockDbName));
                         _blockDbCache.AddOrUpdate(blockDbName, blockDb);
                     }
-                }
 
-                BlockDigest digest = BlockDigest.FromBlock(block);
-                byte[] value = digest.Serialize();
-                blockDb.Put(key, value);
-                _blockIndexDb.Put(key, RocksDBStoreBitConverter.GetBytes(blockDbName));
-                _blockCache.AddOrUpdate(block.Hash, digest);
+                    BlockDigest digest = BlockDigest.FromBlock(block);
+                    byte[] value = digest.Serialize();
+                    blockDb.Put(key, value);
+                    _blockIndexDb.Put(key, RocksDBStoreBitConverter.GetBytes(blockDbName));
+                    _blockCache.AddOrUpdate(block.Hash, digest);
+                }
             }
             catch (Exception e)
             {
