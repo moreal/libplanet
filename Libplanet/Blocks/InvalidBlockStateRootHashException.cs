@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
+using Libplanet.Action;
 using Libplanet.Serialization;
 
 namespace Libplanet.Blocks
@@ -20,15 +23,19 @@ namespace Libplanet.Blocks
         /// <param name="expectedStateRootHash">The hash recorded as
         /// <see cref="Block{T}.StateRootHash"/>>.</param>
         /// <param name="actualStateRootHash">The hash of state trie on the block executed.</param>
+        /// <param name="evaluations">The <see cref="ActionEvaluation"/>s of the executed block.
+        /// </param>
         /// <param name="message">The message that describes the error.</param>
         public InvalidBlockStateRootHashException(
             HashDigest<SHA256> expectedStateRootHash,
             HashDigest<SHA256> actualStateRootHash,
+            IEnumerable<ActionEvaluation> evaluations,
             string message)
             : base(message)
         {
             ActualStateRootHash = actualStateRootHash;
             ExpectedStateRootHash = expectedStateRootHash;
+            Evaluations = evaluations.ToImmutableList();
         }
 
         private InvalidBlockStateRootHashException(
@@ -39,6 +46,8 @@ namespace Libplanet.Blocks
                 info.GetValue<HashDigest<SHA256>>(nameof(ActualStateRootHash));
             ExpectedStateRootHash =
                 info.GetValue<HashDigest<SHA256>>(nameof(ExpectedStateRootHash));
+            Evaluations =
+                info.GetValue<ImmutableList<ActionEvaluation>>(nameof(Evaluations));
         }
 
         /// <summary>
@@ -53,12 +62,18 @@ namespace Libplanet.Blocks
         [Pure]
         public HashDigest<SHA256> ExpectedStateRootHash { get; }
 
+        /// <summary>
+        /// The <see cref="ActionEvaluation"/>s of the executed block.
+        /// </summary>
+        public ImmutableList<ActionEvaluation>? Evaluations { get; }
+
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
 
             info.AddValue(nameof(ActualStateRootHash), ActualStateRootHash);
             info.AddValue(nameof(ExpectedStateRootHash), ExpectedStateRootHash);
+            info.AddValue(nameof(Evaluations), Evaluations);
         }
     }
 }

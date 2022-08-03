@@ -816,6 +816,7 @@ namespace Libplanet.Blockchain
                     throw new InvalidBlockStateRootHashException(
                         block.StateRootHash,
                         rootHash,
+                        evaluations,
                         message);
                 }
 

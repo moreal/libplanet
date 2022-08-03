@@ -13,6 +13,8 @@ To be released.
  -  Removed `ChainIdNotFoundException` class. [[#2047], [#2156]]
  -  Added `IStore.GetCanonicalGenesisBlock(HashAlgorithmGetter)` method.
     [[#2162], [#2171]]
+ -  Added `IEnumerable<ActionEvaluation> evaluations` parameter to
+    `InvalidBlockStateRootHashException` constructor.  [[#2194]]
 
 ### Backward-incompatible network protocol changes
 
@@ -31,6 +33,7 @@ To be released.
  -  Added `IAccountStateView` interface.  [[#2183]]
  -  `IAccountStateDelta` now inherits `IAccountStateView` interface.
     [[#2183]]
+ -  Added `InvalidBlockStateRootHashException.Evaluations` property.  [[#2194]]
 
 ### Behavioral changes
 
@@ -58,6 +61,7 @@ To be released.
 [#2173]: https://github.com/planetarium/libplanet/pull/2173
 [#2179]: https://github.com/planetarium/libplanet/pull/2179
 [#2183]: https://github.com/planetarium/libplanet/pull/2183
+[#2194]: https://github.com/planetarium/libplanet/pull/2194
 
 
 Version 0.39.0
