@@ -524,7 +524,11 @@ namespace Libplanet.RocksDBStore
                 return cached;
             }
 
-            List<BlockHash> indexes = IterateIndexes(chainId, offset, limit, false)
+            List<BlockHash> indexes = IterateIndexes(
+                    chainId,
+                    offset,
+                    limit is { } limitNotNull ? offset + limitNotNull - 1 : long.MaxValue,
+                    false)
                 .ToList();
 
             if (ic is null)
@@ -1356,45 +1360,58 @@ namespace Libplanet.RocksDBStore
 
         private IEnumerable<BlockHash> IterateIndexes(
             Guid chainId,
-            int offset,
-            int? limit,
+            int startIndex,
+            long endIndex,
             bool includeDeleted
         )
         {
             if (!includeDeleted && IsDeletionMarked(chainId))
             {
-                yield break;
+                return Enumerable.Empty<BlockHash>();
             }
-
-            long count = 0;
 
             if (GetPreviousChainInfo(chainId) is { } chainInfo)
             {
                 Guid prevId = chainInfo.Item1;
-                long pi = chainInfo.Item2;
 
-                int expectedCount = (int)(pi - offset + 1);
-                if (limit is { } limitNotNull && limitNotNull < expectedCount)
+                // if chainA has 0 1 2 and chainB has 3 4, Item2 is 2.
+                long pi = chainInfo.Item2;  // branchpoint
+
+                // This chain id is what you are looking.
+                if (pi + 1 == startIndex)
                 {
-                    expectedCount = limitNotNull;
+                    return IterateBlockHashes(
+                        chainId,
+                        0,
+                        endIndex == long.MaxValue ? long.MaxValue : endIndex - startIndex + 1);
                 }
 
-                foreach (BlockHash hash in IterateIndexes(prevId, offset, expectedCount, true))
+                // Skip previous chain because they will be skipped totally.
+                if (pi < startIndex)
                 {
-                    if (count >= limit)
-                    {
-                        yield break;
-                    }
-
-                    yield return hash;
-                    count += 1;
+                    return Enumerable.Empty<BlockHash>();
                 }
 
-                offset = (int)Math.Max(0, offset - pi - 1);
+                return IterateIndexes(prevId, startIndex, pi < endIndex ? pi : endIndex, true)
+                    .Concat(IterateBlockHashes(chainId, (int)(startIndex - pi), endIndex - pi));
             }
 
+            // If it is last edition.
+            return IterateBlockHashes(
+                chainId,
+                startIndex,
+                endIndex == long.MaxValue ? long.MaxValue : endIndex - startIndex + 1);
+        }
+
+        private IEnumerable<BlockHash> IterateBlockHashes(
+            Guid chainId,
+            int skip,
+            long? limit
+        )
+        {
+            int count = 0;
             byte[] prefix = IndexKeyPrefix.Concat(chainId.ToByteArray()).ToArray();
-            foreach (Iterator it in IterateDb(_chainDb, prefix).Skip(offset))
+            foreach (Iterator it in IterateDb(_chainDb, prefix).Skip(skip))
             {
                 if (count >= limit)
                 {
