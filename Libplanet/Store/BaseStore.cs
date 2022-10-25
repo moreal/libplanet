@@ -194,11 +194,13 @@ namespace Libplanet.Store
             );
             var favDelta = SerializeGroupedFAVs(txSuccess.FungibleAssetsDelta);
             var updatedFAVs = SerializeGroupedFAVs(txSuccess.UpdatedFungibleAssets);
+            var eventLogs = SerializeEventLogs(txSuccess.EventLogs);
             return Dictionary.Empty
                 .Add("fail", false)
                 .Add("sDelta", sDelta)
                 .Add("favDelta", new Dictionary(favDelta))
-                .Add("updatedFAVs", new Dictionary(updatedFAVs));
+                .Add("updatedFAVs", new Dictionary(updatedFAVs))
+                .Add("eventLogs", eventLogs);
         }
 
         protected static IValue SerializeTxExecution(TxFailure txFailure)
@@ -243,12 +245,14 @@ namespace Libplanet.Store
                     favDelta = DeserializeGroupedFAVs(d.GetValue<Dictionary>("favDelta"));
                 IImmutableDictionary<Address, IImmutableDictionary<Currency, FungibleAssetValue>>
                     updatedFAVs = DeserializeGroupedFAVs(d.GetValue<Dictionary>("updatedFAVs"));
+                List<EventLog> eventLogs = DeserializeEventLogs(d.GetValue<List>("eventLogs"));
                 return new TxSuccess(
                     blockHash,
                     txid,
                     sDelta,
                     favDelta,
-                    updatedFAVs
+                    updatedFAVs,
+                    eventLogs
                 );
             }
             catch (Exception e)
@@ -279,6 +283,16 @@ namespace Libplanet.Store
                 kv => new Address((Binary)kv.Key),
                 kv => DeserializeFAVs((List)kv.Value)
             );
+
+        private static Bencodex.Types.List SerializeEventLogs(
+            List<EventLog> eventLogs
+        ) =>
+            new List(eventLogs
+                .Select(e => new List(new IValue[] { (Text)e.Event }.Concat(e.Arguments))));
+
+        private static List<EventLog> DeserializeEventLogs(Bencodex.Types.List serialized) =>
+            serialized.Cast<List>().Select(e => new EventLog((Text)e[0], e.Skip(1).ToArray()))
+                .ToList();
 
         private static Bencodex.Types.List SerializeFAVs(
             IImmutableDictionary<Currency, FungibleAssetValue> favs

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Security.Cryptography;
 using Libplanet.Assets;
@@ -90,6 +91,8 @@ namespace Libplanet.Action
         /// </summary>
         [Pure]
         bool BlockAction { get; }
+
+        List<EventLog> EventLogs { get; }
 
         /// <summary>
         /// Checks whether the specified <paramref name="currency"/> is a native token defined by

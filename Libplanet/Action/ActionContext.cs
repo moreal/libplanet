@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Security.Cryptography;
 using Libplanet.Assets;
@@ -40,6 +41,7 @@ namespace Libplanet.Action
             _previousBlockStatesTrie = previousBlockStatesTrie;
             BlockAction = blockAction;
             _nativeTokenPredicate = nativeTokenPredicate;
+            EventLogs = new List<EventLog>();
         }
 
         public BlockHash? GenesisHash { get; }
@@ -57,6 +59,8 @@ namespace Libplanet.Action
         public IAccountStateDelta PreviousStates { get; }
 
         public IRandom Random { get; }
+
+        public List<EventLog> EventLogs { get; }
 
         public HashDigest<SHA256>? PreviousStateRootHash
         {

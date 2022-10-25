@@ -36,18 +36,22 @@ namespace Libplanet.Tx
         /// <see cref="Currency"/> whose fungible assets have been updated by the actions in
         /// the transaction within the block.  Included <see cref="FungibleAssetValue"/>s are
         /// the final balances right after the transaction is executed.</param>
+        /// <param name="eventLogs">asdasdasdsa.</param>
         public TxSuccess(
             BlockHash blockHash,
             TxId txId,
             IImmutableDictionary<Address, IValue?> updatedStates,
             IImmutableDictionary<Address, IImmutableDictionary<Currency, FAV>> fungibleAssetsDelta,
-            IImmutableDictionary<Address, IImmutableDictionary<Currency, FAV>> updatedFungibleAssets
+            IImmutableDictionary<Address, IImmutableDictionary<Currency, FAV>>
+                updatedFungibleAssets,
+            List<EventLog>? eventLogs = null
         )
             : base(blockHash, txId)
         {
             UpdatedStates = updatedStates;
             FungibleAssetsDelta = fungibleAssetsDelta;
             UpdatedFungibleAssets = updatedFungibleAssets;
+            EventLogs = eventLogs ?? new List<EventLog>();
         }
 
         private TxSuccess(SerializationInfo info, StreamingContext context)
@@ -65,6 +69,7 @@ namespace Libplanet.Tx
             UpdatedFungibleAssets = DecodeFungibleAssetGroups(
                 info.GetValue<byte[]>(nameof(UpdatedFungibleAssets))
             );
+            EventLogs = info.GetValue<List<EventLog>>(nameof(EventLogs));
         }
 
         /// <summary>
@@ -92,6 +97,8 @@ namespace Libplanet.Tx
         [Pure]
         public IImmutableDictionary<Address, IImmutableDictionary<Currency, FAV>>
             UpdatedFungibleAssets { get; }
+
+        public List<EventLog> EventLogs { get; }
 
         /// <summary>
         /// All <seealso cref="Address"/>es of the accounts that have been updated by the actions
@@ -125,6 +132,10 @@ namespace Libplanet.Tx
             info.AddValue(
                 nameof(UpdatedFungibleAssets),
                 EncodeFungibleAssetGroups(UpdatedFungibleAssets)
+            );
+            info.AddValue(
+                nameof(EventLogs),
+                EventLogs
             );
         }
 
