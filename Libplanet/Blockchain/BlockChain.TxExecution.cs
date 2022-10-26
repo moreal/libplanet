@@ -61,7 +61,7 @@ namespace Libplanet.Blockchain
                                     currency => outputStates.GetBalance(kv.Key, currency)
                                 )
                         ),
-                        evalSum.InputContext.EventLogs
+                        evalSum.EventLogs
                     );
                 }
 

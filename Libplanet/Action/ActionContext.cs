@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Security.Cryptography;
 using Libplanet.Assets;
@@ -27,7 +26,8 @@ namespace Libplanet.Action
             bool rehearsal = false,
             ITrie? previousBlockStatesTrie = null,
             bool blockAction = false,
-            Predicate<Currency>? nativeTokenPredicate = null)
+            Predicate<Currency>? nativeTokenPredicate = null,
+            System.Action<EventLog>? emitEvent = null)
         {
             GenesisHash = genesisHash;
             Signer = signer;
@@ -41,7 +41,7 @@ namespace Libplanet.Action
             _previousBlockStatesTrie = previousBlockStatesTrie;
             BlockAction = blockAction;
             _nativeTokenPredicate = nativeTokenPredicate;
-            EventLogs = new List<EventLog>();
+            EmitEvent = emitEvent ?? (_ => { });
         }
 
         public BlockHash? GenesisHash { get; }
@@ -60,7 +60,7 @@ namespace Libplanet.Action
 
         public IRandom Random { get; }
 
-        public List<EventLog> EventLogs { get; }
+        public Action<EventLog> EmitEvent { get; }
 
         public HashDigest<SHA256>? PreviousStateRootHash
         {

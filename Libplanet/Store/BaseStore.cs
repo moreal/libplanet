@@ -285,7 +285,7 @@ namespace Libplanet.Store
             );
 
         private static Bencodex.Types.List SerializeEventLogs(
-            List<EventLog> eventLogs
+            IReadOnlyList<EventLog> eventLogs
         ) =>
             new List(eventLogs
                 .Select(e => new List(new IValue[] { (Text)e.Event }.Concat(e.Arguments))));

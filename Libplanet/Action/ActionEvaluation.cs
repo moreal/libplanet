@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Libplanet.Tx;
 
 namespace Libplanet.Action
 {
@@ -17,17 +19,20 @@ namespace Libplanet.Action
         /// evaluate <paramref name="action"/>.</param>
         /// <param name="outputStates">The result states that
         /// <paramref name="action"/> makes.</param>
+        /// <param name="eventLogs">asdasdasdasd.</param>
         /// <param name="exception">An exception that has risen during evaluating a given
         /// <paramref name="action"/>.</param>
         public ActionEvaluation(
             IAction action,
             IActionContext inputContext,
             IAccountStateDelta outputStates,
-            Exception? exception = null)
+            Exception? exception = null,
+            IReadOnlyList<EventLog>? eventLogs = null)
         {
             Action = action;
             InputContext = inputContext;
             OutputStates = outputStates;
+            EventLogs = eventLogs ?? new List<EventLog>();
             Exception = exception;
         }
 
@@ -53,5 +58,7 @@ namespace Libplanet.Action
         /// An exception that had risen during evaluation.
         /// </summary>
         public Exception? Exception { get; }
+
+        public IReadOnlyList<EventLog> EventLogs { get; }
     }
 }

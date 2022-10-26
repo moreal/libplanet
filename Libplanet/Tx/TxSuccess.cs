@@ -44,7 +44,7 @@ namespace Libplanet.Tx
             IImmutableDictionary<Address, IImmutableDictionary<Currency, FAV>> fungibleAssetsDelta,
             IImmutableDictionary<Address, IImmutableDictionary<Currency, FAV>>
                 updatedFungibleAssets,
-            List<EventLog>? eventLogs = null
+            IReadOnlyList<EventLog>? eventLogs = null
         )
             : base(blockHash, txId)
         {
@@ -98,7 +98,7 @@ namespace Libplanet.Tx
         public IImmutableDictionary<Address, IImmutableDictionary<Currency, FAV>>
             UpdatedFungibleAssets { get; }
 
-        public List<EventLog> EventLogs { get; }
+        public IReadOnlyList<EventLog> EventLogs { get; }
 
         /// <summary>
         /// All <seealso cref="Address"/>es of the accounts that have been updated by the actions
