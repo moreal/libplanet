@@ -36,9 +36,9 @@ namespace Libplanet.Tx
 
         private static readonly Codec Codec = new Codec();
 
-        private readonly IImmutableList<IValue>? _customActions;
+        private readonly (IImmutableList<T>?, IImmutableList<IValue>?) _customActions;
 
-        private readonly Dictionary? _systemAction;
+        private readonly (IAction?, Dictionary?) _systemAction;
 
         private TxId? _id;
         private TxMetadata _metadata;
@@ -59,7 +59,7 @@ namespace Libplanet.Tx
         public Transaction(ITxMetadata metadata, IAction systemAction, byte[] signature)
         {
             _metadata = new TxMetadata(metadata);
-            _systemAction = Registry.Serialize(systemAction);
+            _systemAction = (systemAction, null);
             _signature = new byte[signature.Length];
             signature.CopyTo(_signature, 0);
         }
@@ -79,7 +79,7 @@ namespace Libplanet.Tx
         public Transaction(ITxMetadata metadata, IEnumerable<T> customActions, byte[] signature)
         {
             _metadata = new TxMetadata(metadata);
-            _customActions = customActions.Select(ca => ca.PlainValue).ToImmutableList();
+            _customActions = (customActions.ToImmutableList(), null);
             _signature = new byte[signature.Length];
             signature.CopyTo(_signature, 0);
         }
@@ -148,8 +148,7 @@ namespace Libplanet.Tx
 
             _signature = new byte[signature.Length];
             signature.CopyTo(_signature, 0);
-            _customActions = customActions.Select(ca => ca.PlainValue)
-                .ToImmutableList();
+            _customActions = (customActions.ToImmutableList(), null);
         }
 
         /// <summary>
@@ -163,12 +162,12 @@ namespace Libplanet.Tx
             _metadata = new TxMetadata(dict);
             if (dict.TryGetValue(new Binary(TxMetadata.SystemActionKey), out IValue sa))
             {
-                _systemAction = (Dictionary)sa;
+                _systemAction = (null, (Dictionary)sa);
             }
             else
             {
-                _customActions = dict.GetValue<List>(TxMetadata.CustomActionsKey)
-                    .ToImmutableList();
+                _customActions = (null, dict.GetValue<List>(TxMetadata.CustomActionsKey)
+                    .ToImmutableList());
             }
 
             _signature
@@ -255,9 +254,13 @@ namespace Libplanet.Tx
         /// <see langword="null"/>.</remarks>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonConverter(typeof(SysActionJsonConverter))]
-        public IAction? SystemAction => (_systemAction is { } sa)
-            ? Registry.Deserialize(sa)
-            : null;
+        public IAction? SystemAction => _systemAction switch
+        {
+            (null, null) => null,
+            (null, var dictionary) => Registry.Deserialize(dictionary),
+            (var sa, null) => sa,
+            _ => throw new InvalidOperationException(),
+        };
 
         /// <summary>
         /// Zero or more user-defined custom actions that this <see cref="Transaction{T}"/>
@@ -268,15 +271,32 @@ namespace Libplanet.Tx
         /// <see langword="null"/>.</remarks>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonConverter(typeof(ActionListJsonConverter))]
-        public IImmutableList<T>? CustomActions => _customActions?
-            .Select(ToAction)
-            .ToImmutableList();
+        public IImmutableList<T>? CustomActions =>
+            _customActions switch
+            {
+                (null, null) => null,
+                (null, var actionValues) => actionValues
+                    .Select(ToAction)
+                    .ToImmutableList(),
+                (var actions, null) => actions,
+                _ => throw new InvalidOperationException(),
+            };
 
-        Dictionary? ITransaction.SystemAction => _systemAction is Dictionary dictionary
-            ? dictionary
-            : null;
+        Dictionary? ITransaction.SystemAction => _systemAction switch
+        {
+            (null, null) => null,
+            (null, var dictionary) => dictionary,
+            (var sa, null) => Registry.Serialize(sa),
+            _ => throw new InvalidOperationException(),
+        };
 
-        IImmutableList<IValue>? ITransaction.CustomActions => _customActions;
+        IImmutableList<IValue>? ITransaction.CustomActions => _customActions switch
+        {
+            (null, null) => null,
+            (null, var actionValues) => actionValues,
+            (var actions, null) => actions.Select(a => a.PlainValue).ToImmutableList(),
+            _ => throw new InvalidOperationException(),
+        };
 
         /// <inheritdoc cref="ITxMetadata.Timestamp"/>
         public DateTimeOffset Timestamp => _metadata.Timestamp;
@@ -686,14 +706,12 @@ namespace Libplanet.Tx
         /// representation of this <see cref="Transaction{T}"/>.</returns>
         public Bencodex.Types.Dictionary ToBencodex(bool sign)
         {
-            Dictionary metadataDict = _systemAction is { } sa
-                ? _metadata.ToBencodex().Add(
-                    TxMetadata.SystemActionKey,
-                    sa)
+            Dictionary metadataDict = ((ITransaction)this).SystemAction is { } sa
+                ? _metadata.ToBencodex().Add(TxMetadata.SystemActionKey, sa)
                 : _metadata.ToBencodex().Add(
                     TxMetadata.CustomActionsKey,
                     new List(
-                        _customActions
+                        ((ITransaction)this).CustomActions
                         ?? throw new InvalidOperationException(
                             $"Unexpected Transaction<T> state. " +
                             $"{nameof(_systemAction)} or {nameof(_customActions)} should exist.")));
