@@ -37,6 +37,9 @@ namespace Libplanet.Action
         /// <returns>A dictionary made of action id to action type pairs.</returns>
         public IDictionary<string, Type> Load(IPreEvaluationBlockHeader blockHeader) => Load();
 
+        /// <inheritdoc cref="IActionTypeLoader.Load(long)"/>
+        public IDictionary<string, Type> Load(long index) => Load();
+
         internal IDictionary<string, Type> Load() =>
             _types ??= LoadImpl(_assembliesSet, _baseType);
 

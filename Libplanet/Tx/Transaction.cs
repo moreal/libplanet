@@ -272,6 +272,18 @@ namespace Libplanet.Tx
             .Select(ToAction)
             .ToImmutableList();
 
+        /// <summary>
+        /// Zero or more user-defined custom actions that this <see cref="Transaction{T}"/>
+        /// contains.  These are executed in the order.
+        /// </summary>
+        /// <remarks>This property is mutually exclusive with <see cref="SystemAction"/>;
+        /// either one of them must be <see langword="null"/> and the other must not be
+        /// <see langword="null"/>.</remarks>
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonConverter(typeof(ActionListJsonConverter))]
+        public IImmutableList<IValue> RawCustomActions =>
+            _customActions ?? ImmutableArray<IValue>.Empty;
+
         Dictionary? ITransaction.SystemAction => _systemAction is Dictionary dictionary
             ? dictionary
             : null;
