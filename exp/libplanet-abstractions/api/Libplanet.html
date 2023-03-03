@@ -78,7 +78,7 @@
 </h3>
       <h4><a class="xref" href="Libplanet.AddressExtensions.html">AddressExtensions</a></h4>
       <section><p>This extension class enables some convenient methods (sugar for
-the most part) to deal with <a class="xref" href="Libplanet.Address.html">Address</a>.</p>
+the most part) to deal with <span class="xref">Libplanet.Abstractions.Address</span>.</p>
 </section>
       <h4><a class="xref" href="Libplanet.ByteArrayExtensions.html">ByteArrayExtensions</a></h4>
       <section><p>This extension class enables some convenient methods to deal with byte array.</p>
@@ -100,36 +100,8 @@ objects.</p>
 <a href="https://en.wikipedia.org/wiki/Hashcash">Hashcash</a>,
 a <a href="https://en.wikipedia.org/wiki/Proof-of-work_system">proof-of-work system</a>.</p>
 </section>
-      <h4><a class="xref" href="Libplanet.HashDigestExtensions.html">HashDigestExtensions</a></h4>
-      <section><p>Augments types to have some shortcut methods dealing with
-<a class="xref" href="Libplanet.HashDigest-1.html">HashDigest&lt;T&gt;</a> values.</p>
-</section>
     <h3 id="structs">Structs
 </h3>
-      <h4><a class="xref" href="Libplanet.Address.html">Address</a></h4>
-      <section><p>An identifier of 20 bytes (or 40 letters in hexadecimal, commonly with
-a prefix <code>0x</code>) that refers to a unique account.</p>
-<p>It is derived from the corresponding <a class="xref" href="Libplanet.Crypto.PublicKey.html">PublicKey</a>
-of an account, but as a derivation loses information, it is always
-unidirectional.</p>
-<p>The address derivation from a public key is as follows:</p>
-<ol><li>Calculates the Keccak-256, which is a previous form
-of SHA-3 before NIST standardized it and does not follow
-<a href="http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf">FIPS-202</a>, of the corresponding <a class="xref" href="Libplanet.Crypto.PublicKey.html">PublicKey</a>.
-</li><li>Takes only the last 20 bytes of the calculated
-Keccak-256 hash.</li><li>When the address needs to be shown to end users,
-displays these 20 bytes in hexadecimal, with a prefix <code>0x</code>.
-</li></ol>
-<p>Since the scheme of the address derivation and the <a class="xref" href="Libplanet.Crypto.PrivateKey.html">PrivateKey</a>/<a class="xref" href="Libplanet.Crypto.PublicKey.html">PublicKey</a> is the same to
-<a href="https://www.ethereum.org/">Ethereum</a>, Ethereum addresses
-can be used by Libplanet-backed games/apps too.</p>
-</section>
-      <h4><a class="xref" href="Libplanet.HashDigest-1.html">HashDigest&lt;T&gt;</a></h4>
-      <section><p>A value type to represent digest bytes determined by a
-<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.security.cryptography.hashalgorithm">HashAlgorithm</a>.  For more type safety, it takes
-a type parameter <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> of
-<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.security.cryptography.hashalgorithm">HashAlgorithm</a>.</p>
-</section>
       <h4><a class="xref" href="Libplanet.Nonce.html">Nonce</a></h4>
       <section><p>An arbitrary <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>s that determines a
 <a class="xref" href="Libplanet.Hashcash.Stamp.html">Hashcash.Stamp</a>.</p>

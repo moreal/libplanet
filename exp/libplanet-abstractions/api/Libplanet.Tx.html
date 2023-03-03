@@ -82,11 +82,11 @@
 </section>
       <h4><a class="xref" href="Libplanet.Tx.InvalidTxGenesisHashException.html">InvalidTxGenesisHashException</a></h4>
       <section><p>The exception that is thrown when the <a class="xref" href="Libplanet.Tx.Transaction-1.html#Libplanet_Tx_Transaction_1_GenesisHash">GenesisHash</a>
-is different from the <a class="xref" href="Libplanet.HashDigest-1.html">HashDigest&lt;T&gt;</a> of
+is different from the <span class="xref">Libplanet.HashDigest&lt;T&gt;</span> of
 <a class="xref" href="Libplanet.Blockchain.BlockChain-1.html#Libplanet_Blockchain_BlockChain_1_Genesis">Genesis</a>.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Tx.InvalidTxIdException.html">InvalidTxIdException</a></h4>
-      <section><p>The exception that is thrown when a given <a class="xref" href="Libplanet.Tx.TxId.html">TxId</a> cannot be
+      <section><p>The exception that is thrown when a given <span class="xref">Libplanet.Abstractions.Tx.TxId</span> cannot be
 found.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Tx.InvalidTxNonceException.html">InvalidTxNonceException</a></h4>
@@ -100,7 +100,7 @@ when appending to a <a class="xref" href="Libplanet.Blockchain.BlockChain-1.html
 <a class="xref" href="Libplanet.Tx.Transaction-1.html#Libplanet_Tx_Transaction_1_Signature">Signature</a> is invalid.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Tx.Transaction-1.html">Transaction&lt;T&gt;</a></h4>
-      <section><p>Consists of <a class="xref" href="Libplanet.Action.IAction.html">IAction</a> and is signed to be included in
+      <section><p>Consists of <span class="xref">Libplanet.Abstractions.Action.IAction</span> and is signed to be included in
 a <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a> and transmitted over the network.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Tx.TxExcerptExtensions.html">TxExcerptExtensions</a></h4>
@@ -127,16 +127,6 @@ a <a class="xref" href="Libplanet.Blockchain.Policies.IBlockPolicy-1.html">IBloc
       <h4><a class="xref" href="Libplanet.Tx.TxSuccess.html">TxSuccess</a></h4>
       <section><p>Summarizes an execution result of a successful <a class="xref" href="Libplanet.Tx.Transaction-1.html">Transaction&lt;T&gt;</a>.</p>
 </section>
-    <h3 id="structs">Structs
-</h3>
-      <h4><a class="xref" href="Libplanet.Tx.TxId.html">TxId</a></h4>
-      <section><p><a class="xref" href="Libplanet.Tx.TxId.html">TxId</a>, abbreviation of transaction identifier,
-is a SHA-256 digest derived from a <a class="xref" href="Libplanet.Tx.Transaction-1.html">Transaction&lt;T&gt;</a>'s
-content.</p>
-<p>As it is a SHA-256 digest, it consists of 32 <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>s,
-and 64 characters in hexadecimal.
-(See also <a class="xref" href="Libplanet.Tx.TxId.html#Libplanet_Tx_TxId_Size">Size</a> constant.)</p>
-</section>
     <h3 id="interfaces">Interfaces
 </h3>
       <h4><a class="xref" href="Libplanet.Tx.ITransaction.html">ITransaction</a></h4>
@@ -144,7 +134,7 @@ and 64 characters in hexadecimal.
 <a class="xref" href="Libplanet.Tx.ITransaction.html#Libplanet_Tx_ITransaction_SystemAction">SystemAction</a> and <a class="xref" href="Libplanet.Tx.ITransaction.html#Libplanet_Tx_ITransaction_CustomActions">CustomActions</a> as well.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Tx.ITxExcerpt.html">ITxExcerpt</a></h4>
-      <section><p>Similar to <a class="xref" href="Libplanet.Tx.ITxMetadata.html">ITxMetadata</a> except that it has <a class="xref" href="Libplanet.Tx.TxId.html">TxId</a> as well.
+      <section><p>Similar to <a class="xref" href="Libplanet.Tx.ITxMetadata.html">ITxMetadata</a> except that it has <span class="xref">Libplanet.Abstractions.Tx.TxId</span> as well.
 Note that this does not contain actions or signature.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Tx.ITxMetadata.html">ITxMetadata</a></h4>

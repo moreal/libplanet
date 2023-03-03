@@ -72,9 +72,9 @@
 
   <h1 id="Libplanet_Blockchain_ValidatorSetStateCompleter_1" data-uid="Libplanet.Blockchain.ValidatorSetStateCompleter`1" class="text-break">Delegate ValidatorSetStateCompleter&lt;T&gt;
 </h1>
-  <div class="markdown level0 summary"><p>A delegate to be called when <a class="xref" href="Libplanet.Blockchain.IBlockChainStates-1.html#Libplanet_Blockchain_IBlockChainStates_1_GetValidatorSet_Libplanet_Blocks_BlockHash_Libplanet_Blockchain_ValidatorSetStateCompleter__0__">GetValidatorSet(BlockHash, ValidatorSetStateCompleter&lt;T&gt;)</a>
+  <div class="markdown level0 summary"><p>A delegate to be called when <a class="xref" href="Libplanet.Blockchain.IBlockChainStates-1.html#Libplanet_Blockchain_IBlockChainStates_1_GetValidatorSet_Libplanet_Abstractions_Blocks_BlockHash_Libplanet_Blockchain_ValidatorSetStateCompleter__0__">GetValidatorSet(BlockHash, ValidatorSetStateCompleter&lt;T&gt;)</a>
 method encounters a block having incomplete dirty states.
-<a class="xref" href="Libplanet.Blockchain.IBlockChainStates-1.html#Libplanet_Blockchain_IBlockChainStates_1_GetValidatorSet_Libplanet_Blocks_BlockHash_Libplanet_Blockchain_ValidatorSetStateCompleter__0__">GetValidatorSet(BlockHash, ValidatorSetStateCompleter&lt;T&gt;)</a> method returns this delegate's
+<a class="xref" href="Libplanet.Blockchain.IBlockChainStates-1.html#Libplanet_Blockchain_IBlockChainStates_1_GetValidatorSet_Libplanet_Abstractions_Blocks_BlockHash_Libplanet_Blockchain_ValidatorSetStateCompleter__0__">GetValidatorSet(BlockHash, ValidatorSetStateCompleter&lt;T&gt;)</a> method returns this delegate's
 return value instead for such case.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
@@ -102,7 +102,7 @@ return value instead for such case.</p>
 </td>
       </tr>
       <tr>
-        <td><a class="xref" href="Libplanet.Blocks.BlockHash.html">BlockHash</a></td>
+        <td><span class="xref">Libplanet.Abstractions.Blocks.BlockHash</span></td>
         <td><span class="parametername">blockHash</span></td>
         <td><p>The hash of a block lacking its dirty states.</p>
 </td>
@@ -136,7 +136,7 @@ return value instead for such case.</p>
     <tbody>
       <tr>
         <td><span class="parametername">T</span></td>
-        <td><p>An <a class="xref" href="Libplanet.Action.IAction.html">IAction</a> type.  It should match
+        <td><p>An <span class="xref">Libplanet.Abstractions.Action.IAction</span> type.  It should match
 the type parameter of <a class="xref" href="Libplanet.Blockchain.BlockChain-1.html">BlockChain&lt;T&gt;</a>.</p>
 </td>
       </tr>

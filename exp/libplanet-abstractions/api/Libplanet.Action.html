@@ -81,11 +81,11 @@
 a single action.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Action.ActionEvaluator-1.html">ActionEvaluator&lt;T&gt;</a></h4>
-      <section><p>Class responsible for handling of <a class="xref" href="Libplanet.Action.IAction.html">IAction</a> evaluations.</p>
+      <section><p>Class responsible for handling of <span class="xref">Libplanet.Abstractions.Action.IAction</span> evaluations.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Action.ActionTypeAttribute.html">ActionTypeAttribute</a></h4>
       <section><p>Indicates that an action class (i.e., a class implementing
-<a class="xref" href="Libplanet.Action.IAction.html">IAction</a>) can be held by transactions and blocks.
+<span class="xref">Libplanet.Abstractions.Action.IAction</span>) can be held by transactions and blocks.
 It also gives an action class a <a class="xref" href="Libplanet.Action.ActionTypeAttribute.html#Libplanet_Action_ActionTypeAttribute_TypeIdentifier">TypeIdentifier</a> for
 serialization and deserialization.</p>
 </section>
@@ -112,20 +112,20 @@ transfer or an owner has less <a class="xref" href="Libplanet.Action.Insufficien
 </section>
       <h4><a class="xref" href="Libplanet.Action.NullAction.html">NullAction</a></h4>
       <section><p>An action implementation which does nothing for filling type parameter taking of
-<a class="xref" href="Libplanet.Action.IAction.html">IAction</a>.</p>
+<span class="xref">Libplanet.Abstractions.Action.IAction</span>.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Action.PolymorphicAction-1.html">PolymorphicAction&lt;T&gt;</a></h4>
       <section><p>A decorator to enable subtype polymorphism for action classes.</p>
 <p>By convention, concrete action subclasses are named with verb
 phrases, e.g., <code>Heal</code>, <code>Sell</code>.</p>
-<p>One downside of this compared to the vanilla <a class="xref" href="Libplanet.Action.IAction.html">IAction</a>
+<p>One downside of this compared to the vanilla <span class="xref">Libplanet.Abstractions.Action.IAction</span>
 is the fact that it uses reflection under the hood.  This may cause
 compatibility issues on certain platforms, and is slightly slower.
 </p>
 </section>
       <h4><a class="xref" href="Libplanet.Action.RandomExtensions.html">RandomExtensions</a></h4>
       <section><p>This extension class provides some convenient methods
-to deal with <a class="xref" href="Libplanet.Action.IRandom.html">IRandom</a>.</p>
+to deal with <span class="xref">Libplanet.Abstractions.Action.IRandom</span>.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Action.StaticActionTypeLoader.html">StaticActionTypeLoader</a></h4>
       <section><p>An <a class="xref" href="Libplanet.Action.IActionTypeLoader.html">IActionTypeLoader</a> implementation to load action types
@@ -136,80 +136,17 @@ without branching by block index.</p>
 supply exceed the maximum amount.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Action.TotalSupplyNotTrackableException.html">TotalSupplyNotTrackableException</a></h4>
-      <section><p>The exception thrown when <a class="xref" href="Libplanet.Action.IAccountStateView.html#Libplanet_Action_IAccountStateView_GetTotalSupply_Libplanet_Assets_Currency_">GetTotalSupply(Currency)</a> was called on a
-legacy untracked currency with <a class="xref" href="Libplanet.Assets.Currency.html#Libplanet_Assets_Currency_TotalSupplyTrackable">TotalSupplyTrackable</a> set to
+      <section><p>The exception thrown when <span class="xref">Libplanet.Abstractions.Action.IAccountStateView.GetTotalSupply(Libplanet.Abstractions.Assets.Currency)</span> was called on a
+legacy untracked currency with <span class="xref">Libplanet.Abstractions.Assets.Currency.TotalSupplyTrackable</span> set to
 <span class="xref">false</span>.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Action.UnexpectedlyTerminatedActionException.html">UnexpectedlyTerminatedActionException</a></h4>
-      <section><p>The exception that is thrown during an <a class="xref" href="Libplanet.Action.IAction.html">IAction</a> is being evaluated.</p>
+      <section><p>The exception that is thrown during an <span class="xref">Libplanet.Abstractions.Action.IAction</span> is being evaluated.</p>
 <p>The actual exception that the <a class="xref" href="Libplanet.Action.UnexpectedlyTerminatedActionException.html#Libplanet_Action_UnexpectedlyTerminatedActionException_Action">Action</a> threw
 is stored in the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.innerexception#system-exception-innerexception">InnerException</a> property.</p>
 </section>
     <h3 id="interfaces">Interfaces
 </h3>
-      <h4><a class="xref" href="Libplanet.Action.IAccountStateDelta.html">IAccountStateDelta</a></h4>
-      <section><p>An interface to manipulate account states with
-maintaining the set of <a class="xref" href="Libplanet.Action.IAccountStateDelta.html#Libplanet_Action_IAccountStateDelta_UpdatedAddresses">UpdatedAddresses</a>.</p>
-<p>It is like a map which is virtually initialized such
-that every possible <a class="xref" href="Libplanet.Address.html">Address</a> exists and
-is mapped to <span class="xref">null</span>.  That means that:</p>
-<ul><li>it does not have length,</li><li>its index getter never throws
-<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.keynotfoundexception">KeyNotFoundException</a>,
-but returns <span class="xref">null</span> instead, and</li><li>filling an <a class="xref" href="Libplanet.Address.html">Address</a> with
-<span class="xref">null</span> state cannot be distinguished from
-the <a class="xref" href="Libplanet.Address.html">Address</a> having never been set to
-any state.</li></ul>
-</section>
-      <h4><a class="xref" href="Libplanet.Action.IAccountStateView.html">IAccountStateView</a></h4>
-      <section><p>An interface to fetch account states.</p>
-<p>It is like a readonly map which is virtually initialized such
-that every possible <a class="xref" href="Libplanet.Address.html">Address</a> exists and
-is mapped to <span class="xref">null</span>.  That means that:</p>
-<ul><li>it does not have length,</li><li>its index getter never throws
-<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.keynotfoundexception">KeyNotFoundException</a>,
-but returns <span class="xref">null</span> instead, and</li><li>filling an <a class="xref" href="Libplanet.Address.html">Address</a> with
-<span class="xref">null</span> state cannot be distinguished from
-the <a class="xref" href="Libplanet.Address.html">Address</a> having never been set to
-any state.</li></ul>
-</section>
-      <h4><a class="xref" href="Libplanet.Action.IAction.html">IAction</a></h4>
-      <section><p>An in-game action.  Every action should be replayable, because
-multiple nodes in a network should execute an action and get the same
-result.</p>
-<p>A “class” which implements this interface is
-analogous to a function, and its instance is analogous to a
-<a href="https://en.wikipedia.org/wiki/Partial_application">partial
-function application</a>, in other words, a function with some bound
-arguments.  Those parameters that will be bound at runtime should be
-represented as fields or properties in an action class, and bound
-argument values to these parameters should be received through
-a constructor parameters of that class.</p>
-<p>From a perspective of security, an action class belongs to
-the network protocol, and property values in an action belong to
-a node&apos;s will (i.e., a user/player&apos;s choice).
-That means if you define an action class it also defines what every
-honest node can do in the network.  Even if a malicious node changes
-their own action code it won&apos;t affect other honest nodes in
-the network.</p>
-<p>For example, where honest nodes share the common action
-<code>Heal(Target) => PreviousStates[Target] + 1</code>, suppose a malicious
-node <code>m</code> changes their own <code>Heal</code> action code to
-<code>Heal(Target) => PreviousStates[Target] + 2</code> (2 instead of 1),
-and then send an action <code>Heal(m)</code>.
-Fortunately, this action does not work as <code>m</code>&apos;s intention,
-because the changed code in itself is not used by other honest nodes,
-so they still increase only 1, not 2.  The effect of that double healing
-is a sort of “illusion” only visible to the malicious node
-alone.</p>
-<p>In conclusion, action code is a part of the protocol and it works with
-consensus in the network, so only things each node can affect the network
-in general is property values of each action they sign and send,
-not code of an action.</p>
-</section>
-      <h4><a class="xref" href="Libplanet.Action.IActionContext.html">IActionContext</a></h4>
-      <section><p>Contextual data determined by a transaction and a block.
-Passed to <a class="xref" href="Libplanet.Action.IAction.html#Libplanet_Action_IAction_Execute_Libplanet_Action_IActionContext_">Execute(IActionContext)</a> method.</p>
-</section>
       <h4><a class="xref" href="Libplanet.Action.IActionTypeLoader.html">IActionTypeLoader</a></h4>
       <section><p>An interface to load action types branched by block index.</p>
 </section>
@@ -219,12 +156,6 @@ Passed to <a class="xref" href="Libplanet.Action.IAction.html#Libplanet_Action_I
       <h4><a class="xref" href="Libplanet.Action.IExtractableException.html">IExtractableException</a></h4>
       <section><p>Marks an exception type as able to extract its metadata, so that these metadata can be
 stored as a part of <a class="xref" href="Libplanet.Tx.TxFailure.html">TxFailure</a>.</p>
-</section>
-      <h4><a class="xref" href="Libplanet.Action.IRandom.html">IRandom</a></h4>
-      <section><p>An pseudorandom number generator interface equivalent to
-<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.random">Random</a>.</p>
-<p>Although these two types have similar shapes, they are not
-compatible (i.e., disallowed to be casted to each other).</p>
 </section>
     <h3 id="delegates">Delegates
 </h3>

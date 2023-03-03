@@ -82,9 +82,9 @@
   </div>
   <div class="implements">
     <h5>Implements</h5>
-    <div><a class="xref" href="Libplanet.Action.IAction.html">IAction</a></div>
+    <div><span class="xref">Libplanet.Abstractions.Action.IAction</span></div>
     <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="Libplanet.Action.Sys.SetValidator.html">SetValidator</a>&gt;</div>
-    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="Libplanet.Action.IAction.html">IAction</a>&gt;</div>
+    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<span class="xref">Libplanet.Abstractions.Action.IAction</span>&gt;</div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -118,7 +118,7 @@ public sealed class SetValidator : IAction, IEquatable&lt;SetValidator&gt;, IEqu
     <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_Action_Sys_SetValidator__ctor_Libplanet_Consensus_Validator_.md&amp;value=---%0Auid%3A%20Libplanet.Action.Sys.SetValidator.%23ctor(Libplanet.Consensus.Validator)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L18">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L19">View Source</a>
   </span>
   <a id="Libplanet_Action_Sys_SetValidator__ctor_" data-uid="Libplanet.Action.Sys.SetValidator.#ctor*"></a>
   <h4 id="Libplanet_Action_Sys_SetValidator__ctor_Libplanet_Consensus_Validator_" data-uid="Libplanet.Action.Sys.SetValidator.#ctor(Libplanet.Consensus.Validator)">SetValidator(Validator)</h4>
@@ -154,15 +154,11 @@ public sealed class SetValidator : IAction, IEquatable&lt;SetValidator&gt;, IEqu
     <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_Action_Sys_SetValidator_PlainValue.md&amp;value=---%0Auid%3A%20Libplanet.Action.Sys.SetValidator.PlainValue%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L33">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L34">View Source</a>
   </span>
   <a id="Libplanet_Action_Sys_SetValidator_PlainValue_" data-uid="Libplanet.Action.Sys.SetValidator.PlainValue*"></a>
   <h4 id="Libplanet_Action_Sys_SetValidator_PlainValue" data-uid="Libplanet.Action.Sys.SetValidator.PlainValue">PlainValue</h4>
-  <div class="markdown level1 summary"><p>Serializes values bound to an action, which is held by properties
-(or fields) of an action, so that they can be transmitted over
-network or saved to persistent storage.</p>
-<p>Serialized values are deserialized by
-<a class="xref" href="Libplanet.Action.IAction.html#Libplanet_Action_IAction_LoadPlainValue_Bencodex_Types_IValue_">LoadPlainValue(IValue)</a> method later.</p>
+  <div class="markdown level1 summary"><p>A system action that promotes given address to the validator.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
@@ -180,22 +176,16 @@ network or saved to persistent storage.</p>
     <tbody>
       <tr>
         <td><span class="xref">Bencodex.Types.IValue</span></td>
-        <td><p>A Bencodex value which encodes this action's bound values (held
-by properties or fields).</p>
-</td>
+        <td></td>
       </tr>
     </tbody>
   </table>
-  <h5 id="Libplanet_Action_Sys_SetValidator_PlainValue_seealso">See Also</h5>
-  <div class="seealso">
-      <div><a class="xref" href="Libplanet.Action.IAction.html#Libplanet_Action_IAction_LoadPlainValue_Bencodex_Types_IValue_">LoadPlainValue</a>(<span class="xref">Bencodex.Types.IValue</span>)</div>
-  </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_Action_Sys_SetValidator_Validator.md&amp;value=---%0Auid%3A%20Libplanet.Action.Sys.SetValidator.Validator%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L30">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L31">View Source</a>
   </span>
   <a id="Libplanet_Action_Sys_SetValidator_Validator_" data-uid="Libplanet.Action.Sys.SetValidator.Validator*"></a>
   <h4 id="Libplanet_Action_Sys_SetValidator_Validator" data-uid="Libplanet.Action.Sys.SetValidator.Validator">Validator</h4>
@@ -225,13 +215,13 @@ by properties or fields).</p>
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_Action_Sys_SetValidator_Equals_Libplanet_Action_IAction_.md&amp;value=---%0Auid%3A%20Libplanet.Action.Sys.SetValidator.Equals(Libplanet.Action.IAction)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_Action_Sys_SetValidator_Equals_Libplanet_Abstractions_Action_IAction_.md&amp;value=---%0Auid%3A%20Libplanet.Action.Sys.SetValidator.Equals(Libplanet.Abstractions.Action.IAction)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L53">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L54">View Source</a>
   </span>
   <a id="Libplanet_Action_Sys_SetValidator_Equals_" data-uid="Libplanet.Action.Sys.SetValidator.Equals*"></a>
-  <h4 id="Libplanet_Action_Sys_SetValidator_Equals_Libplanet_Action_IAction_" data-uid="Libplanet.Action.Sys.SetValidator.Equals(Libplanet.Action.IAction)">Equals(IAction)</h4>
+  <h4 id="Libplanet_Action_Sys_SetValidator_Equals_Libplanet_Abstractions_Action_IAction_" data-uid="Libplanet.Action.Sys.SetValidator.Equals(Libplanet.Abstractions.Action.IAction)">Equals(IAction)</h4>
   <div class="markdown level1 summary"><p>A system action that promotes given address to the validator.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -250,7 +240,7 @@ by properties or fields).</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Libplanet.Action.IAction.html">IAction</a></td>
+        <td><span class="xref">Libplanet.Abstractions.Action.IAction</span></td>
         <td><span class="parametername">other</span></td>
         <td></td>
       </tr>
@@ -276,7 +266,7 @@ by properties or fields).</p>
     <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_Action_Sys_SetValidator_Equals_Libplanet_Action_Sys_SetValidator_.md&amp;value=---%0Auid%3A%20Libplanet.Action.Sys.SetValidator.Equals(Libplanet.Action.Sys.SetValidator)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L50">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L51">View Source</a>
   </span>
   <a id="Libplanet_Action_Sys_SetValidator_Equals_" data-uid="Libplanet.Action.Sys.SetValidator.Equals*"></a>
   <h4 id="Libplanet_Action_Sys_SetValidator_Equals_Libplanet_Action_Sys_SetValidator_" data-uid="Libplanet.Action.Sys.SetValidator.Equals(Libplanet.Action.Sys.SetValidator)">Equals(SetValidator)</h4>
@@ -324,7 +314,7 @@ by properties or fields).</p>
     <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_Action_Sys_SetValidator_Equals_System_Object_.md&amp;value=---%0Auid%3A%20Libplanet.Action.Sys.SetValidator.Equals(System.Object)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L56">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L57">View Source</a>
   </span>
   <a id="Libplanet_Action_Sys_SetValidator_Equals_" data-uid="Libplanet.Action.Sys.SetValidator.Equals*"></a>
   <h4 id="Libplanet_Action_Sys_SetValidator_Equals_System_Object_" data-uid="Libplanet.Action.Sys.SetValidator.Equals(System.Object)">Equals(Object)</h4>
@@ -371,23 +361,14 @@ by properties or fields).</p>
   <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">Object.Equals(Object)</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_Action_Sys_SetValidator_Execute_Libplanet_Action_IActionContext_.md&amp;value=---%0Auid%3A%20Libplanet.Action.Sys.SetValidator.Execute(Libplanet.Action.IActionContext)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_Action_Sys_SetValidator_Execute_Libplanet_Abstractions_Action_IActionContext_.md&amp;value=---%0Auid%3A%20Libplanet.Action.Sys.SetValidator.Execute(Libplanet.Abstractions.Action.IActionContext)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L44">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L45">View Source</a>
   </span>
   <a id="Libplanet_Action_Sys_SetValidator_Execute_" data-uid="Libplanet.Action.Sys.SetValidator.Execute*"></a>
-  <h4 id="Libplanet_Action_Sys_SetValidator_Execute_Libplanet_Action_IActionContext_" data-uid="Libplanet.Action.Sys.SetValidator.Execute(Libplanet.Action.IActionContext)">Execute(IActionContext)</h4>
-  <div class="markdown level1 summary"><p>Executes the main game logic of an action.  This should be
-<em>deterministic</em>.</p>
-<p>Through the <code data-dev-comment-type="paramref" class="paramref">context</code> object,
-it receives information such as a transaction signer,
-its states immediately before the execution,
-and a deterministic random seed.</p>
-<p>Other “bound” information resides in the action
-object in itself, as its properties (or fields).</p>
-<p>A returned <a class="xref" href="Libplanet.Action.IAccountStateDelta.html">IAccountStateDelta</a> object functions as
-a delta which shifts from previous states to next states.</p>
+  <h4 id="Libplanet_Action_Sys_SetValidator_Execute_Libplanet_Abstractions_Action_IActionContext_" data-uid="Libplanet.Action.Sys.SetValidator.Execute(Libplanet.Abstractions.Action.IActionContext)">Execute(IActionContext)</h4>
+  <div class="markdown level1 summary"><p>A system action that promotes given address to the validator.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
@@ -405,13 +386,9 @@ a delta which shifts from previous states to next states.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Libplanet.Action.IActionContext.html">IActionContext</a></td>
+        <td><span class="xref">Libplanet.Abstractions.Action.IActionContext</span></td>
         <td><span class="parametername">context</span></td>
-        <td><p>A context object containing addresses that
-signed the transaction, states immediately before the execution,
-and a PRNG object which produces deterministic random numbers.
-See <a class="xref" href="Libplanet.Action.IActionContext.html">IActionContext</a> for details.</p>
-</td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -425,58 +402,17 @@ See <a class="xref" href="Libplanet.Action.IActionContext.html">IActionContext</
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Libplanet.Action.IAccountStateDelta.html">IAccountStateDelta</a></td>
-        <td><p>A map of changed states (so-called &quot;dirty&quot;).</p>
-</td>
+        <td><span class="xref">Libplanet.Abstractions.Action.IAccountStateDelta</span></td>
+        <td></td>
       </tr>
     </tbody>
   </table>
-  <h5 id="Libplanet_Action_Sys_SetValidator_Execute_Libplanet_Action_IActionContext__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>This method should be deterministic:
-for structurally (member-wise) equal actions and <a class="xref" href="Libplanet.Action.IActionContext.html">IActionContext</a>s, the same result should be returned.
-Side effects should be avoided, because an action's
-<a class="xref" href="Libplanet.Action.IAction.html#Libplanet_Action_IAction_Execute_Libplanet_Action_IActionContext_">Execute(IActionContext)</a> method can be called more
-than once, the time it's called is difficult to predict.</p>
-<p>For changing in-memory game states or drawing graphics,
-implement the <a class="xref" href="Libplanet.Blockchain.Renderers.IRenderer-1.html">IRenderer&lt;T&gt;</a> interface separately and
-attach it to a <a class="xref" href="Libplanet.Blockchain.BlockChain-1.html">BlockChain&lt;T&gt;</a> instance.</p>
-<p>For randomness, <em>never</em> use <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.random">Random</a>
-nor any other PRNGs provided by other than Libplanet.
-Use <a class="xref" href="Libplanet.Action.IActionContext.html#Libplanet_Action_IActionContext_Random">Random</a> instead.
-<a class="xref" href="Libplanet.Action.IActionContext.html#Libplanet_Action_IActionContext_Random">Random</a> guarantees the same action
-has the consistent result for every node in the network.</p>
-<p>Also do not perform I/O operations such as file system access
-or networking.  These bring an action indeterministic.  You maybe
-fine to log messages for debugging purpose, but equivalent messages
-could be logged multiple times.</p>
-<p>Although it might be surprising, <a href="https://wp.me/p1fTCO-kT">floating-point arithmetics are
-underspecified so that it can make different results on different
-machines, platforms, runtimes, compilers, and builds</a>.</p>
-<p>Lastly, you need to be aware and keep in mind that there
-is a global state named <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.globalization.cultureinfo.currentculture#system-globalization-cultureinfo-currentculture">CurrentCulture</a> on .NET;
-if you format numbers, dates and times, currencies, or other such
-things into strings and parse these strings back these can rely on
-<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.globalization.cultureinfo.currentculture#system-globalization-cultureinfo-currentculture">CurrentCulture</a>,
-so that the same action make different results on two differently
-configured systems like Thai language and French language.
-In order to make these types of conversions deterministic,
-you have to explicitly pass <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.globalization.cultureinfo.invariantculture#system-globalization-cultureinfo-invariantculture">InvariantCulture</a>.</p>
-<p>For more on determinism in general, please read also <a href="https://tendermint.com/docs/spec/abci/abci.html#determinism">Tendermint ABCI&apos;s docs on determinism</a>.</p>
-<p>Lastly, you can conduct static analysis on your code
-using <a href="https://git.io/JTmby">Libplanet.Analyzers</a>.
-The analyzer can be enabled by adding its NuGet package into
-your project as a dependency.</p>
-</div>
-  <h5 id="Libplanet_Action_Sys_SetValidator_Execute_Libplanet_Action_IActionContext__seealso">See Also</h5>
-  <div class="seealso">
-      <div><a class="xref" href="Libplanet.Action.IActionContext.html">IActionContext</a></div>
-  </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_Action_Sys_SetValidator_GetHashCode.md&amp;value=---%0Auid%3A%20Libplanet.Action.Sys.SetValidator.GetHashCode%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L59">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L60">View Source</a>
   </span>
   <a id="Libplanet_Action_Sys_SetValidator_GetHashCode_" data-uid="Libplanet.Action.Sys.SetValidator.GetHashCode*"></a>
   <h4 id="Libplanet_Action_Sys_SetValidator_GetHashCode" data-uid="Libplanet.Action.Sys.SetValidator.GetHashCode">GetHashCode()</h4>
@@ -509,13 +445,11 @@ your project as a dependency.</p>
     <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_Action_Sys_SetValidator_LoadPlainValue_Bencodex_Types_IValue_.md&amp;value=---%0Auid%3A%20Libplanet.Action.Sys.SetValidator.LoadPlainValue(Bencodex.Types.IValue)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L37">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L38">View Source</a>
   </span>
   <a id="Libplanet_Action_Sys_SetValidator_LoadPlainValue_" data-uid="Libplanet.Action.Sys.SetValidator.LoadPlainValue*"></a>
   <h4 id="Libplanet_Action_Sys_SetValidator_LoadPlainValue_Bencodex_Types_IValue_" data-uid="Libplanet.Action.Sys.SetValidator.LoadPlainValue(Bencodex.Types.IValue)">LoadPlainValue(IValue)</h4>
-  <div class="markdown level1 summary"><p>Deserializes serialized data (i.e., data <a class="xref" href="Libplanet.Action.IAction.html#Libplanet_Action_IAction_PlainValue">PlainValue</a>
-property made), and then fills this action's properties (or fields)
-with the deserialized values.</p>
+  <div class="markdown level1 summary"><p>A system action that promotes given address to the validator.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
@@ -535,20 +469,13 @@ with the deserialized values.</p>
       <tr>
         <td><span class="xref">Bencodex.Types.IValue</span></td>
         <td><span class="parametername">plainValue</span></td>
-        <td><p>Data (made by <a class="xref" href="Libplanet.Action.IAction.html#Libplanet_Action_IAction_PlainValue">PlainValue</a>
-property) to be deserialized and assigned to this action's
-properties (or fields).</p>
-</td>
+        <td></td>
       </tr>
     </tbody>
   </table>
-  <h5 id="Libplanet_Action_Sys_SetValidator_LoadPlainValue_Bencodex_Types_IValue__seealso">See Also</h5>
-  <div class="seealso">
-      <div><a class="xref" href="Libplanet.Action.IAction.html#Libplanet_Action_IAction_PlainValue">PlainValue</a></div>
-  </div>
   <h3 id="implements">Implements</h3>
   <div>
-      <a class="xref" href="Libplanet.Action.IAction.html">IAction</a>
+      <span class="xref">Libplanet.Abstractions.Action.IAction</span>
   </div>
   <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">System.IEquatable&lt;T&gt;</a>
@@ -567,7 +494,7 @@ properties (or fields).</p>
                     <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_Action_Sys_SetValidator.md&amp;value=---%0Auid%3A%20Libplanet.Action.Sys.SetValidator%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L11" class="contribution-link">View Source</a>
+                    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/Action/Sys/SetValidator.cs/#L12" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

@@ -73,7 +73,7 @@
   <h1 id="Libplanet_AddressExtensions" data-uid="Libplanet.AddressExtensions" class="text-break">Class AddressExtensions
 </h1>
   <div class="markdown level0 summary"><p>This extension class enables some convenient methods (sugar for
-the most part) to deal with <a class="xref" href="Libplanet.Address.html">Address</a>.</p>
+the most part) to deal with <span class="xref">Libplanet.Abstractions.Address</span>.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -115,14 +115,72 @@ the most part) to deal with <a class="xref" href="Libplanet.Address.html">Addres
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_AddressExtensions_ToAddress_Libplanet_Abstractions_Crypto_IPublicKey_.md&amp;value=---%0Auid%3A%20Libplanet.AddressExtensions.ToAddress(Libplanet.Abstractions.Crypto.IPublicKey)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/AddressExtensions.cs/#L25">View Source</a>
+  </span>
+  <a id="Libplanet_AddressExtensions_ToAddress_" data-uid="Libplanet.AddressExtensions.ToAddress*"></a>
+  <h4 id="Libplanet_AddressExtensions_ToAddress_Libplanet_Abstractions_Crypto_IPublicKey_" data-uid="Libplanet.AddressExtensions.ToAddress(Libplanet.Abstractions.Crypto.IPublicKey)">ToAddress(IPublicKey)</h4>
+  <div class="markdown level1 summary"><p>Derives the corresponding <span class="xref">Libplanet.Abstractions.Address</span> from a <a class="xref" href="Libplanet.Crypto.PublicKey.html">PublicKey</a>.</p>
+<p>This enables a code like <code>publicKey.ToAddress()</code> instead
+of <code>new Address(publicKey)</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Address ToAddress(this IPublicKey publicKey)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Libplanet.Abstractions.Crypto.IPublicKey</span></td>
+        <td><span class="parametername">publicKey</span></td>
+        <td><p>A <a class="xref" href="Libplanet.Crypto.PublicKey.html">PublicKey</a> to derive
+the corresponding <span class="xref">Libplanet.Abstractions.Address</span> from.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Libplanet.Abstractions.Address</span></td>
+        <td><p>The corresponding <span class="xref">Libplanet.Abstractions.Address</span> derived from
+<code data-dev-comment-type="paramref" class="paramref">publicKey</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Libplanet_AddressExtensions_ToAddress_Libplanet_Abstractions_Crypto_IPublicKey__seealso">See Also</h5>
+  <div class="seealso">
+      <div><span class="xref">Libplanet.Abstractions.Address.#ctor(Libplanet.Abstractions.Crypto.IPublicKey)</span></div>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_AddressExtensions_ToAddress_Libplanet_Crypto_PrivateKey_.md&amp;value=---%0Auid%3A%20Libplanet.AddressExtensions.ToAddress(Libplanet.Crypto.PrivateKey)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/AddressExtensions.cs/#L38">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/AddressExtensions.cs/#L40">View Source</a>
   </span>
   <a id="Libplanet_AddressExtensions_ToAddress_" data-uid="Libplanet.AddressExtensions.ToAddress*"></a>
   <h4 id="Libplanet_AddressExtensions_ToAddress_Libplanet_Crypto_PrivateKey_" data-uid="Libplanet.AddressExtensions.ToAddress(Libplanet.Crypto.PrivateKey)">ToAddress(PrivateKey)</h4>
-  <div class="markdown level1 summary"><p>Derives the corresponding <a class="xref" href="Libplanet.Address.html">Address</a> from a <a class="xref" href="Libplanet.Crypto.PrivateKey.html">PrivateKey</a>.</p>
+  <div class="markdown level1 summary"><p>Derives the corresponding <span class="xref">Libplanet.Abstractions.Address</span> from a <a class="xref" href="Libplanet.Crypto.PrivateKey.html">PrivateKey</a>.</p>
 <p>This enables a code like <code>privateKey.ToAddress()</code> instead
 of <code>new Address(privateKey.PublicKey)</code>.</p>
 </div>
@@ -145,7 +203,7 @@ of <code>new Address(privateKey.PublicKey)</code>.</p>
         <td><a class="xref" href="Libplanet.Crypto.PrivateKey.html">PrivateKey</a></td>
         <td><span class="parametername">privateKey</span></td>
         <td><p>A <a class="xref" href="Libplanet.Crypto.PrivateKey.html">PrivateKey</a> to derive
-the corresponding <a class="xref" href="Libplanet.Address.html">Address</a> from.</p>
+the corresponding <span class="xref">Libplanet.Abstractions.Address</span> from.</p>
 </td>
       </tr>
     </tbody>
@@ -160,8 +218,8 @@ the corresponding <a class="xref" href="Libplanet.Address.html">Address</a> from
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Libplanet.Address.html">Address</a></td>
-        <td><p>The corresponding <a class="xref" href="Libplanet.Address.html">Address</a> derived from
+        <td><span class="xref">Libplanet.Abstractions.Address</span></td>
+        <td><p>The corresponding <span class="xref">Libplanet.Abstractions.Address</span> derived from
 <code data-dev-comment-type="paramref" class="paramref">privateKey</code>.</p>
 </td>
       </tr>
@@ -169,69 +227,11 @@ the corresponding <a class="xref" href="Libplanet.Address.html">Address</a> from
   </table>
   <h5 id="Libplanet_AddressExtensions_ToAddress_Libplanet_Crypto_PrivateKey__seealso">See Also</h5>
   <div class="seealso">
-      <div><a class="xref" href="Libplanet.Address.html">Address</a></div>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_AddressExtensions_ToAddress_Libplanet_Crypto_PublicKey_.md&amp;value=---%0Auid%3A%20Libplanet.AddressExtensions.ToAddress(Libplanet.Crypto.PublicKey)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/AddressExtensions.cs/#L23">View Source</a>
-  </span>
-  <a id="Libplanet_AddressExtensions_ToAddress_" data-uid="Libplanet.AddressExtensions.ToAddress*"></a>
-  <h4 id="Libplanet_AddressExtensions_ToAddress_Libplanet_Crypto_PublicKey_" data-uid="Libplanet.AddressExtensions.ToAddress(Libplanet.Crypto.PublicKey)">ToAddress(PublicKey)</h4>
-  <div class="markdown level1 summary"><p>Derives the corresponding <a class="xref" href="Libplanet.Address.html">Address</a> from a <a class="xref" href="Libplanet.Crypto.PublicKey.html">PublicKey</a>.</p>
-<p>This enables a code like <code>publicKey.ToAddress()</code> instead
-of <code>new Address(publicKey)</code>.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Address ToAddress(this PublicKey publicKey)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Libplanet.Crypto.PublicKey.html">PublicKey</a></td>
-        <td><span class="parametername">publicKey</span></td>
-        <td><p>A <a class="xref" href="Libplanet.Crypto.PublicKey.html">PublicKey</a> to derive
-the corresponding <a class="xref" href="Libplanet.Address.html">Address</a> from.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Libplanet.Address.html">Address</a></td>
-        <td><p>The corresponding <a class="xref" href="Libplanet.Address.html">Address</a> derived from
-<code data-dev-comment-type="paramref" class="paramref">publicKey</code>.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 id="Libplanet_AddressExtensions_ToAddress_Libplanet_Crypto_PublicKey__seealso">See Also</h5>
-  <div class="seealso">
-      <div><a class="xref" href="Libplanet.Address.html#Libplanet_Address__ctor_Libplanet_Crypto_PublicKey_">Address(PublicKey)</a></div>
+      <div><span class="xref">Libplanet.Abstractions.Address</span></div>
   </div>
   <h3 id="seealso">See Also</h3>
   <div class="seealso">
-      <div><a class="xref" href="Libplanet.Address.html">Address</a></div>
+      <div><span class="xref">Libplanet.Abstractions.Address</span></div>
   </div>
 </article>
           </div>
@@ -244,7 +244,7 @@ the corresponding <a class="xref" href="Libplanet.Address.html">Address</a> from
                     <a href="https://github.com/moreal/libplanet/new/exp/libplanet-abstractions/apiSpec/new?filename=Libplanet_AddressExtensions.md&amp;value=---%0Auid%3A%20Libplanet.AddressExtensions%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/AddressExtensions.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/moreal/libplanet/blob/exp/libplanet-abstractions/Libplanet/AddressExtensions.cs/#L12" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

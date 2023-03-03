@@ -72,9 +72,9 @@
 
   <h1 id="Libplanet_Blockchain_TotalSupplyStateCompleter_1" data-uid="Libplanet.Blockchain.TotalSupplyStateCompleter`1" class="text-break">Delegate TotalSupplyStateCompleter&lt;T&gt;
 </h1>
-  <div class="markdown level0 summary"><p>A delegate to be called when <a class="xref" href="Libplanet.Blockchain.IBlockChainStates-1.html#Libplanet_Blockchain_IBlockChainStates_1_GetTotalSupply_Libplanet_Assets_Currency_Libplanet_Blocks_BlockHash_Libplanet_Blockchain_TotalSupplyStateCompleter__0__">GetTotalSupply(Currency, BlockHash, TotalSupplyStateCompleter&lt;T&gt;)</a>
+  <div class="markdown level0 summary"><p>A delegate to be called when <a class="xref" href="Libplanet.Blockchain.IBlockChainStates-1.html#Libplanet_Blockchain_IBlockChainStates_1_GetTotalSupply_Libplanet_Abstractions_Assets_Currency_Libplanet_Abstractions_Blocks_BlockHash_Libplanet_Blockchain_TotalSupplyStateCompleter__0__">GetTotalSupply(Currency, BlockHash, TotalSupplyStateCompleter&lt;T&gt;)</a>
 method encounters a block having incomplete dirty states.
-<a class="xref" href="Libplanet.Blockchain.IBlockChainStates-1.html#Libplanet_Blockchain_IBlockChainStates_1_GetTotalSupply_Libplanet_Assets_Currency_Libplanet_Blocks_BlockHash_Libplanet_Blockchain_TotalSupplyStateCompleter__0__">GetTotalSupply(Currency, BlockHash, TotalSupplyStateCompleter&lt;T&gt;)</a> method returns this delegate's
+<a class="xref" href="Libplanet.Blockchain.IBlockChainStates-1.html#Libplanet_Blockchain_IBlockChainStates_1_GetTotalSupply_Libplanet_Abstractions_Assets_Currency_Libplanet_Abstractions_Blocks_BlockHash_Libplanet_Blockchain_TotalSupplyStateCompleter__0__">GetTotalSupply(Currency, BlockHash, TotalSupplyStateCompleter&lt;T&gt;)</a> method returns this delegate's
 return value instead for such case.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
@@ -102,13 +102,13 @@ return value instead for such case.</p>
 </td>
       </tr>
       <tr>
-        <td><a class="xref" href="Libplanet.Blocks.BlockHash.html">BlockHash</a></td>
+        <td><span class="xref">Libplanet.Abstractions.Blocks.BlockHash</span></td>
         <td><span class="parametername">blockHash</span></td>
         <td><p>The hash of a block lacking its dirty states.</p>
 </td>
       </tr>
       <tr>
-        <td><a class="xref" href="Libplanet.Assets.Currency.html">Currency</a></td>
+        <td><span class="xref">Libplanet.Abstractions.Assets.Currency</span></td>
         <td><span class="parametername">currency</span></td>
         <td><p>The currency to query.</p>
 </td>
@@ -125,9 +125,9 @@ return value instead for such case.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Libplanet.Assets.FungibleAssetValue.html">FungibleAssetValue</a></td>
+        <td><span class="xref">Libplanet.Abstractions.Assets.FungibleAssetValue</span></td>
         <td><p>The total supply value of <code data-dev-comment-type="paramref" class="paramref">currency</code> in
-<a class="xref" href="Libplanet.Assets.FungibleAssetValue.html">FungibleAssetValue</a>.</p>
+<span class="xref">Libplanet.Abstractions.Assets.FungibleAssetValue</span>.</p>
 </td>
       </tr>
     </tbody>
@@ -143,7 +143,7 @@ return value instead for such case.</p>
     <tbody>
       <tr>
         <td><span class="parametername">T</span></td>
-        <td><p>An <a class="xref" href="Libplanet.Action.IAction.html">IAction</a> type.  It should match
+        <td><p>An <span class="xref">Libplanet.Abstractions.Action.IAction</span> type.  It should match
 the type parameter of <a class="xref" href="Libplanet.Blockchain.BlockChain-1.html">BlockChain&lt;T&gt;</a>.</p>
 </td>
       </tr>

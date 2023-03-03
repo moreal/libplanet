@@ -124,7 +124,7 @@
 
 </code></pre>
 <ul>
-<li>Because the way of transitioning the State through an Action depends on each game, Libplanet does not directly provide implementation of the Action and only provides the interface <a class="xref" href="../api/Libplanet.Action.IAction.html">IAction</a>.</li>
+<li>Because the way of transitioning the State through an Action depends on each game, Libplanet does not directly provide implementation of the Action and only provides the interface @&quot;Libplanet.Action.IAction&quot;.</li>
 <li>The State is expressed in key-value pairs, and you can set appropriate values for each game.</li>
 <li>The State is readable at any point, but transitioning it is only possible through an Action.</li>
 <li>Libplanet does not directly share the transitioned State, but only shares the Action that will transition the State. Also, because State transitioned by an Action occurs on all nodes in the network, the Action must be written deterministically to return the same result from all nodes.</li>
@@ -229,11 +229,11 @@
 <p>Libplanet provides a rendering mechanism called
 <a class="xref" href="../api/Libplanet.Blockchain.Renderers.IRenderer-1.html">IRenderer&lt;T&gt;</a> and its subtype
 <a class="xref" href="../api/Libplanet.Blockchain.Renderers.IActionRenderer-1.html">IActionRenderer&lt;T&gt;</a> to solve this problem.
-<a class="xref" href="../api/Libplanet.Blockchain.Renderers.IActionRenderer-1.html#Libplanet_Blockchain_Renderers_IActionRenderer_1_RenderAction_Libplanet_Action_IAction_Libplanet_Action_IActionContext_Libplanet_Action_IAccountStateDelta_">RenderAction(IAction, IActionContext, IAccountStateDelta)</a>
+@&quot;Libplanet.Blockchain.Renderers.IActionRenderer`1.RenderAction(Libplanet.Action.IAction,Libplanet.Action.IActionContext,Libplanet.Action.IAccountStateDelta)&quot;
 is called after a <a class="xref" href="../api/Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a> with the corresponding
-<a class="xref" href="../api/Libplanet.Action.IAction.html">IAction</a>s is confirmed and the state is transitioned.
+@&quot;Libplanet.Action.IAction&quot;s is confirmed and the state is transitioned.
 The following code has been re-implemented using
-<a class="xref" href="../api/Libplanet.Blockchain.Renderers.IActionRenderer-1.html#Libplanet_Blockchain_Renderers_IActionRenderer_1_RenderAction_Libplanet_Action_IAction_Libplanet_Action_IActionContext_Libplanet_Action_IAccountStateDelta_">RenderAction(IAction, IActionContext, IAccountStateDelta)</a>.</p>
+@&quot;Libplanet.Blockchain.Renderers.IActionRenderer`1.RenderAction(Libplanet.Action.IAction,Libplanet.Action.IActionContext,Libplanet.Action.IAccountStateDelta)&quot;.</p>
 <pre><code class="lang-csharp">public class WinRenderer : IActionRenderer&lt;Win&gt;
 {
     // ...
