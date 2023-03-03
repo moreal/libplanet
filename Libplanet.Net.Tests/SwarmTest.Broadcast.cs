@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Blockchain;
 using Libplanet.Blockchain.Policies;
 using Libplanet.Blockchain.Renderers;

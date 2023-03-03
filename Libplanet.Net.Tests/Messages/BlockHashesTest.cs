@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using Libplanet.Blocks;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Crypto;
 using Libplanet.Net.Messages;
 using NetMQ;

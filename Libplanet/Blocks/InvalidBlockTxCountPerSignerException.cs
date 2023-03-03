@@ -1,7 +1,8 @@
 using System;
 using System.Runtime.Serialization;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Serialization;
 using Libplanet.Blockchain.Policies;
-using Libplanet.Serialization;
 using Libplanet.Tx;
 
 namespace Libplanet.Blocks

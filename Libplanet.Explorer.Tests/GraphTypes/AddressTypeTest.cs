@@ -1,4 +1,5 @@
 using System;
+using Libplanet.Abstractions;
 using Libplanet.Explorer.GraphTypes;
 using Xunit;
 

@@ -1,3 +1,5 @@
+using Libplanet.Abstractions.Tx;
+
 namespace Libplanet.Tx
 {
     /// <summary>

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Bencodex;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Blocks;
 
 namespace Libplanet.Net.Messages

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Libplanet.Abstractions;
 using Libplanet.Crypto;
 using Libplanet.Net.Messages;
 using Libplanet.Net.Protocols;

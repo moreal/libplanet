@@ -5,7 +5,8 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 using Bencodex.Types;
-using Libplanet.Blocks;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Crypto;
 
 namespace Libplanet.Tx

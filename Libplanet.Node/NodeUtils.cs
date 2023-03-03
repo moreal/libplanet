@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using Bencodex;
 using Bencodex.Types;
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 using Libplanet.Blockchain;
 using Libplanet.Blockchain.Policies;
 using Libplanet.Blocks;

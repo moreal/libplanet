@@ -3,6 +3,7 @@ using System;
 using System.Collections.Immutable;
 using System.Linq;
 using Bencodex;
+using Libplanet.Abstractions;
 using Libplanet.Crypto;
 using Xunit;
 

@@ -1,8 +1,9 @@
 using System;
 using Bencodex.Types;
-using Libplanet.Action;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
 using Libplanet.Action.Sys;
-using Libplanet.Assets;
 using Libplanet.Tests.Common.Action;
 using Xunit;
 using static Libplanet.Tests.TestUtils;

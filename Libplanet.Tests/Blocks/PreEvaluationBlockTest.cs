@@ -1,5 +1,6 @@
 using System;
 using System.Security.Cryptography;
+using Libplanet.Abstractions;
 using Libplanet.Blockchain;
 using Libplanet.Blockchain.Policies;
 using Libplanet.Blocks;

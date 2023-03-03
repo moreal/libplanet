@@ -1,4 +1,5 @@
 using GraphQL.Types;
+using Libplanet.Abstractions.Assets;
 using Libplanet.Assets;
 
 namespace Libplanet.Explorer.GraphTypes;

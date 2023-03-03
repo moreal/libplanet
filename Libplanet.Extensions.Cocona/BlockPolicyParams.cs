@@ -1,3 +1,6 @@
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
+
 namespace Libplanet.Extensions.Cocona;
 
 using System;

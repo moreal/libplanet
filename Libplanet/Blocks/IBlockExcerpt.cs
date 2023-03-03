@@ -1,4 +1,5 @@
 using System.Numerics;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Blockchain;
 using Libplanet.Blockchain.Policies;
 

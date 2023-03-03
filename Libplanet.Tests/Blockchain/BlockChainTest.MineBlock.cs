@@ -6,6 +6,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Bencodex.Types;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Action;
 using Libplanet.Blockchain;
 using Libplanet.Blockchain.Policies;

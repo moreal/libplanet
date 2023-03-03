@@ -1,4 +1,5 @@
 using GraphQL.Types;
+using Libplanet.Abstractions.Action;
 using Libplanet.Action;
 using Libplanet.Blocks;
 using Libplanet.Explorer.Interfaces;

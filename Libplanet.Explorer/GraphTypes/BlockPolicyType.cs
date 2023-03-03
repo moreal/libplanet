@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using GraphQL.Types;
+using Libplanet.Abstractions.Action;
 using Libplanet.Action;
 using Libplanet.Blockchain.Policies;
 

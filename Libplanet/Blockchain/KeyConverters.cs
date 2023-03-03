@@ -1,4 +1,5 @@
-using Libplanet.Assets;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Assets;
 
 namespace Libplanet.Blockchain
 {

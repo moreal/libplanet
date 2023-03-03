@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Bencodex.Types;
-using Libplanet.Assets;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
 using static Libplanet.Blockchain.KeyConverters;
 
 namespace Libplanet.Action

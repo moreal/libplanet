@@ -1,3 +1,5 @@
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Blocks;
 using Libplanet.Tx;
 using LiteDB;

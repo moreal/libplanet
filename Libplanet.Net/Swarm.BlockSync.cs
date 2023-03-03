@@ -5,12 +5,14 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Blockchain;
 using Libplanet.Blocks;
 using Libplanet.Store;
 using Libplanet.Tx;
 using Nito.AsyncEx;
-using BlockChainSlice = System.Collections.Generic.LinkedList<Libplanet.Blocks.BlockHash>;
+using BlockChainSlice =
+    System.Collections.Generic.LinkedList<Libplanet.Abstractions.Blocks.BlockHash>;
 
 namespace Libplanet.Net
 {

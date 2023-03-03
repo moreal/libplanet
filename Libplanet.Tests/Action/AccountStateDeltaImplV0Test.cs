@@ -1,3 +1,5 @@
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
 using Libplanet.Action;
 using Libplanet.Blockchain;
 using Libplanet.Blocks;

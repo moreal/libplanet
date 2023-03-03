@@ -5,7 +5,9 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Numerics;
 using Bencodex.Types;
-using Libplanet.Assets;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
 using Libplanet.Consensus;
 using Serilog;
 

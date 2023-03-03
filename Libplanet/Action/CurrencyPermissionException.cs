@@ -1,5 +1,7 @@
 using System;
-using Libplanet.Assets;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
 
 namespace Libplanet.Action
 {
@@ -19,7 +21,7 @@ namespace Libplanet.Action
         /// <param name="transactionSigner"> The address of the account who tried to mint or burn
         /// assets of a <paramref name="currency"/>.  Corresponds to
         /// the <see cref="TransactionSigner"/> property.</param>
-        /// <param name="currency"> The <see cref="Assets.Currency"/> to be tried to be minted
+        /// <param name="currency"> The <see cref="Currency"/> to be tried to be minted
         /// or burned by the <paramref name="transactionSigner"/>.  Corresponds to
         /// the <see cref="Currency"/> property.</param>
         public CurrencyPermissionException(
@@ -39,7 +41,7 @@ namespace Libplanet.Action
         public Address TransactionSigner { get; }
 
         /// <summary>
-        /// The <see cref="Assets.Currency"/> to be tried to be minted or burned by
+        /// The <see cref="Abstractions.Assets.Currency"/> to be tried to be minted or burned by
         /// the <see cref="TransactionSigner"/>.
         /// </summary>
         public Currency Currency { get; }

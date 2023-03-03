@@ -1,5 +1,5 @@
-using Libplanet.Action;
-using Libplanet.Blocks;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Consensus;
 
 namespace Libplanet.Blockchain

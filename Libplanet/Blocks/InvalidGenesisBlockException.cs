@@ -1,4 +1,5 @@
 using System.Diagnostics.Contracts;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Blockchain;
 using Libplanet.Store;
 

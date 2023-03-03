@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using GraphQL.Types;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Assets;
 using Libplanet.Assets;
 
 namespace Libplanet.Explorer.GraphTypes

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 using Libplanet.Blockchain;
 using Libplanet.Blockchain.Renderers;
 using Libplanet.Crypto;

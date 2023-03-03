@@ -1,3 +1,5 @@
+using Libplanet.Abstractions.Assets;
+
 namespace Libplanet.Extensions.Cocona.Tests;
 
 using System;

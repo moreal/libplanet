@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 using Bencodex;
 using Bencodex.Types;
 
-namespace Libplanet.Tx
+namespace Libplanet.Abstractions.Tx
 {
     /// <summary>
     /// <see cref="TxId"/>, abbreviation of transaction identifier,

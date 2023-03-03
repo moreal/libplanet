@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Destructurama.Attributed;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Blocks;
 
 namespace Libplanet.Net.Messages

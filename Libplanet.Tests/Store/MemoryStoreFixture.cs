@@ -1,4 +1,4 @@
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 using Libplanet.Store;
 using Libplanet.Store.Trie;
 

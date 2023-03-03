@@ -1,3 +1,5 @@
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Crypto;
 using Libplanet.Crypto;
 
 namespace Libplanet
@@ -19,8 +21,8 @@ namespace Libplanet
         /// the corresponding <see cref="Address"/> from.</param>
         /// <returns>The corresponding <see cref="Address"/> derived from
         /// <paramref name="publicKey"/>.</returns>
-        /// <seealso cref="Address(PublicKey)"/>
-        public static Address ToAddress(this PublicKey publicKey)
+        /// <seealso cref="Address(IPublicKey)"/>
+        public static Address ToAddress(this IPublicKey publicKey)
         {
             return new Address(publicKey);
         }

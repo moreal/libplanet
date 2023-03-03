@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Caching;
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Blocks;
 
 namespace Libplanet.Store

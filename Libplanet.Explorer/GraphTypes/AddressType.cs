@@ -2,6 +2,7 @@
 using System;
 using GraphQL.Language.AST;
 using GraphQL.Types;
+using Libplanet.Abstractions;
 
 namespace Libplanet.Explorer.GraphTypes
 {

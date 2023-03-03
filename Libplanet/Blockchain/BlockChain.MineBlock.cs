@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Bencodex.Types;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Action;
 using Libplanet.Blockchain.Policies;
 using Libplanet.Blocks;

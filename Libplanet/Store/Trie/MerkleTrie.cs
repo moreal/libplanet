@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using Bencodex;
 using Bencodex.Types;
+using Libplanet.Abstractions;
 using Libplanet.Store.Trie.Nodes;
 
 namespace Libplanet.Store.Trie

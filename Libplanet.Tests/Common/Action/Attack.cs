@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using Bencodex.Types;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
 using Libplanet.Action;
 
 namespace Libplanet.Tests.Common.Action

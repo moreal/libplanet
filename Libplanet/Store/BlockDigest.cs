@@ -5,7 +5,10 @@ using System.Numerics;
 using System.Security.Cryptography;
 using Bencodex;
 using Bencodex.Types;
-using Libplanet.Action;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Blocks;
 using Libplanet.Crypto;
 using Libplanet.Tx;
@@ -14,7 +17,7 @@ namespace Libplanet.Store
 {
     /// <summary>
     /// Class that store uses to save blocks. This contains:
-    /// <see cref="BlockHeader"/>, and list of <see cref="Libplanet.Tx.TxId"/>s.
+    /// <see cref="BlockHeader"/>, and list of <see cref="TxId"/>s.
     /// </summary>
     public readonly struct BlockDigest : IBlockMetadata, IBlockExcerpt
     {

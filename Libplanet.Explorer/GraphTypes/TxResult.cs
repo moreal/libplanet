@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using Bencodex.Types;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Assets;
 using Libplanet.Assets;
 using Libplanet.Explorer.GraphTypes;
 
-using FAV = Libplanet.Assets.FungibleAssetValue;
+using FAV = Libplanet.Abstractions.Assets.FungibleAssetValue;
 
 namespace Libplanet.Explorer.GraphTypes
 {

@@ -1,3 +1,4 @@
+using Libplanet.Abstractions.Action;
 using Libplanet.Blocks;
 
 namespace Libplanet.Action

@@ -1,6 +1,7 @@
 #nullable disable
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Action;
 using Libplanet.Blocks;
 using Libplanet.Store;

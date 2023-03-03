@@ -5,15 +5,16 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bencodex;
 using Bencodex.Types;
-using Libplanet.Crypto;
+using Libplanet.Abstractions.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
 
-namespace Libplanet
+namespace Libplanet.Abstractions
 {
     /// <summary>
     /// An identifier of 20 bytes (or 40 letters in hexadecimal, commonly with
@@ -110,7 +111,7 @@ namespace Libplanet
         /// <param name="publicKey">A <see cref="PublicKey"/> to derive
         /// the corresponding <see cref="Address"/> from.</param>
         /// <seealso cref="AddressExtensions.ToAddress(PublicKey)"/>
-        public Address(PublicKey publicKey)
+        public Address(IPublicKey publicKey)
             : this(DeriveAddress(publicKey))
         {
         }
@@ -297,7 +298,7 @@ namespace Libplanet
             return output;
         }
 
-        private static ImmutableArray<byte> DeriveAddress(PublicKey key)
+        private static ImmutableArray<byte> DeriveAddress(IPublicKey key)
         {
             byte[] hashPayload = key.Format(false).Skip(1).ToArray();
             var output = CalculateHash(hashPayload);

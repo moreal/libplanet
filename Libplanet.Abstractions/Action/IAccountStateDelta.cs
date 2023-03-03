@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using Bencodex.Types;
-using Libplanet.Assets;
+using Libplanet.Abstractions.Assets;
 
-namespace Libplanet.Action
+namespace Libplanet.Abstractions.Action
 {
     /// <summary>
     /// An interface to manipulate account states with

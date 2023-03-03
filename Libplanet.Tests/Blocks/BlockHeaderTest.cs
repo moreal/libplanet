@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Immutable;
 using System.Security.Cryptography;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Blocks;
 using Xunit;
 using static Libplanet.Tests.TestUtils;

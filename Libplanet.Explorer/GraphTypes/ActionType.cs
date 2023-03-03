@@ -10,6 +10,7 @@ using Bencodex;
 using Bencodex.Types;
 using GraphQL;
 using GraphQL.Types;
+using Libplanet.Abstractions.Action;
 using Libplanet.Action;
 
 namespace Libplanet.Explorer.GraphTypes

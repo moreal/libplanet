@@ -1,5 +1,6 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Libplanet.Abstractions;
 using Libplanet.Blocks;
 using Libplanet.Crypto;
 using Xunit;

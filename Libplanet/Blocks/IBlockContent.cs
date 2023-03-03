@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 using Libplanet.Tx;
 
 namespace Libplanet.Blocks

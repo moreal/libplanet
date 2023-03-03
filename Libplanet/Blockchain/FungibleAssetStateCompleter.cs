@@ -1,6 +1,7 @@
-using Libplanet.Action;
-using Libplanet.Assets;
-using Libplanet.Blocks;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
+using Libplanet.Abstractions.Blocks;
 
 namespace Libplanet.Blockchain
 {

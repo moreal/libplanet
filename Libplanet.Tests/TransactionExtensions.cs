@@ -1,4 +1,4 @@
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 using Libplanet.Crypto;
 using Libplanet.Tx;
 

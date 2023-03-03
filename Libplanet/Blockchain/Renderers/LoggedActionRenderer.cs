@@ -1,5 +1,5 @@
 using System;
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 using Libplanet.Blocks;
 using Serilog;
 using Serilog.Events;

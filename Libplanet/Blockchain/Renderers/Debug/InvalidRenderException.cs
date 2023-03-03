@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 
 namespace Libplanet.Blockchain.Renderers.Debug
 {

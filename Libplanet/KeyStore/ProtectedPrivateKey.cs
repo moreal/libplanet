@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text.Json;
+using Libplanet.Abstractions;
 using Libplanet.Crypto;
 using Libplanet.KeyStore.Ciphers;
 using Libplanet.KeyStore.Kdfs;

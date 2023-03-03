@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Bencodex.Types;
-using Libplanet.Action;
-using Libplanet.Blocks;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Blocks;
 
 namespace Libplanet.Blockchain
 {

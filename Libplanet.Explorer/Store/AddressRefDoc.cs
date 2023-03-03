@@ -1,5 +1,7 @@
 #nullable disable
 using System;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Tx;
 using LiteDB;
 

@@ -1,4 +1,4 @@
-using Libplanet.Assets;
+using Libplanet.Abstractions.Assets;
 
 namespace Libplanet.Action
 {

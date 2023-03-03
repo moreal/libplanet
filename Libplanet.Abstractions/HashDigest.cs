@@ -11,8 +11,8 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
-using Libplanet.Serialization;
-using Binder = Microsoft.CSharp.RuntimeBinder.Binder;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Serialization;
 
 namespace Libplanet
 {

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Execution;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Assets;
 using Libplanet.Action;
 using Libplanet.Assets;
 using Libplanet.Blockchain.Policies;

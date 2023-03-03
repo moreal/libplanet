@@ -1,7 +1,9 @@
 using System;
 using System.Runtime.Serialization;
-using Libplanet.Assets;
-using Libplanet.Serialization;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
+using Libplanet.Abstractions.Serialization;
 
 namespace Libplanet.Action
 {

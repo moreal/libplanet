@@ -1,4 +1,5 @@
 using System;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Blockchain;
 using Libplanet.Blocks;
 

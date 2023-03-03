@@ -1,5 +1,5 @@
 #nullable disable
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 
 namespace Libplanet.Blockchain
 {

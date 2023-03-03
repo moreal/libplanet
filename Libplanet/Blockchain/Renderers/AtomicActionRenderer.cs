@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Blocks;
-using Libplanet.Tx;
 
 namespace Libplanet.Blockchain.Renderers
 {

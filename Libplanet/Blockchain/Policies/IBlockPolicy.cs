@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
-using Libplanet.Action;
-using Libplanet.Assets;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
 using Libplanet.Blocks;
 using Libplanet.Tx;
 

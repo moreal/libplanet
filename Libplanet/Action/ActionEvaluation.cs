@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Libplanet.Abstractions.Action;
 
 namespace Libplanet.Action
 {

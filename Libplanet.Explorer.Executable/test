@@ -1,0 +1,24 @@
+6c6
+<   raw(encode: String = "hex"): String!
+---
+>   raw(name: String = "hex"): String!
+85,86c85,86
+<   balance(owner: Address!, currencyHash: ByteString!, offsetBlockHash: ID!): FungibleAssetValue!
+<   totalSupply(currencyHash: ByteString!, offsetBlockHash: ID!): FungibleAssetValue
+---
+>   balance(owner: Address, currencyHash: ByteString, offsetBlockHash: ID): FungibleAssetValue!
+>   totalSupply(currencyHash: ByteString, offsetBlockHash: ID): FungibleAssetValue
+103c103
+<   transactions(signer: Address, involvedAddress: Address, desc: Boolean = false, offset: Int = 0, limit: Int): [Transaction!]!
+---
+>   transactions(signer: Address, involvedAddress: Address, desc: Boolean! = false, offset: Int! = 0, limit: Int): [Transaction!]!
+106,109c106,109
+<   unsignedTransaction(publicKey: String!, plainValue: String!, nonce: Long): ByteString!
+<   nextNonce(address: Address!): Long!
+<   bindSignature(unsignedTransaction: String!, signature: String!): String!
+<   transactionResult(txId: ID!): TxResultType!
+---
+>   unsignedTransaction(publicKey: String, plainValue: String, nonce: Long): ByteString!
+>   nextNonce(address: Address): Long!
+>   bindSignature(unsignedTransaction: String, signature: String): String!
+>   transactionResult(txId: ID): TxResultType!

@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Security.Cryptography;
 using Bencodex;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Blocks;
 using Libplanet.Crypto;
 using Libplanet.Tests.Fixtures;

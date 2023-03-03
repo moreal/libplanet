@@ -12,10 +12,10 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bencodex;
 using Bencodex.Types;
-using Libplanet.Action;
-using Libplanet.Serialization;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Serialization;
 
-namespace Libplanet.Assets
+namespace Libplanet.Abstractions.Assets
 {
     /// <summary>
     /// Represents a currency type.  Every single value of <see cref="Currency"/> defines
@@ -554,10 +554,10 @@ namespace Libplanet.Assets
         /// href="https://w.wiki/ZXv#Treatment_of_minor_currency_units_(the_%22exponent%22)">minor
         /// units (i.e., exponent)</a>.</param>
         /// <param name="minter">The address who can mint the currency.  To specify multiple
-        /// minters, use the <see cref="Uncapped(string,byte,IImmutableSet{Libplanet.Address}?)"/>
+        /// minters, use the <see cref="Uncapped(string,byte,IImmutableSet{Address}?)"/>
         /// See also <see cref="Minters"/> field which corresponds to this.</param>
         /// <returns>An instance of <see cref="Currency"/> without a maximum supply limit.</returns>
-        /// <seealso cref="Uncapped(string,byte,IImmutableSet{Libplanet.Address}?)"/>
+        /// <seealso cref="Uncapped(string,byte,IImmutableSet{Address}?)"/>
         /// <exception cref="ArgumentException">Thrown when the given <paramref name="ticker"/>
         /// is an empty string.</exception>
         public static Currency Uncapped(

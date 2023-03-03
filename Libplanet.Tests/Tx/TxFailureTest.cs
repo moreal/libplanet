@@ -4,7 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Bencodex.Types;
-using Libplanet.Blocks;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Tx;
 using Xunit;
 

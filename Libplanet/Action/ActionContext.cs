@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Security.Cryptography;
-using Libplanet.Assets;
-using Libplanet.Blocks;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Store.Trie;
-using Libplanet.Tx;
 
 namespace Libplanet.Action
 {

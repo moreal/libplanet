@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using Bencodex;
 using Bencodex.Types;
+using Libplanet.Abstractions;
 using Libplanet.Crypto;
 using NetMQ;
 

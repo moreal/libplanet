@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics.Contracts;
 
-namespace Libplanet.Action
+namespace Libplanet.Abstractions.Action
 {
     /// <summary>
     /// An pseudorandom number generator interface equivalent to

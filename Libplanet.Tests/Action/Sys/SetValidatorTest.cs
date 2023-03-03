@@ -1,10 +1,11 @@
 using System;
 using System.Numerics;
 using Bencodex.Types;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Assets;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Action;
 using Libplanet.Action.Sys;
-using Libplanet.Assets;
-using Libplanet.Blocks;
 using Libplanet.Consensus;
 using Libplanet.Crypto;
 using Xunit;

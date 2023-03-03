@@ -1,4 +1,5 @@
 using System;
+using Libplanet.Abstractions;
 
 namespace Libplanet.KeyStore
 {

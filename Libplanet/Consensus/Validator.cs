@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Text.Json.Serialization;
 using Bencodex;
 using Bencodex.Types;
+using Libplanet.Abstractions;
 using Libplanet.Crypto;
 
 namespace Libplanet.Consensus

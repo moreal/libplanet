@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
-using Libplanet.Blocks;
-using Libplanet.Tx;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 using NetMQ;
 
 namespace Libplanet.Net

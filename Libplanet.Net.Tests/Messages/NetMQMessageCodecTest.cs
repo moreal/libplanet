@@ -3,6 +3,7 @@ using System;
 using System.Collections.Immutable;
 using System.Net;
 using Bencodex;
+using Libplanet.Abstractions;
 using Libplanet.Blockchain;
 using Libplanet.Blockchain.Policies;
 using Libplanet.Blocks;

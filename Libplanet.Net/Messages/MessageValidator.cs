@@ -2,6 +2,7 @@ using System;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
+using Libplanet.Abstractions;
 using Libplanet.Crypto;
 using Libplanet.Net.Transports;
 

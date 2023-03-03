@@ -2,6 +2,7 @@ using System;
 using System.Collections.Immutable;
 using System.Linq;
 using Bencodex.Types;
+using Libplanet.Abstractions;
 using Libplanet.Crypto;
 using Xunit;
 using static Libplanet.Tests.TestUtils;

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Action;
 using Libplanet.Blocks;
 using Libplanet.Store;

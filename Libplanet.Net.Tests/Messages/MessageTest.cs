@@ -2,6 +2,7 @@ using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Net;
+using Libplanet.Abstractions;
 using Libplanet.Blocks;
 using Libplanet.Crypto;
 using Libplanet.Net.Messages;

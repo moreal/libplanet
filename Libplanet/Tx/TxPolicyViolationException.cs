@@ -1,4 +1,5 @@
 using System;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Blockchain.Policies;
 
 namespace Libplanet.Tx

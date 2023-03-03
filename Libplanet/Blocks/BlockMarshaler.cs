@@ -5,7 +5,9 @@ using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using Bencodex.Types;
-using Libplanet.Action;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Crypto;
 using Libplanet.Tx;
 

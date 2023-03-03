@@ -3,8 +3,10 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Action;
-using Libplanet.Assets;
 using Libplanet.Blocks;
 using Libplanet.Tx;
 

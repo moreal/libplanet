@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Bencodex.Types;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Assets;
 using Libplanet.Action;
-using Libplanet.Assets;
 
 namespace Libplanet.Tests.Action
 {

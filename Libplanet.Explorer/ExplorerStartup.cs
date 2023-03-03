@@ -3,6 +3,7 @@ using GraphQL;
 using GraphQL.Server;
 using GraphQL.SystemTextJson;
 using GraphQL.Types;
+using Libplanet.Abstractions.Action;
 using Libplanet.Action;
 using Libplanet.Explorer.GraphTypes;
 using Libplanet.Explorer.Interfaces;

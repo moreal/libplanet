@@ -1,6 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 using Bencodex.Types;
+using Libplanet.Abstractions.Action;
 using Libplanet.Consensus;
 
 namespace Libplanet.Action.Sys

@@ -1,7 +1,10 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using Libplanet.Action;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Blockchain;
 using Libplanet.Blocks;
 using Libplanet.Tx;

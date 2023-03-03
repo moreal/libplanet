@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using Bencodex;
 using Bencodex.Types;
 using Destructurama.Attributed;
+using Libplanet.Abstractions;
 using Libplanet.Crypto;
 
 namespace Libplanet.Net

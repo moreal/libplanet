@@ -4,7 +4,10 @@ using System.Collections.Immutable;
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Threading;
-using Libplanet.Action;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Crypto;
 using Libplanet.Tx;
 

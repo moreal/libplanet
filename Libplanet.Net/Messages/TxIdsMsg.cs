@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Libplanet.Tx;
+using Libplanet.Abstractions.Tx;
 
 namespace Libplanet.Net.Messages
 {

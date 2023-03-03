@@ -3,7 +3,9 @@ using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Numerics;
 using Bencodex.Types;
-using Libplanet.Assets;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
 
 namespace Libplanet.Action
 {

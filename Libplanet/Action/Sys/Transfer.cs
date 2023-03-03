@@ -1,6 +1,9 @@
 using System;
 using System.Text.Json.Serialization;
 using Bencodex.Types;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
 using Libplanet.Assets;
 
 namespace Libplanet.Action.Sys

@@ -1,6 +1,9 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Blocks;
 using Libplanet.Store;
 using Libplanet.Tx;

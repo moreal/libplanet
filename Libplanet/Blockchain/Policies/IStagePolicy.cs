@@ -1,5 +1,7 @@
 using System.Collections.Generic;
-using Libplanet.Action;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Tx;
 
 namespace Libplanet.Blockchain.Policies

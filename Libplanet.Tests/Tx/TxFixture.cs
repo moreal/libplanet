@@ -1,6 +1,7 @@
 using System;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Action;
-using Libplanet.Blocks;
 using Libplanet.Crypto;
 using Libplanet.Tests.Common.Action;
 using Libplanet.Tx;

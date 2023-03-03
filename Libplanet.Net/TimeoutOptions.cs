@@ -1,8 +1,8 @@
 using System;
-using Libplanet.Blocks;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Net.Messages;
 using Libplanet.Net.Transports;
-using Libplanet.Tx;
 
 namespace Libplanet.Net
 {

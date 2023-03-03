@@ -1,7 +1,7 @@
 using System;
 using System.Numerics;
 using Bencodex.Types;
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 
 namespace Libplanet.Tests.Fixtures
 {

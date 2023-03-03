@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using GraphQL;
 using GraphQL.Execution;
 using GraphQL.Types;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Action;
 using Libplanet.Blocks;
 using Libplanet.Crypto;

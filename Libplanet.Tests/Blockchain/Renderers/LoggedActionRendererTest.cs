@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Libplanet.Abstractions.Action;
 using Libplanet.Action;
 using Libplanet.Blockchain.Renderers;
 using Libplanet.Consensus;

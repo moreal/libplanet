@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Blocks;
 using Libplanet.Store;
 using Libplanet.Tests.Common.Action;

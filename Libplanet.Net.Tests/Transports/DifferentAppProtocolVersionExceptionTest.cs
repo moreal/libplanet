@@ -2,6 +2,7 @@ using System;
 using System.Collections.Immutable;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Libplanet.Abstractions;
 using Libplanet.Crypto;
 using Xunit;
 

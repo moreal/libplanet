@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using Bencodex.Types;
-using Libplanet.Blocks;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Crypto;
 using Libplanet.Tx;
 using Xunit;

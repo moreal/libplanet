@@ -5,12 +5,15 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
 using Bencodex.Types;
-using Libplanet.Action;
-using Libplanet.Assets;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Blocks;
 using Libplanet.Tx;
 using Serilog;
-using FAV = Libplanet.Assets.FungibleAssetValue;
+using FAV = Libplanet.Abstractions.Assets.FungibleAssetValue;
 
 namespace Libplanet.Store
 {
@@ -46,7 +49,7 @@ namespace Libplanet.Store
             BlockHash branchpoint
         );
 
-        public abstract Transaction<T> GetTransaction<T>(TxId txid)
+        public abstract Transaction<T> GetTransaction<T>(Abstractions.Tx.TxId txid)
             where T : IAction, new();
 
         public abstract void PutTransaction<T>(Transaction<T> tx)
@@ -62,7 +65,7 @@ namespace Libplanet.Store
             if (GetBlockDigest(blockHash) is BlockDigest blockDigest)
             {
                 BlockHeader header = blockDigest.GetHeader();
-                (TxId TxId, Transaction<T> Tx)[] txs = blockDigest.TxIds
+                (Abstractions.Tx.TxId TxId, Transaction<T> Tx)[] txs = blockDigest.TxIds
                     .Select(bytes => new TxId(bytes.ToArray()))
                     .OrderBy(txid => txid)
                     .Select(txid => (txid, GetTransaction<T>(txid)))

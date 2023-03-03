@@ -1,0 +1,136 @@
+schema {
+  query: ExplorerQuery
+}
+
+type Action {
+  raw(encode: String = "hex"): String!
+  inspection: String!
+  json: String!
+}
+
+scalar Address
+
+scalar BencodexValue
+
+scalar BigInt
+
+type Block {
+  hash: ID!
+  index: Long!
+  difficulty: Long!
+  totalDifficulty: BigInt!
+  nonce: ByteString!
+  miner: Address!
+  publicKey: PublicKey
+  previousBlock: Block
+  timestamp: DateTimeOffset!
+  stateRootHash: ByteString!
+  signature: ByteString
+  transactions: [Transaction!]!
+}
+
+type BlockPolicy {
+  nativeTokens: [Currency!]!
+}
+
+type BlockQuery {
+  blocks(desc: Boolean = false, offset: Int = 0, limit: Int, excludeEmptyTxs: Boolean = false, miner: Address): [Block!]!
+  block(hash: ID, index: ID): Block
+}
+
+scalar ByteString
+
+type Currency {
+  ticker: String!
+  decimalPlaces: UInt!
+  minters: [Address!]
+  maximumSupply: FungibleAssetValue
+  totalSupplyTrackable: Boolean!
+  hash: ByteString!
+}
+
+scalar DateTimeOffset
+
+type ExplorerQuery {
+  blockQuery: BlockQuery
+  transactionQuery: TransactionQuery
+  stateQuery: StateQuery
+  nodeState: NodeState!
+  blockPolicy: BlockPolicy!
+}
+
+type FungibleAssetBalancesType {
+  address: Address!
+  fungibleAssetValues: [FungibleAssetValue!]!
+}
+
+type FungibleAssetValue {
+  currency: Currency!
+  sign: Int!
+  majorUnit: BigInt!
+  minorUnit: BigInt!
+  quantity: String!
+  string: String!
+}
+
+scalar Long
+
+type NodeState {
+  preloaded: Boolean!
+}
+
+scalar PublicKey
+
+type StateQuery {
+  balance(owner: Address!, currencyHash: ByteString!, offsetBlockHash: ID!): FungibleAssetValue!
+  totalSupply(currencyHash: ByteString!, offsetBlockHash: ID!): FungibleAssetValue
+}
+
+type Transaction {
+  id: ID!
+  nonce: Long!
+  signer: Address!
+  publicKey: ByteString!
+  updatedAddresses: [Address!]!
+  signature: ByteString!
+  timestamp: DateTimeOffset!
+  actions: [Action!]!
+  serializedPayload: String!
+  blockRef: [Block!]
+}
+
+type TransactionQuery {
+  transactions(signer: Address, involvedAddress: Address, desc: Boolean = false, offset: Int = 0, limit: Int): [Transaction!]!
+  stagedTransactions(signer: Address, involvedAddress: Address, desc: Boolean = false, offset: Int = 0, limit: Int): [Transaction!]!
+  transaction(id: ID): Transaction
+  unsignedTransaction(publicKey: String!, plainValue: String!, nonce: Long): ByteString!
+  nextNonce(address: Address!): Long!
+  bindSignature(unsignedTransaction: String!, signature: String!): String!
+  transactionResult(txId: ID!): TxResultType!
+}
+
+type TxResultType {
+  txStatus: TxStatus!
+  blockIndex: Long
+  blockHash: String
+  exceptionName: String
+  exceptionMetadata: BencodexValue
+  updatedStates: [UpdatedStateType!]
+  updatedFungibleAssets: [FungibleAssetBalancesType!]
+  fungibleAssetsDelta: [FungibleAssetBalancesType!]
+}
+
+enum TxStatus {
+  INVALID
+  STAGING
+  SUCCESS
+  FAILURE
+}
+
+scalar UInt
+
+type UpdatedStateType {
+  address: Address!
+  state: BencodexValue
+}
+

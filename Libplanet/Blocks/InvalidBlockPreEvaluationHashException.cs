@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
-using Libplanet.Serialization;
+using Libplanet.Abstractions.Serialization;
 
 namespace Libplanet.Blocks
 {

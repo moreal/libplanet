@@ -3,9 +3,9 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Action;
 using Libplanet.Tests.Common.Action;
-using Libplanet.Tx;
 using Xunit;
 
 namespace Libplanet.Tests.Action

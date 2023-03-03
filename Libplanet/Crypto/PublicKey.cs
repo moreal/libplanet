@@ -7,6 +7,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 
 namespace Libplanet.Crypto
@@ -30,7 +32,7 @@ namespace Libplanet.Crypto
     /// <seealso cref="PrivateKey"/>
     /// <seealso cref="Address"/>
     [JsonConverter(typeof(PublicKeyJsonConverter))]
-    public class PublicKey : IEquatable<PublicKey>
+    public class PublicKey : IEquatable<PublicKey>, IPublicKey
     {
         /// <summary>
         /// Creates a <see cref="PublicKey"/> instance from the given

@@ -5,8 +5,10 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Bencodex.Types;
-using Libplanet.Action;
-using Libplanet.Assets;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Blockchain;
 using Libplanet.Blockchain.Policies;
 using Libplanet.Blocks;
@@ -18,7 +20,7 @@ using Serilog;
 using Xunit;
 using Xunit.Abstractions;
 using static Libplanet.Tests.TestUtils;
-using FAV = Libplanet.Assets.FungibleAssetValue;
+using FAV = Libplanet.Abstractions.Assets.FungibleAssetValue;
 
 namespace Libplanet.Tests.Store
 {

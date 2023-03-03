@@ -10,6 +10,8 @@ using Bencodex.Types;
 using Cocona;
 using GraphQL.Server;
 using GraphQL.Utilities;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
 using Libplanet.Action;
 using Libplanet.Assets;
 using Libplanet.Blockchain;

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Immutable;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Blocks;
 using Libplanet.Crypto;
 

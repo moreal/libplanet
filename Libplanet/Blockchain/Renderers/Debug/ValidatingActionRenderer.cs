@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Action;
 using Libplanet.Blockchain.Policies;
 using Libplanet.Blocks;

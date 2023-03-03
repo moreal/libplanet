@@ -7,9 +7,9 @@ using System.Numerics;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Libplanet.Serialization;
+using Libplanet.Abstractions.Serialization;
 
-namespace Libplanet.Assets
+namespace Libplanet.Abstractions.Assets
 {
     /// <summary>
     /// Holds a fungible asset value which holds its <see cref="Currency"/> together.

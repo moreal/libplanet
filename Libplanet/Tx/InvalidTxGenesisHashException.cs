@@ -1,7 +1,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Blockchain;
-using Libplanet.Blocks;
 
 namespace Libplanet.Tx
 {

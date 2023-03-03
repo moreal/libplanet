@@ -1,4 +1,4 @@
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 
 namespace Libplanet.Tests.Common.Action
 {

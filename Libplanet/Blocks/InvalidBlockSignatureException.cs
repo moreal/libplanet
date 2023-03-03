@@ -2,8 +2,8 @@ using System;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
+using Libplanet.Abstractions.Serialization;
 using Libplanet.Crypto;
-using Libplanet.Serialization;
 using static Libplanet.ByteUtil;
 
 namespace Libplanet.Blocks

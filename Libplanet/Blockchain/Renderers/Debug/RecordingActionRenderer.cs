@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 using Libplanet.Blocks;
 using Serilog;
 

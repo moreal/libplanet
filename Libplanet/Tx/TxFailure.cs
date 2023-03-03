@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 using Bencodex.Types;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Serialization;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Action;
 using Libplanet.Blocks;
-using Libplanet.Serialization;
 
 namespace Libplanet.Tx
 {

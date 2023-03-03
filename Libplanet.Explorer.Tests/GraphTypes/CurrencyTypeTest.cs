@@ -5,6 +5,8 @@ using System.Numerics;
 using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Execution;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Assets;
 using Libplanet.Assets;
 using Libplanet.Explorer.GraphTypes;
 using Xunit;

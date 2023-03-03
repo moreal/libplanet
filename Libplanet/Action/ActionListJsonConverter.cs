@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bencodex.Json;
 using Bencodex.Types;
+using Libplanet.Abstractions.Action;
 
 namespace Libplanet.Action
 {

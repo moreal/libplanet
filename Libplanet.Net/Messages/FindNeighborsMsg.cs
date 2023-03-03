@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Libplanet.Abstractions;
 
 namespace Libplanet.Net.Messages
 {

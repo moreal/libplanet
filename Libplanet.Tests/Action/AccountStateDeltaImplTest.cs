@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Assets;
 using Libplanet.Action;
-using Libplanet.Assets;
 using Libplanet.Blockchain;
 using Libplanet.Blocks;
 using Libplanet.Tests.Common.Action;

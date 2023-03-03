@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
-using Libplanet.Serialization;
+using Libplanet.Abstractions.Serialization;
 
 namespace Libplanet.Blocks
 {

@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using Bencodex;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Blocks;
 using Libplanet.Crypto;
 using Libplanet.Tests.Fixtures;

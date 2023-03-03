@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
+using Libplanet.Abstractions;
 using Libplanet.Crypto;
 using Libplanet.Store;
 using Serilog;

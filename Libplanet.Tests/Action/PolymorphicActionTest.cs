@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Immutable;
 using Bencodex.Types;
+using Libplanet.Abstractions.Action;
 using Libplanet.Action;
 using Libplanet.Crypto;
 using Libplanet.Tests.Common.Action;

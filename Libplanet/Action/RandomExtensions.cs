@@ -1,5 +1,6 @@
 #nullable disable
 using System;
+using Libplanet.Abstractions.Action;
 
 namespace Libplanet.Action
 {

@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.Serialization;
-using Libplanet.Serialization;
+using Libplanet.Abstractions.Assets;
+using Libplanet.Abstractions.Serialization;
 
 namespace Libplanet.Assets
 {

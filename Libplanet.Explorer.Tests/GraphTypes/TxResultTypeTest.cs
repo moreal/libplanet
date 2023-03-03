@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using GraphQL;
 using GraphQL.Execution;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Assets;
 using Libplanet.Assets;
 using Libplanet.Explorer.GraphTypes;
 using Libplanet.Store;

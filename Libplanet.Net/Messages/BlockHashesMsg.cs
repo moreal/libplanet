@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Destructurama.Attributed;
-using Libplanet.Blocks;
+using Libplanet.Abstractions.Blocks;
 
 namespace Libplanet.Net.Messages
 {
     internal class BlockHashesMsg : MessageContent
     {
-        public BlockHashesMsg(long? startIndex, IEnumerable<BlockHash> hashes)
+        public BlockHashesMsg(long? startIndex, IEnumerable<
+            BlockHash> hashes)
         {
             StartIndex = startIndex;
             Hashes = hashes.ToList();

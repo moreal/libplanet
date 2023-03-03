@@ -1,6 +1,6 @@
 using System.Collections.Immutable;
 using Bencodex.Types;
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 
 namespace Libplanet.Tx
 {

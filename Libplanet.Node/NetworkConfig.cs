@@ -1,5 +1,5 @@
 using System.Collections.Immutable;
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 using Libplanet.Blockchain;
 using Libplanet.Blockchain.Policies;
 using Libplanet.Blocks;

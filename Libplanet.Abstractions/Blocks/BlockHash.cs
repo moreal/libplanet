@@ -8,9 +8,9 @@ using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Libplanet.Serialization;
+using Libplanet.Abstractions.Serialization;
 
-namespace Libplanet.Blocks
+namespace Libplanet.Abstractions.Blocks
 {
     /// <summary>
     /// A value type to represent SHA-256 digest of <see cref="Block{T}"/> data.

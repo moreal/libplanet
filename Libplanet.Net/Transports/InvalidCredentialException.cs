@@ -1,8 +1,8 @@
 using System;
 using System.Runtime.Serialization;
+using Libplanet.Abstractions.Serialization;
 using Libplanet.Crypto;
 using Libplanet.Net.Messages;
-using Libplanet.Serialization;
 
 namespace Libplanet.Net.Transports
 {

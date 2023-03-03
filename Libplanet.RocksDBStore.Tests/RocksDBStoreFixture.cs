@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 using Libplanet.Store;
 using Libplanet.Store.Trie;
 using Libplanet.Tests.Store;

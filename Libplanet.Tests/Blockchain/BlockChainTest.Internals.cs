@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Bencodex.Types;
-using Libplanet.Assets;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Assets;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Blockchain;
 using Libplanet.Blocks;
 using Libplanet.Crypto;
@@ -12,7 +15,7 @@ using Libplanet.Tests.Common.Action;
 using Libplanet.Tx;
 using Xunit;
 using static Libplanet.Tests.TestUtils;
-using FAV = Libplanet.Assets.FungibleAssetValue;
+using FAV = Libplanet.Abstractions.Assets.FungibleAssetValue;
 
 namespace Libplanet.Tests.Blockchain
 {

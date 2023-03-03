@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Blockchain.Policies;
 using Libplanet.Blocks;
 using Libplanet.Store;

@@ -4,6 +4,8 @@ using System.Numerics;
 using System.Security.Cryptography;
 using Bencodex;
 using Bencodex.Types;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Crypto;
 
 namespace Libplanet.Blocks

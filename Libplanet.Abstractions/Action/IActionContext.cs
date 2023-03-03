@@ -1,10 +1,10 @@
 using System.Diagnostics.Contracts;
 using System.Security.Cryptography;
-using Libplanet.Assets;
-using Libplanet.Blocks;
-using Libplanet.Tx;
+using Libplanet.Abstractions.Assets;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 
-namespace Libplanet.Action
+namespace Libplanet.Abstractions.Action
 {
     /// <summary>
     /// Contextual data determined by a transaction and a block.

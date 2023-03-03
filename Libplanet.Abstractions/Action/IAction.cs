@@ -1,7 +1,7 @@
 #nullable disable
 using Bencodex.Types;
 
-namespace Libplanet.Action
+namespace Libplanet.Abstractions.Action
 {
     /// <summary>
     /// An in-game action.  Every action should be replayable, because

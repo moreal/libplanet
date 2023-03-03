@@ -5,8 +5,10 @@ using System.Diagnostics.Contracts;
 using System.Security.Cryptography;
 using Bencodex;
 using Bencodex.Types;
-using Libplanet.Action;
-using Libplanet.Blocks;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Blocks;
+using Libplanet.Abstractions.Tx;
 using Libplanet.Crypto;
 using Libplanet.Tx;
 

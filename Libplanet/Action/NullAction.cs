@@ -1,4 +1,5 @@
 using Bencodex.Types;
+using Libplanet.Abstractions.Action;
 
 namespace Libplanet.Action
 {

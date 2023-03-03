@@ -1,4 +1,5 @@
 using System.Diagnostics.Contracts;
+using Libplanet.Abstractions.Action;
 using Libplanet.Consensus;
 
 namespace Libplanet.Action

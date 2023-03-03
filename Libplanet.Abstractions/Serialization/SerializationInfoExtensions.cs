@@ -1,7 +1,7 @@
 #nullable disable
 using System.Runtime.Serialization;
 
-namespace Libplanet.Serialization
+namespace Libplanet.Abstractions.Serialization
 {
     public static class SerializationInfoExtensions
     {

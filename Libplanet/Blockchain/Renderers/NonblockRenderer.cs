@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Channels;
-using Libplanet.Action;
+using Libplanet.Abstractions.Action;
 using Libplanet.Blocks;
 using Serilog;
 

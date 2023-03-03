@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Bencodex.Types;
+using Libplanet.Abstractions;
 
 namespace Libplanet.Action
 {

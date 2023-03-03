@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Reflection;
+using Libplanet.Abstractions.Action;
 
 namespace Libplanet.Action
 {

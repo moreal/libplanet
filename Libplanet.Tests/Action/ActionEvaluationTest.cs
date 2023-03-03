@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bencodex.Types;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Assets;
 using Libplanet.Action;
-using Libplanet.Assets;
 using Libplanet.Consensus;
 using Libplanet.Crypto;
 using Libplanet.Tests.Common.Action;

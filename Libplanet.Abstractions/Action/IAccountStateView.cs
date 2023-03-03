@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Bencodex.Types;
-using Libplanet.Assets;
+using Libplanet.Abstractions.Assets;
 
-namespace Libplanet.Action
+namespace Libplanet.Abstractions.Action
 {
     /// <summary>
     /// An interface to fetch account states.

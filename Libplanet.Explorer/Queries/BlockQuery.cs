@@ -1,6 +1,9 @@
 #nullable disable
 using GraphQL;
 using GraphQL.Types;
+using Libplanet.Abstractions;
+using Libplanet.Abstractions.Action;
+using Libplanet.Abstractions.Blocks;
 using Libplanet.Action;
 using Libplanet.Blocks;
 using Libplanet.Explorer.GraphTypes;
