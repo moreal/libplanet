@@ -26,7 +26,7 @@ namespace Libplanet.Action
     /// </summary>
     /// <typeparam name="T">An <see cref="IAction"/> type.  It should match
     /// the <see cref="Block{T}"/>'s type parameter.</typeparam>
-    public class ActionEvaluator<T>
+    public class ActionEvaluator<T> : IActionEvaluator<T>
         where T : IAction, new()
     {
         private readonly BlockHash? _genesisHash;
