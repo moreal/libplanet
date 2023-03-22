@@ -22,7 +22,7 @@ namespace Libplanet.Action
     /// <summary>
     /// Class responsible for handling of <see cref="IAction"/> evaluations.
     /// </summary>
-    public class ActionEvaluator
+    public class ActionEvaluator : IActionEvaluator
     {
         private readonly BlockHash? _genesisHash;
         private readonly ILogger _logger;
