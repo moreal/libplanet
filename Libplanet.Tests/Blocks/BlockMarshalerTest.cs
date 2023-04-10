@@ -5,6 +5,7 @@ using Libplanet.Action;
 using Libplanet.Blocks;
 using Libplanet.Tests.Blocks;
 using Libplanet.Tests.Fixtures;
+using Libplanet.Tx;
 using Xunit;
 using Xunit.Abstractions;
 using static Libplanet.Tests.TestUtils;

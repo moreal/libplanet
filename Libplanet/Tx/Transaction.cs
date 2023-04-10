@@ -106,7 +106,7 @@ namespace Libplanet.Tx
                 if (!(_id is { } nonNull))
                 {
                     using var hasher = SHA256.Create();
-                    byte[] payload = Serialize();
+                    byte[] payload = this.Serialize();
                     _id = nonNull = new TxId(hasher.ComputeHash(payload));
                 }
 
@@ -208,7 +208,7 @@ namespace Libplanet.Tx
         /// <see cref="Signature"/> is invalid or not signed by
         /// the account who corresponds to <see cref="PublicKey"/>.
         /// </exception>
-        /// <seealso cref="Serialize()"/>
+        /// <seealso cref="TransactionExtensions.Serialize(ITransaction)"/>
         public static Transaction<T> Deserialize(byte[] bytes)
         {
             // TODO: Move this method to TxMarshaler.
@@ -357,14 +357,6 @@ namespace Libplanet.Tx
                 updatedAddresses,
                 timestamp
             );
-
-        /// <summary>
-        /// Encodes this <see cref="Transaction{T}"/> into a <see cref="byte"/> array.
-        /// </summary>
-        /// <returns>A <a href="https://bencodex.org/">Bencodex</a>
-        /// representation of this <see cref="Transaction{T}"/>.</returns>
-        public byte[] Serialize() =>
-            Codec.Encode(this.MarshalTransaction());
 
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
         [Pure]

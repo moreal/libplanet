@@ -59,10 +59,9 @@ namespace Libplanet.Tx
                 .AddRange(unsignedTx.MarshalTxSigningMetadata());
 
         [Pure]
-        public static Bencodex.Types.Dictionary MarshalTransaction<T>(
-            this Transaction<T> transaction
+        public static Bencodex.Types.Dictionary MarshalTransaction(
+            this ITransaction transaction
         )
-            where T : IAction, new()
         =>
             transaction.MarshalUnsignedTx().Add(SignatureKey, transaction.Signature);
 

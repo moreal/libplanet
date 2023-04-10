@@ -11,6 +11,7 @@ using Libplanet.Net.Messages;
 using Libplanet.Store;
 using Libplanet.Store.Trie;
 using Libplanet.Tests.Common.Action;
+using Libplanet.Tx;
 using NetMQ;
 using Xunit;
 using static Libplanet.Tests.TestUtils;

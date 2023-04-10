@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Bencodex;
 using Libplanet.Action;
 using Libplanet.Blocks;
 using Libplanet.Crypto;
@@ -12,6 +13,8 @@ namespace Libplanet.Tx
     /// </summary>
     public static class TransactionExtensions
     {
+        private static readonly Codec _codec = new Codec();
+
         /// <summary>
         /// Validates if <paramref name="transactions"/> has valid nonces.
         /// It assumes all given <paramref name="transactions"/> belong to a block together.
@@ -111,5 +114,16 @@ namespace Libplanet.Tx
             where T : IAction, new()
         =>
             new Transaction<T>(unsignedTx, signature);
+
+        /// <summary>
+        /// Encodes this <see cref="ITransaction"/> into a <see cref="byte"/> array.
+        /// </summary>
+        /// <param name="transaction"><see cref="ITransaction"/> to serialize.</param>
+        /// <returns>A <a href="https://bencodex.org/">Bencodex</a>
+        /// representation of this <see cref="ITransaction"/>.</returns>
+        public static byte[] Serialize(this ITransaction transaction)
+        {
+            return _codec.Encode(transaction.MarshalTransaction());
+        }
     }
 }
