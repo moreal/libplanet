@@ -153,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.Action.ActionEvaluator.html",
-          "hash": "N1F9MWYmt9nt6FnA0RlhBW7N121sGGObhrlz1Hb17i0="
+          "hash": "huYh8Socx70vYgPCsB+d4S8nLlT7Ej5DcG4mJg81sDM="
         }
       },
       "is_incremental": false,
@@ -250,6 +250,18 @@
         ".html": {
           "relative_path": "api/Libplanet.Action.IActionContext.html",
           "hash": "TXQn1si4pKRvZ4MCcWBS3seYDgFLXCOXUVM5HJqIZB4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Libplanet.Action.IActionEvaluator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Libplanet.Action.IActionEvaluator.html",
+          "hash": "Ud5JiITj+TRl1JS6Pqd19rhPQ0YrMNCyX2/Z6o/Ipac="
         }
       },
       "is_incremental": false,
@@ -537,7 +549,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.Action.html",
-          "hash": "P1owrsl4di2ms30EV4zeJHFh/EvnYl6zuy8AWfCWtvs="
+          "hash": "bjiZzlB7EdqSNhgBdkJj2IqvsuZtQZERxhRowXSFr48="
         }
       },
       "is_incremental": false,
@@ -621,7 +633,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.Blockchain.BlockChain-1.html",
-          "hash": "EtLRMGGjIWl/vO5BWIiMOqBIVIgOKAXjQyRQhX/dnHI="
+          "hash": "udsYrk4DnhJCJmc33Xe1GKV09Yxr2JgK3JYp15WTDPg="
         }
       },
       "is_incremental": false,
@@ -4641,7 +4653,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "EhJ8pyKw8rW08ALWjFqSGy3guLcDE2ZTLWKk50MaUTk="
+          "hash": "pu6ByAL0pz1OeekbSNZ50dQKj03DFYLtEErPAST/mfk="
         }
       },
       "is_incremental": false,
@@ -4750,7 +4762,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 376,
+          "total_file_count": 377,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {
