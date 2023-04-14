@@ -144,6 +144,18 @@ methods.  [<a href="https://github.com/planetarium/libplanet/pull/3067">#3067</a
 <li>Changed <code>BlockChain&lt;T&gt;.ProposeBlock(PrivateKey, DateTimeOffset, BlockCommit, IComparer&lt;Transaction&lt;T&gt;&gt;)</code> method to
 <code>BlockChain&lt;T&gt;.ProposeBlock(PrivateKey, BlockCommit, IComparer&lt;Transaction&lt;T&gt;&gt;)</code>.  [<a href="https://github.com/planetarium/libplanet/pull/3077">#3077</a>]</li>
 <li>Changed <code>BlockChain&lt;T&gt;.ProposeGenesisBlock(IEnumerable&lt;T&gt;, IEnumerable&lt;IAction&gt;, PrivateKey, DateTimeOffset?, IAction, Predicate&lt;Currency&gt;)</code> to <code>BlockChain&lt;T&gt;.ProposeGenesisBlock( PrivateKey, ImmutableList&lt;Transaction&lt;T&gt;&gt;, DateTimeOffset?, IAction, Predicate&lt;Currency&gt;)</code>.  [<a href="https://github.com/planetarium/libplanet/pull/3079">#3079</a>]</li>
+<li>Changed return types and parameter types of serveral methods from
+<code>IReadOnlyList&lt;ActionEvaluation&gt;</code> to <code>IReadOnlyList&lt;IActionEvaluation&gt;</code>.
+[<a href="https://github.com/planetarium/libplanet/pull/3089">#3089</a>]
+<ul>
+<li><code>BlockChain&lt;T&gt;.DetermineGenesisStateRootHash()</code>
+method's <code>evaluations</code> parameter type.</li>
+<li><code>BlockChain&lt;T&gt;.DetermineBlockStateRootHash()</code>
+method's <code>evaluations</code> parameter type.</li>
+<li><code>BlockChain&lt;T&gt;.EvaluateBlock()</code> method's return type.</li>
+<li><code>BlockChain&lt;T&gt;.EvaluateGenesis()</code> method's return type.</li>
+</ul>
+</li>
 </ul>
 <h3 id="backward-incompatible-network-protocol-changes">Backward-incompatible network protocol changes</h3>
 <h3 id="backward-incompatible-storage-format-changes">Backward-incompatible storage format changes</h3>
@@ -211,6 +223,7 @@ interface.  [<a href="https://github.com/planetarium/libplanet/pull/3071">#3071<
 class.  [<a href="https://github.com/planetarium/libplanet/pull/3071">#3071</a>]</li>
 <li>(@planetarium/account-web3-secret-storage) Added <code>Web3KeyMetadata</code>
 interface.  [<a href="https://github.com/planetarium/libplanet/pull/3084">#3084</a>]</li>
+<li>Added <code>IActionEvaluation</code> interface.  [<a href="https://github.com/planetarium/libplanet/pull/3089">#3089</a>]</li>
 </ul>
 <h3 id="behavioral-changes">Behavioral changes</h3>
 <ul>
