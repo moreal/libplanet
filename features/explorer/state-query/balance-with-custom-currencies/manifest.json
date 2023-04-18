@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "CHANGES.html",
-          "hash": "LkYQ3f9hSj9lnw9+ha/Rzc3Xv7OKDyqAr/O4ecsV/vs="
+          "hash": "dAcsA0mKKvrCEK9awwDxE17ecAp22KAS7eMLosxYRwI="
         }
       },
       "is_incremental": false,
@@ -1869,7 +1869,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.Extensions.Cocona.Commands.BlockCommand.OutputFormat.html",
-          "hash": "7EmLxWltjyqFJ5HeCFGqBvZdVm4bO54nTtnt/PDv4wY="
+          "hash": "YKE2/Qbed1RJGA+QzyBTZQOhoLZZdcx93y3gPMXuxLI="
         }
       },
       "is_incremental": false,
@@ -1881,7 +1881,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.Extensions.Cocona.Commands.BlockCommand.html",
-          "hash": "g00bQAY5JDjpZDiLgttzTgTSz0OOkCr9jrPUsaR2U6Q="
+          "hash": "O74gy7yz5XN0VQGlP/2aJNrXXFCy9HQN/1QEZXQMr7Q="
         }
       },
       "is_incremental": false,
