@@ -13,7 +13,7 @@ namespace Libplanet.Tx
     /// transaction.  It cannot be empty nor contain more than one action.
     /// </summary>
     /// <seealso cref="Libplanet.Action.Sys"/>
-    public sealed class TxSystemActionList : TxActionList
+    public sealed class TxSystemActionList : TxActionList, IReadOnlyList<Dictionary>
     {
         /// <summary>
         /// Creates a new <see cref="TxSystemActionList"/> instance with the given
@@ -51,7 +51,10 @@ namespace Libplanet.Tx
         /// <exception cref="IndexOutOfRangeException">Thrown when the given
         /// <paramref name="index"/> is greater than or equal to <see cref="Count"/>.</exception>
         [Pure]
-        public override IAction this[int index]
+        public override IValue this[int index] => ((IReadOnlyList<Dictionary>)this)[index];
+
+        [Pure]
+        Dictionary IReadOnlyList<Dictionary>.this[int index]
         {
             get
             {
@@ -66,15 +69,18 @@ namespace Libplanet.Tx
                     ? throw new IndexOutOfRangeException(
                         "Only index 0 is valid for subscription of a " +
                         $"{nameof(TxSystemActionList)} instance.")
-                    : SystemAction;
+                    : Registry.Serialize(SystemAction);
             }
         }
 
         /// <inheritdoc cref="TxActionList.GetEnumerator"/>
         [Pure]
-        public override IEnumerator<IAction> GetEnumerator()
+        public override IEnumerator<IValue> GetEnumerator()
+            => ((IReadOnlyList<Dictionary>)this).GetEnumerator();
+
+        IEnumerator<Dictionary> IEnumerable<Dictionary>.GetEnumerator()
         {
-            yield return SystemAction;
+            yield return Registry.Serialize(SystemAction);
         }
 
         /// <inheritdoc cref="TxActionList.ToBencodex()"/>

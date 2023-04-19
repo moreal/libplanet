@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Bencodex;
+using Bencodex.Types;
 using Libplanet.Action;
 using Libplanet.Tests.Common.Action;
 using Libplanet.Tx;
@@ -26,7 +28,7 @@ namespace Libplanet.Tests.Tx
         [Fact]
         public void Constructor()
         {
-            var emptyList = new TxCustomActionList(new IAction[0]);
+            var emptyList = new TxCustomActionList(new IValue[0]);
             Assert.Equal(TxCustomActionList.Empty, emptyList);
 
             IAction[] actions =
@@ -36,13 +38,14 @@ namespace Libplanet.Tests.Tx
             };
             var list = new TxCustomActionList(actions);
             Assert.Equal(2, list.Count);
-            Assert.Equal<IEnumerable<IAction>>(actions, list);
+            Assert.Equal<IEnumerable<IValue>>(
+                actions.Select(a => a.PlainValue), list);
         }
 
         [Fact]
         public void Index()
         {
-            var emptyList = new TxCustomActionList(new IAction[0]);
+            var emptyList = new TxCustomActionList(new IValue[0]);
             Assert.Throws<ArgumentOutOfRangeException>(() => emptyList[-1]);
             Assert.Throws<IndexOutOfRangeException>(() => emptyList[0]);
 
@@ -53,15 +56,15 @@ namespace Libplanet.Tests.Tx
             };
             var list = new TxCustomActionList(actions);
             Assert.Throws<ArgumentOutOfRangeException>(() => list[-1]);
-            Assert.Equal(actions[0], list[0]);
-            Assert.Equal(actions[1], list[1]);
+            Assert.Equal(actions[0].PlainValue, list[0]);
+            Assert.Equal(actions[1].PlainValue, list[1]);
             Assert.Throws<IndexOutOfRangeException>(() => list[2]);
         }
 
         [Fact]
         public void Enumeration()
         {
-            var emptyList = new TxCustomActionList(new IAction[0]);
+            var emptyList = new TxCustomActionList(new IValue[0]);
             Assert.Empty(emptyList);
 
             IAction[] actions =
@@ -70,13 +73,14 @@ namespace Libplanet.Tests.Tx
                 new DumbAction(default, "bar"),
             };
             var list = new TxCustomActionList(actions);
-            Assert.Equal<IEnumerable<IAction>>(actions, list);
+            Assert.Equal<IEnumerable<IValue>>(
+                actions.Select(a => a.PlainValue), list);
         }
 
         [Fact]
         public void ToBencodex()
         {
-            var emptyList = new TxCustomActionList(new IAction[0]);
+            var emptyList = new TxCustomActionList(new IValue[0]);
             AssertBencodexEqual(
                 Bencodex.Types.List.Empty,
                 emptyList.ToBencodex());
@@ -113,8 +117,8 @@ namespace Libplanet.Tests.Tx
                 .Add(actions[1].PlainValue);
             var list = TxCustomActionList.FromBencodex<DumbAction>(input);
             Assert.Equal(2, list.Count);
-            Assert.Equal(actions[0], list[0]);
-            Assert.Equal(actions[1], list[1]);
+            Assert.Equal(actions[0].PlainValue, list[0]);
+            Assert.Equal(actions[1].PlainValue, list[1]);
 
             var invalidInput = Bencodex.Types.Dictionary.Empty;
             Assert.Throws<DecodingException>(

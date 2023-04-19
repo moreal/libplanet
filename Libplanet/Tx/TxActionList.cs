@@ -7,7 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Bencodex;
+using Bencodex.Json;
 using Bencodex.Types;
 using Libplanet.Action;
 using Libplanet.Action.Sys;
@@ -21,7 +21,7 @@ namespace Libplanet.Tx
     /// <remarks>It is a <a href="https://en.wikipedia.org/wiki/Sum_type">sum type</a> as
     /// it cannot be inherited from outside of this assembly.</remarks>
     [JsonConverter(typeof(TxActionListJsonConverter))]
-    public abstract class TxActionList : IReadOnlyList<IAction>, IEquatable<TxActionList>
+    public abstract class TxActionList : IReadOnlyList<IValue>, IEquatable<TxActionList>
     {
         private protected TxActionList()
         {
@@ -34,11 +34,11 @@ namespace Libplanet.Tx
 
         /// <inheritdoc cref="IReadOnlyList{T}.this"/>
         [Pure]
-        public abstract IAction this[int index] { get; }
+        public abstract IValue this[int index] { get; }
 
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()"/>
         [Pure]
-        public abstract IEnumerator<IAction> GetEnumerator();
+        public abstract IEnumerator<IValue> GetEnumerator();
 
         /// <inheritdoc cref="IEnumerable.GetEnumerator()"/>
         [Pure]
@@ -56,7 +56,7 @@ namespace Libplanet.Tx
         public bool Equals(TxActionList? other)
         {
             return other is { } && GetType() == other.GetType() && Count == other.Count &&
-                this.SequenceEqual(other, ActionEqualityComparer.Instance);
+                this.SequenceEqual(other);
         }
 
         /// <inheritdoc cref="object.Equals(object?)"/>
@@ -67,35 +67,8 @@ namespace Libplanet.Tx
         [Pure]
         public override int GetHashCode() => this.Aggregate(
             GetType().GetHashCode(),
-            (a, b) => a ^ ActionEqualityComparer.Instance.GetHashCode(b)
+            (a, b) => a ^ b.GetHashCode()
         );
-
-        private class ActionEqualityComparer : IEqualityComparer<IAction>
-        {
-            public static readonly ActionEqualityComparer Instance = new ActionEqualityComparer();
-
-            public bool Equals(IAction? x, IAction? y) =>
-                x is { } && y is { } &&
-                x.GetType() == y.GetType() && x.PlainValue.Equals(y.PlainValue);
-
-            public int GetHashCode(IAction obj) =>
-                obj is null ? 0 : obj.GetType().GetHashCode() ^ GetBencodexHashCode(obj.PlainValue);
-
-            // TODO: Bencodex should fix Dictionary.GetHashCode() and List.GetHashCode()
-            // https://github.com/planetarium/bencodex.net/issues/72
-            private int GetBencodexHashCode(Bencodex.Types.IValue value) =>
-                value switch {
-                    Bencodex.Types.List l => l.Aggregate(
-                        0,
-                        (a, b) => a ^ GetBencodexHashCode(b)
-                    ),
-                    Bencodex.Types.Dictionary d => d.Aggregate(
-                        0,
-                        (a, b) => a ^ GetBencodexHashCode(b.Key) ^ GetBencodexHashCode(b.Value)
-                    ),
-                    _ => value.GetHashCode(),
-                };
-        }
     }
 
     [SuppressMessage(
@@ -105,8 +78,8 @@ namespace Libplanet.Tx
     )]
     internal sealed class TxActionListJsonConverter : JsonConverter<TxActionList>
     {
-        private static readonly ActionListJsonConverter ActionListJsonConverter =
-            new ActionListJsonConverter();
+        private static readonly BencodexJsonConverter BencodexJsonConverter =
+            new BencodexJsonConverter();
 
         private static readonly SysActionJsonConverter SysActionJsonConverter =
             new SysActionJsonConverter();
@@ -123,7 +96,7 @@ namespace Libplanet.Tx
 
             bool? isSystemAction = null;
             IAction? systemAction = null;
-            IImmutableList<IAction>? customActions = null;
+            IImmutableList<IValue>? customActions = null;
             reader.Read();
             while (reader.TokenType != JsonTokenType.EndObject)
             {
@@ -194,7 +167,13 @@ namespace Libplanet.Tx
             else if (value is TxCustomActionList customActionList)
             {
                 writer.WritePropertyName("customActions");
-                ActionListJsonConverter.Write(writer, customActionList.CustomActions, options);
+                writer.WriteStartArray();
+                foreach (IValue customAction in customActionList.CustomActions)
+                {
+                    BencodexJsonConverter.Write(writer, customAction, options);
+                }
+
+                writer.WriteEndArray();
             }
             else
             {

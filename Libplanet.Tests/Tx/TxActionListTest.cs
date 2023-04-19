@@ -30,8 +30,8 @@ namespace Libplanet.Tests.Tx
                 .Add(customActions[1].PlainValue);
             var list = TxCustomActionList.FromBencodex<DumbAction>(input);
             Assert.Equal(2, list.Count);
-            Assert.Equal(customActions[0], list[0]);
-            Assert.Equal(customActions[1], list[1]);
+            Assert.Equal(customActions[0].PlainValue, list[0]);
+            Assert.Equal(customActions[1].PlainValue, list[1]);
         }
 
         [Fact]

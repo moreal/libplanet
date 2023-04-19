@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Bencodex;
 using Bencodex.Types;
 using Libplanet.Action.Sys;
@@ -47,8 +48,8 @@ namespace Libplanet.Tests.Tx
         {
             var sysAction = new Mint(AddressA, FOO * 100);
             var list = new TxSystemActionList(sysAction);
-            var item = Assert.Single(list);
-            Assert.Equal(sysAction, item);
+            var item = Assert.Single((IReadOnlyList<Dictionary>)list);
+            Assert.Equal(sysAction, Registry.Deserialize(item));
         }
 
         [Fact]

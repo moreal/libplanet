@@ -27,8 +27,19 @@ namespace Libplanet.Tx
         /// <param name="customActions">The list of <see cref="IAction"/>s to be executed in a
         /// transaction.</param>
         public TxCustomActionList(IEnumerable<IAction> customActions)
+            : this(customActions.Select(a => a.PlainValue))
         {
-            CustomActions = customActions is IImmutableList<IAction> actions
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="TxCustomActionList"/> instance with the given
+        /// <paramref name="customActions"/>.
+        /// </summary>
+        /// <param name="customActions">The list of <see cref="IValue"/>-typed actions to be
+        /// executed in a transaction.</param>
+        public TxCustomActionList(IEnumerable<IValue> customActions)
+        {
+            CustomActions = customActions is IImmutableList<IValue> actions
                 ? actions
                 : customActions.ToImmutableList();
         }
@@ -38,7 +49,7 @@ namespace Libplanet.Tx
         /// transaction.
         /// </summary>
         [Pure]
-        public IImmutableList<IAction> CustomActions { get; }
+        public IImmutableList<IValue> CustomActions { get; }
 
         /// <inheritdoc cref="TxActionList.Count"/>
         [Pure]
@@ -50,7 +61,7 @@ namespace Libplanet.Tx
         /// <exception cref="IndexOutOfRangeException">Thrown when the given
         /// <paramref name="index"/> is greater than or equal to <see cref="Count"/>.</exception>
         [Pure]
-        public override IAction this[int index]
+        public override IValue this[int index]
         {
             get
             {
@@ -73,13 +84,13 @@ namespace Libplanet.Tx
 
         /// <inheritdoc cref="TxActionList.GetEnumerator"/>
         [Pure]
-        public override IEnumerator<IAction> GetEnumerator() =>
+        public override IEnumerator<IValue> GetEnumerator() =>
             CustomActions.GetEnumerator();
 
         /// <inheritdoc cref="TxActionList.ToBencodex()"/>
         [Pure]
         public override IValue ToBencodex() =>
-            new List(CustomActions.Select(a => a.PlainValue));
+            new List(CustomActions);
 
         /// <summary>
         /// Decodes a <see cref="TxCustomActionList"/> from a Bencodex dictionary.
