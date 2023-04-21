@@ -79,6 +79,9 @@
 <code>IActionRenderer&lt;T&gt;.UnrenderActionError()</code>.  [<a href="https://github.com/planetarium/libplanet/pull/3092">#3092</a>]</li>
 <li>Removed <code>NonblockRenderer</code>, <code>NonblockActionRenderer</code>, <code>DelayedRenderer</code>,
 and <code>DelayedActionRenderer</code> classes.  [<a href="https://github.com/planetarium/libplanet/pull/3098">#3098</a>]</li>
+<li>(Libplanet.Net) Removed optional <code>render</code> parameter from
+all <code>Swarm&lt;T&gt;.PreloadAsync()</code> overload methods.  No rendering is done
+during the preloading phase.  [<a href="https://github.com/planetarium/libplanet/pull/3108">#3108</a>]</li>
 <li>Changed return types and parameter types of serveral methods from
 <code>IReadOnlyList&lt;ActionEvaluation&gt;</code> to <code>IReadOnlyList&lt;IActionEvaluation&gt;</code>.
 [<a href="https://github.com/planetarium/libplanet/pull/3089">#3089</a>]
@@ -110,9 +113,9 @@ methods are no longer invoked by a <code>BlockChain&lt;T&gt;</code>.  [<a href="
 <h3 id="dependencies">Dependencies</h3>
 <ul>
 <li>Upgrade <em>Bencodex</em> from <a href="https://www.nuget.org/packages/Bencodex/0.8.0">0.8.0</a> to
-<a href="https://www.nuget.org/packages/Bencodex/0.9.0">0.9.0</a>.  [<a href="https://github.com/planetarium/libplanet/pull/3102">#3102</a>]</li>
+<a href="https://www.nuget.org/packages/Bencodex/0.10.0">0.10.0</a>.  [<a href="https://github.com/planetarium/libplanet/pull/3106">#3106</a>]</li>
 <li>Upgrade <em>Bencodex.Json</em> from <a href="https://www.nuget.org/packages/Bencodex.Json/0.8.0">0.8.0</a> to
-<a href="https://www.nuget.org/packages/Bencodex.Json/0.9.0">0.9.0</a>.  [<a href="https://github.com/planetarium/libplanet/pull/3102">#3102</a>]</li>
+<a href="https://www.nuget.org/packages/Bencodex.Json/0.10.0">0.10.0</a>.  [<a href="https://github.com/planetarium/libplanet/pull/3106">#3106</a>]</li>
 </ul>
 <h3 id="cli-tools">CLI tools</h3>
 <h2 id="version-100">Version 1.0.0</h2>
