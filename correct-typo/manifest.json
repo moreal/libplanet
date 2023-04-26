@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "CHANGES.html",
-          "hash": "TbyPzqcVJvdXt+RjTzhBeUDPcaY6Wdwz2/9Bd7RM7+4="
+          "hash": "MCX3XXRJ4z36wE7xEb6zs38iA60rwCGlxoCNmIMBeQw="
         }
       },
       "is_incremental": false,
@@ -453,7 +453,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.Action.Sys.Initialize.html",
-          "hash": "7uLp05isnGi4ImxBxjk9q9sKEERVVjzvooo0aauHrxw="
+          "hash": "AFzzRmkA6M2o5VsksytEVsaEYm8Dxj38poE4R4e6GEI="
         }
       },
       "is_incremental": false,
@@ -465,7 +465,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.Action.Sys.Mint.html",
-          "hash": "zTYg/gcZJ0gJTY+R9xXG7aSjDDALGXC3AM9vCnb6rBk="
+          "hash": "PEY9PIoV4+cShVdZQRV7lexCtU5dBkajTobY6XaTpQ4="
         }
       },
       "is_incremental": false,
@@ -477,7 +477,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.Action.Sys.Transfer.html",
-          "hash": "t/iNOUiyMzHC3ONxzAayqfrNTc6q+TqM1EZfPuL8+OQ="
+          "hash": "1xNoNUPa4xdcDm7LXQCgFmKVK0argyoOC1+3GR+nIZ4="
         }
       },
       "is_incremental": false,
