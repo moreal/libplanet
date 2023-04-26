@@ -72,39 +72,49 @@
 
   <h1 id="Libplanet_Tx_ITransaction" data-uid="Libplanet.Tx.ITransaction" class="text-break">Interface ITransaction
 </h1>
-  <div class="markdown level0 summary"><p>Similar to <a class="xref" href="Libplanet.Tx.ITxExcerpt.html">ITxExcerpt</a> except that it has <a class="xref" href="Libplanet.Tx.ITransaction.html#Libplanet_Tx_ITransaction_Signature">Signature</a>,
-<a class="xref" href="Libplanet.Tx.ITransaction.html#Libplanet_Tx_ITransaction_SystemAction">SystemAction</a> and <a class="xref" href="Libplanet.Tx.ITransaction.html#Libplanet_Tx_ITransaction_CustomActions">CustomActions</a> as well.</p>
+  <div class="markdown level0 summary"><p>An abstract interface for a transaction.  Unlike <a class="xref" href="Libplanet.Tx.Transaction-1.html">Transaction&lt;T&gt;</a>, it deals
+with custom actions in a non-generic way.  Instead, they are represented as
+<a class="xref" href="Libplanet.Action.IAction.html">IAction</a>.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
-      <a class="xref" href="Libplanet.Tx.ITxExcerpt.html#Libplanet_Tx_ITxExcerpt_Id">ITxExcerpt.Id</a>
+      <a class="xref" href="Libplanet.Tx.ITxInvoice.html#Libplanet_Tx_ITxInvoice_UpdatedAddresses">ITxInvoice.UpdatedAddresses</a>
     </div>
     <div>
-      <a class="xref" href="Libplanet.Tx.ITxMetadata.html#Libplanet_Tx_ITxMetadata_Nonce">ITxMetadata.Nonce</a>
+      <a class="xref" href="Libplanet.Tx.ITxInvoice.html#Libplanet_Tx_ITxInvoice_Timestamp">ITxInvoice.Timestamp</a>
     </div>
     <div>
-      <a class="xref" href="Libplanet.Tx.ITxMetadata.html#Libplanet_Tx_ITxMetadata_Signer">ITxMetadata.Signer</a>
+      <a class="xref" href="Libplanet.Tx.ITxInvoice.html#Libplanet_Tx_ITxInvoice_GenesisHash">ITxInvoice.GenesisHash</a>
     </div>
     <div>
-      <a class="xref" href="Libplanet.Tx.ITxMetadata.html#Libplanet_Tx_ITxMetadata_UpdatedAddresses">ITxMetadata.UpdatedAddresses</a>
+      <a class="xref" href="Libplanet.Tx.ITxInvoice.html#Libplanet_Tx_ITxInvoice_Actions">ITxInvoice.Actions</a>
     </div>
     <div>
-      <a class="xref" href="Libplanet.Tx.ITxMetadata.html#Libplanet_Tx_ITxMetadata_Timestamp">ITxMetadata.Timestamp</a>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals#system-iequatable-1-equals(-0)">IEquatable&lt;ITxInvoice&gt;.Equals(ITxInvoice)</a>
     </div>
     <div>
-      <a class="xref" href="Libplanet.Tx.ITxMetadata.html#Libplanet_Tx_ITxMetadata_PublicKey">ITxMetadata.PublicKey</a>
+      <a class="xref" href="Libplanet.Tx.ITxSigningMetadata.html#Libplanet_Tx_ITxSigningMetadata_Nonce">ITxSigningMetadata.Nonce</a>
     </div>
     <div>
-      <a class="xref" href="Libplanet.Tx.ITxMetadata.html#Libplanet_Tx_ITxMetadata_GenesisHash">ITxMetadata.GenesisHash</a>
+      <a class="xref" href="Libplanet.Tx.ITxSigningMetadata.html#Libplanet_Tx_ITxSigningMetadata_Signer">ITxSigningMetadata.Signer</a>
+    </div>
+    <div>
+      <a class="xref" href="Libplanet.Tx.ITxSigningMetadata.html#Libplanet_Tx_ITxSigningMetadata_PublicKey">ITxSigningMetadata.PublicKey</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals#system-iequatable-1-equals(-0)">IEquatable&lt;ITxSigningMetadata&gt;.Equals(ITxSigningMetadata)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals#system-iequatable-1-equals(-0)">IEquatable&lt;IUnsignedTx&gt;.Equals(IUnsignedTx)</a>
     </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Libplanet.Tx.html">Libplanet.Tx</a></h6>
   <h6><strong>Assembly</strong>: Libplanet.dll</h6>
   <h5 id="Libplanet_Tx_ITransaction_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public interface ITransaction : ITxExcerpt, ITxMetadata</code></pre>
+    <pre><code class="lang-csharp hljs">public interface ITransaction : IUnsignedTx, ITxInvoice, IEquatable&lt;ITxInvoice&gt;, ITxSigningMetadata, IEquatable&lt;ITxSigningMetadata&gt;, IEquatable&lt;IUnsignedTx&gt;</code></pre>
   </div>
   <h3 id="properties">Properties
 </h3>
@@ -113,7 +123,7 @@
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Tx_ITransaction_CustomActions.md&amp;value=---%0Auid%3A%20Libplanet.Tx.ITransaction.CustomActions%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Tx/ITransaction.cs/#L33">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Tx/ITransaction.cs/#L41">View Source</a>
   </span>
   <a id="Libplanet_Tx_ITransaction_CustomActions_" data-uid="Libplanet.Tx.ITransaction.CustomActions*"></a>
   <h4 id="Libplanet_Tx_ITransaction_CustomActions" data-uid="Libplanet.Tx.ITransaction.CustomActions">CustomActions</h4>
@@ -147,10 +157,46 @@ it is non-generic.  (i.e., it doesn't require to deserialize the custom actions 
 </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Tx_ITransaction_Id.md&amp;value=---%0Auid%3A%20Libplanet.Tx.ITransaction.Id%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Tx/ITransaction.cs/#L19">View Source</a>
+  </span>
+  <a id="Libplanet_Tx_ITransaction_Id_" data-uid="Libplanet.Tx.ITransaction.Id*"></a>
+  <h4 id="Libplanet_Tx_ITransaction_Id" data-uid="Libplanet.Tx.ITransaction.Id">Id</h4>
+  <div class="markdown level1 summary"><p>The unique identifier derived from this transaction's content including actions and
+signature.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">TxId Id { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Libplanet.Tx.TxId.html">TxId</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Libplanet_Tx_ITransaction_Id_seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="Libplanet.Tx.TxId.html">TxId</a></div>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Tx_ITransaction_Signature.md&amp;value=---%0Auid%3A%20Libplanet.Tx.ITransaction.Signature%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Tx/ITransaction.cs/#L16">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Tx/ITransaction.cs/#L24">View Source</a>
   </span>
   <a id="Libplanet_Tx_ITransaction_Signature_" data-uid="Libplanet.Tx.ITransaction.Signature*"></a>
   <h4 id="Libplanet_Tx_ITransaction_Signature" data-uid="Libplanet.Tx.ITransaction.Signature">Signature</h4>
@@ -181,7 +227,7 @@ it is non-generic.  (i.e., it doesn't require to deserialize the custom actions 
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Tx_ITransaction_SystemAction.md&amp;value=---%0Auid%3A%20Libplanet.Tx.ITransaction.SystemAction%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Tx/ITransaction.cs/#L24">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Tx/ITransaction.cs/#L32">View Source</a>
   </span>
   <a id="Libplanet_Tx_ITransaction_SystemAction_" data-uid="Libplanet.Tx.ITransaction.SystemAction*"></a>
   <h4 id="Libplanet_Tx_ITransaction_SystemAction" data-uid="Libplanet.Tx.ITransaction.SystemAction">SystemAction</h4>
@@ -190,7 +236,7 @@ it is non-generic.  (i.e., it doesn't require to deserialize the custom actions 
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">Dictionary SystemAction { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">IValue SystemAction { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -202,7 +248,7 @@ it is non-generic.  (i.e., it doesn't require to deserialize the custom actions 
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Bencodex.Types.Dictionary</span></td>
+        <td><span class="xref">Bencodex.Types.IValue</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -212,6 +258,31 @@ it is non-generic.  (i.e., it doesn't require to deserialize the custom actions 
 it is non-generic.  (i.e., it doesn't require to deserialize the system action to
 <a class="xref" href="Libplanet.Action.IAction.html">IAction</a> while serialization.</p>
 </div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="Libplanet.Tx.TransactionExtensions.html#Libplanet_Tx_TransactionExtensions_Combine_Libplanet_Tx_ITxInvoice_Libplanet_Tx_ITxSigningMetadata_">TransactionExtensions.Combine(ITxInvoice, ITxSigningMetadata)</a>
+  </div>
+  <div>
+      <a class="xref" href="Libplanet.Tx.TransactionExtensions.html#Libplanet_Tx_TransactionExtensions_Sign__1_Libplanet_Tx_ITxInvoice_Libplanet_Crypto_PrivateKey_System_Int64_">TransactionExtensions.Sign&lt;T&gt;(ITxInvoice, PrivateKey, Int64)</a>
+  </div>
+  <div>
+      <a class="xref" href="Libplanet.Tx.TxMarshaler.html#Libplanet_Tx_TxMarshaler_MarshalTxInvoice_Libplanet_Tx_ITxInvoice_">TxMarshaler.MarshalTxInvoice(ITxInvoice)</a>
+  </div>
+  <div>
+      <a class="xref" href="Libplanet.Tx.TxMarshaler.html#Libplanet_Tx_TxMarshaler_MarshalTxSigningMetadata_Libplanet_Tx_ITxSigningMetadata_">TxMarshaler.MarshalTxSigningMetadata(ITxSigningMetadata)</a>
+  </div>
+  <div>
+      <a class="xref" href="Libplanet.Tx.TransactionExtensions.html#Libplanet_Tx_TransactionExtensions_Sign__1_Libplanet_Tx_IUnsignedTx_Libplanet_Crypto_PrivateKey_">TransactionExtensions.Sign&lt;T&gt;(IUnsignedTx, PrivateKey)</a>
+  </div>
+  <div>
+      <a class="xref" href="Libplanet.Tx.TransactionExtensions.html#Libplanet_Tx_TransactionExtensions_Verify__1_Libplanet_Tx_IUnsignedTx_System_Collections_Immutable_ImmutableArray_System_Byte__">TransactionExtensions.Verify&lt;T&gt;(IUnsignedTx, ImmutableArray&lt;Byte&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Libplanet.Tx.TxMarshaler.html#Libplanet_Tx_TxMarshaler_MarshalUnsignedTx_Libplanet_Tx_IUnsignedTx_">TxMarshaler.MarshalUnsignedTx(IUnsignedTx)</a>
+  </div>
+  <div>
+      <a class="xref" href="Libplanet.Tx.TxMarshaler.html#Libplanet_Tx_TxMarshaler_SerializeUnsignedTx_Libplanet_Tx_IUnsignedTx_">TxMarshaler.SerializeUnsignedTx(IUnsignedTx)</a>
+  </div>
 </article>
           </div>
 
@@ -223,7 +294,7 @@ it is non-generic.  (i.e., it doesn't require to deserialize the system action t
                     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Tx_ITransaction.md&amp;value=---%0Auid%3A%20Libplanet.Tx.ITransaction%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Tx/ITransaction.cs/#L11" class="contribution-link">View Source</a>
+                    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Tx/ITransaction.cs/#L12" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
@@ -243,7 +314,7 @@ it is non-generic.  (i.e., it doesn't require to deserialize the system action t
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-      Copyright © 2018–2022 <a href="https://planetariumhq.com/">Planetarium</a>
+      Copyright © 2018–2023 <a href="https://planetariumhq.com/">Planetarium</a>
       
           </div>
         </div>

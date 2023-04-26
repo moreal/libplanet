@@ -80,7 +80,7 @@
       <section><p>A record type to represent an evaluation plan and result of
 a single action.</p>
 </section>
-      <h4><a class="xref" href="Libplanet.Action.ActionEvaluator-1.html">ActionEvaluator&lt;T&gt;</a></h4>
+      <h4><a class="xref" href="Libplanet.Action.ActionEvaluator.html">ActionEvaluator</a></h4>
       <section><p>Class responsible for handling of <a class="xref" href="Libplanet.Action.IAction.html">IAction</a> evaluations.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Action.ActionTypeAttribute.html">ActionTypeAttribute</a></h4>
@@ -145,6 +145,8 @@ legacy untracked currency with <a class="xref" href="Libplanet.Assets.Currency.h
 <p>The actual exception that the <a class="xref" href="Libplanet.Action.UnexpectedlyTerminatedActionException.html#Libplanet_Action_UnexpectedlyTerminatedActionException_Action">Action</a> threw
 is stored in the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.innerexception#system-exception-innerexception">InnerException</a> property.</p>
 </section>
+      <h4><a class="xref" href="Libplanet.Action.ValidatorStateExtensions.html">ValidatorStateExtensions</a></h4>
+      <section></section>
     <h3 id="interfaces">Interfaces
 </h3>
       <h4><a class="xref" href="Libplanet.Action.IAccountStateDelta.html">IAccountStateDelta</a></h4>
@@ -210,6 +212,10 @@ not code of an action.</p>
       <section><p>Contextual data determined by a transaction and a block.
 Passed to <a class="xref" href="Libplanet.Action.IAction.html#Libplanet_Action_IAction_Execute_Libplanet_Action_IActionContext_">Execute(IActionContext)</a> method.</p>
 </section>
+      <h4><a class="xref" href="Libplanet.Action.IActionEvaluation.html">IActionEvaluation</a></h4>
+      <section></section>
+      <h4><a class="xref" href="Libplanet.Action.IActionEvaluator.html">IActionEvaluator</a></h4>
+      <section></section>
       <h4><a class="xref" href="Libplanet.Action.IActionTypeLoader.html">IActionTypeLoader</a></h4>
       <section><p>An interface to load action types branched by block index.</p>
 </section>
@@ -220,12 +226,16 @@ Passed to <a class="xref" href="Libplanet.Action.IAction.html#Libplanet_Action_I
       <section><p>Marks an exception type as able to extract its metadata, so that these metadata can be
 stored as a part of <a class="xref" href="Libplanet.Tx.TxFailure.html">TxFailure</a>.</p>
 </section>
+      <h4><a class="xref" href="Libplanet.Action.IFeeCalculator.html">IFeeCalculator</a></h4>
+      <section></section>
       <h4><a class="xref" href="Libplanet.Action.IRandom.html">IRandom</a></h4>
       <section><p>An pseudorandom number generator interface equivalent to
 <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.random">Random</a>.</p>
 <p>Although these two types have similar shapes, they are not
 compatible (i.e., disallowed to be casted to each other).</p>
 </section>
+      <h4><a class="xref" href="Libplanet.Action.IValidatorSupportStateDelta.html">IValidatorSupportStateDelta</a></h4>
+      <section></section>
     <h3 id="delegates">Delegates
 </h3>
       <h4><a class="xref" href="Libplanet.Action.AccountBalanceGetter.html">AccountBalanceGetter</a></h4>
@@ -274,7 +284,7 @@ never been set these absent states are represented as <span class="xref">null</s
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-      Copyright © 2018–2022 <a href="https://planetariumhq.com/">Planetarium</a>
+      Copyright © 2018–2023 <a href="https://planetariumhq.com/">Planetarium</a>
       
           </div>
         </div>

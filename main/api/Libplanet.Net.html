@@ -86,8 +86,13 @@
       <h4><a class="xref" href="Libplanet.Net.AsyncDelegate-1.html">AsyncDelegate&lt;T&gt;</a></h4>
       <section></section>
       <h4><a class="xref" href="Libplanet.Net.BlockCandidateTable-1.html">BlockCandidateTable&lt;T&gt;</a></h4>
-      <section><p>A class which table data structure that stores <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a>s
-received from <a class="xref" href="Libplanet.Net.BoundPeer.html">BoundPeer</a>.</p>
+      <section><p>
+A class for storing downloaded <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a>s as <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary&lt;TKey,TValue&gt;</a>.
+A <a class="xref" href="Libplanet.Blocks.BlockHeader.html">BlockHeader</a> is used as a key for storing downloading context.
+</p>
+<p>
+This is designed to be exception free.
+</p>
 </section>
       <h4><a class="xref" href="Libplanet.Net.BlockDemandTable-1.html">BlockDemandTable&lt;T&gt;</a></h4>
       <section></section>
@@ -109,7 +114,7 @@ received from <a class="xref" href="Libplanet.Net.BoundPeer.html">BoundPeer</a>.
 </section>
       <h4><a class="xref" href="Libplanet.Net.IceServer.html">IceServer</a></h4>
       <section></section>
-      <h4><a class="xref" href="Libplanet.Net.InvalidMessageException.html">InvalidMessageException</a></h4>
+      <h4><a class="xref" href="Libplanet.Net.InvalidMessageContentException.html">InvalidMessageContentException</a></h4>
       <section></section>
       <h4><a class="xref" href="Libplanet.Net.InvalidStateTargetException.html">InvalidStateTargetException</a></h4>
       <section></section>
@@ -195,7 +200,7 @@ a trusted signer in the network.</p>
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-      Copyright © 2018–2022 <a href="https://planetariumhq.com/">Planetarium</a>
+      Copyright © 2018–2023 <a href="https://planetariumhq.com/">Planetarium</a>
       
           </div>
         </div>

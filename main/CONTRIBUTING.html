@@ -110,7 +110,12 @@ projects with dependencies that are incompatible with Mono
 </code></pre>
 <h2 id="projects">Projects</h2>
 <p>The <a href="https://github.com/planetarium/libplanet">planetarium/libplanet</a> repository
-on GitHub consists of several projects:</p>
+on GitHub consists of several projects.  There are two types of projects:</p>
+<ul>
+<li>.NET projects under the umbrella of <em>Libplanet.sln</em></li>
+<li>TypeScript/JavaScript project under the <a href="https://yarnpkg.com/features/workspaces">Yarn 3 workspace</a></li>
+</ul>
+<h3 id="net-projects">.NET projects</h3>
 <ul>
 <li><p><em>Libplanet</em>: The main project, which contains the most of implementation
 code.  It is distributed as a NuGet package with the same name:
@@ -120,12 +125,13 @@ code.  It is distributed as a NuGet package with the same name:
 <em>Libplanet</em>.  This is distributed as a distinct NuGet package:
 <em><a href="https://www.nuget.org/packages/Libplanet.Net/">Libplanet.Net</a></em>.</p>
 </li>
-<li><p><em>Libplanet.Node</em>: User-friendly façade API for building your own
-peer-to-peer network.  This is distributed as a distinct NuGet package:
-<em><a href="https://www.nuget.org/packages/Libplanet.Node/">Libplanet.Node</a></em>.</p>
-</li>
 <li><p><em>Libplanet.Stun</em>: The project dedicated to implement <a href="https://snack.planetarium.dev/eng/2019/06/nat_traversal_2/">TURN &amp; STUN</a>.
 This is distributed as a distinct NuGet package: <em><a href="https://www.nuget.org/packages/Libplanet.Stun/">Libplanet.Stun</a></em>.</p>
+</li>
+<li><p><em>Libplanet.Crypto.Secp256k1</em>: The <code>ICryptoBackend&lt;T&gt;</code> implementation built
+on native <a href="https://github.com/bitcoin-core/secp256k1">libsecp256k1</a>.  As this depends on a platform-dependent library
+(which is written in C), this is distributed as a distinct NuGet package:
+<em><a href="https://www.nuget.org/packages/Libplanet.Crypto.Secp256k1/">Libplanet.Crypto.Secp256k1</a></em>.</p>
 </li>
 <li><p><em>Libplanet.RocksDBStore</em>: The <code>IStore</code> implementation built on <a href="https://rocksdb.org/">RocksDB</a>.
 As this depends on platform-dependent libraries (which is written in C/C++),
@@ -150,31 +156,38 @@ Note that this project in itself is a library, and packaging it as
 an executable is done by a below project named
 <em>Libplanet.Explorer.Executable</em>.</p>
 </li>
-<li><p><em>Libplanet.Explorer.Executable</em>: Turns Libplanet Explorer into a single
-executable binary so that it is easy to distribute.</p>
+<li><p><em>Libplanet.Explorer.Cocona</em>: Provides <a href="https://www.nuget.org/packages/Cocona">Cocona</a> commands related to
+<em>Libplanet.Explorer</em>.</p>
+</li>
+<li><p><em>Libplanet.Explorer.Executable</em>: (<strong>DEPRECATED</strong>) Turns Libplanet Explorer
+into a single executable binary so that it is easy to distribute.</p>
 </li>
 <li><p><em>Libplanet.Benchmarks</em>: Performance benchmarks.
 See the <a href="#benchmarks"><em>Benchmarks</em></a> section below.</p>
 </li>
-<li><p><em>Libplanet.Tests</em>: Unit tests of the <em>Libplanet</em> project.  See the <em>Tests</em>
+<li><p><em>Libplanet.Tests</em>: Unit tests for the <em>Libplanet</em> project.  See the <em>Tests</em>
 section below.</p>
 </li>
-<li><p><em>Libplanet.Net.Tests</em>: Unit tests of the <em>Libplanet.Net</em> project.</p>
-</li>
-<li><p><em>Libplanet.Node.Tests</em>: Unit tests of the <em>Libplanet.Node</em> project.</p>
+<li><p><em>Libplanet.Net.Tests</em>: Unit tests for the <em>Libplanet.Net</em> project.</p>
 </li>
 <li><p><em>Libplanet.Stun.Tests</em>: Unit tests of the <em>Libplanet.Stun</em> project.</p>
 </li>
-<li><p><em>Libplanet.RocksDBStore.Tests</em>: Unit tests of the <em>Libplanet.RocksDBStore</em>
+<li><p><em>Libplanet.Crypto.Secp256k1.Tests</em>: Unit tests for
+the <em>Libplanet.Crypto.Secp256k1</em> project.</p>
+</li>
+<li><p><em>Libplanet.RocksDBStore.Tests</em>: Unit tests for the <em>Libplanet.RocksDBStore</em>
 project.</p>
 </li>
-<li><p><em>Libplanet.Analyzers.Tests</em>: Unit tests of the <em>Libplanet.Analyzers</em>
+<li><p><em>Libplanet.Analyzers.Tests</em>: Unit tests for the <em>Libplanet.Analyzers</em>
 project.</p>
 </li>
-<li><p><em>Libplanet.Explorer.Tests</em>: Unit tests of the <em>Libplanet.Explorer</em>
+<li><p><em>Libplanet.Explorer.Tests</em>: Unit tests for the <em>Libplanet.Explorer</em>
 project.</p>
 </li>
-<li><p><em>Libplanet.Extensions.Cocona.Tests</em>: Unit tests of the
+<li><p><em>Libplanet.Explorer.Cocona.Tests</em>: Unit tests for the
+<em>Libplanet.Explorer.Cocona</em> project.</p>
+</li>
+<li><p><em>Libplanet.Extensions.Cocona.Tests</em>: Unit tests for the
 <em>Libplanet.Extensions.Cocona</em> project.</p>
 </li>
 </ul>
@@ -308,7 +321,7 @@ docs for details.</p>
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-      Copyright © 2018–2022 <a href="https://planetariumhq.com/">Planetarium</a>
+      Copyright © 2018–2023 <a href="https://planetariumhq.com/">Planetarium</a>
       
           </div>
         </div>
