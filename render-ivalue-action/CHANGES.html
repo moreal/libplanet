@@ -117,17 +117,22 @@ method's <code>evaluations</code> parameter type.</li>
 <li><code>BlockChain&lt;T&gt;.EvaluateGenesis()</code> method's return type.</li>
 </ul>
 </li>
-<li>Removed <code>BlockChain&lt;T&gt;.MakeTransaction(PrivateKey, IAction, IImmutableSet&lt;Address&gt;, DateTimeOffset?)</code>.  [[#3116]]</li>
-<li>Removed <code>Transaction&lt;T&gt;.Create(long, PrivateKey, BlockHash?, IAction, IImmutableSet&lt;Address&gt;?, DateTimeOffset?)</code>.  [[#3116]]</li>
-<li>Added <code>Transaction&lt;T&gt;.Create(long, PrivateKey, BlockHash?, IEnumerable&lt;IValue&gt;, IImmutableSet&lt;Address&gt;?, DateTimeOffset?)</code>.  [[#3116]]</li>
+<li>Removed <code>BlockChain&lt;T&gt;.MakeTransaction(PrivateKey, IAction, IImmutableSet&lt;Address&gt;, DateTimeOffset?)</code>.  [<a href="https://github.com/planetarium/libplanet/pull/3116">#3116</a>]</li>
+<li>Removed <code>Transaction&lt;T&gt;.Create(long, PrivateKey, BlockHash?, IAction, IImmutableSet&lt;Address&gt;?, DateTimeOffset?)</code>.  [<a href="https://github.com/planetarium/libplanet/pull/3116">#3116</a>]</li>
+<li>Added <code>Transaction&lt;T&gt;.Create(long, PrivateKey, BlockHash?, IEnumerable&lt;IValue&gt;, IImmutableSet&lt;Address&gt;?, DateTimeOffset?)</code>.  [<a href="https://github.com/planetarium/libplanet/pull/3116">#3116</a>]</li>
 <li>Removed <code>ITransaction.SystemAction</code> and <code>ITransaction.CustomActions</code>.
-Use <code>ITxInvoice.Actions</code> instead.  [[#3116]]</li>
-<li>Overhauled <code>TxActionList</code> class.  [[#3116]]
+Use <code>ITxInvoice.Actions</code> instead.  [<a href="https://github.com/planetarium/libplanet/pull/3116">#3116</a>]</li>
+<li>Overhauled <code>TxActionList</code> class.  [<a href="https://github.com/planetarium/libplanet/pull/3116">#3116</a>]
 <ul>
 <li>Changed <code>TxActionList</code> class to be <code>sealed</code> from <code>abstract</code>.
 <code>TxActionList</code> is pretty much the old <code>TxCustomActionsList</code>.</li>
 <li>Changed the JSON representation of <code>TxActionList</code> to be more simple.</li>
 <li>Removed <code>TxSystemActionList</code> and <code>TxCustomActionsList</code></li>
+</ul>
+</li>
+<li>Changed <code>Transaction&lt;T&gt;</code> to <code>Transaction</code> to be non-generic.  [<a href="https://github.com/planetarium/libplanet/pull/3121">#3121</a>]
+<ul>
+<li><code>Transaction.Create&lt;T&gt;()</code> now requires type parameter <code>T</code>.</li>
 </ul>
 </li>
 <li>Signatures of <code>IActionRenderer&lt;T&gt;</code>'s methods was changed.  [<a href="https://github.com/planetarium/libplanet/pull/3117">#3117</a>]
@@ -164,30 +169,11 @@ methods are no longer invoked by a <code>BlockChain&lt;T&gt;</code>.  [<a href="
 <h3 id="dependencies">Dependencies</h3>
 <ul>
 <li>Upgrade <em>Bencodex</em> from <a href="https://www.nuget.org/packages/Bencodex/0.8.0">0.8.0</a> to
-[0.10.0][Bencodex 0.10.0].  [<a href="https://github.com/planetarium/libplanet/pull/3106">#3106</a>]</li>
+<a href="https://www.nuget.org/packages/Bencodex/0.10.0">0.10.0</a>.  [<a href="https://github.com/planetarium/libplanet/pull/3106">#3106</a>]</li>
 <li>Upgrade <em>Bencodex.Json</em> from <a href="https://www.nuget.org/packages/Bencodex.Json/0.8.0">0.8.0</a> to
-[0.10.0][Bencodex.Json 0.10.0].  [<a href="https://github.com/planetarium/libplanet/pull/3106">#3106</a>]</li>
+<a href="https://www.nuget.org/packages/Bencodex.Json/0.10.0">0.10.0</a>.  [<a href="https://github.com/planetarium/libplanet/pull/3106">#3106</a>]</li>
 </ul>
 <h3 id="cli-tools">CLI tools</h3>
-<h1 id="-head3116-httpsgithubcomplanetariumlibplanetpull3116">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-[#3116]: <a href="https://github.com/planetarium/libplanet/pull/3116">https://github.com/planetarium/libplanet/pull/3116</a></h1>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>98cac93af (Render <code>IValue</code> action instead of <code>IAction</code>)
-[Bencodex 0.10.0]: <a href="https://www.nuget.org/packages/Bencodex/0.10.0">https://www.nuget.org/packages/Bencodex/0.10.0</a>
-[Bencodex.Json 0.10.0]: <a href="https://www.nuget.org/packages/Bencodex.Json/0.10.0">https://www.nuget.org/packages/Bencodex.Json/0.10.0</a></p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
 <h2 id="version-100">Version 1.0.0</h2>
 <p>Released on April 18, 2023.</p>
 <h3 id="deprecated-apis-1">Deprecated APIs</h3>
