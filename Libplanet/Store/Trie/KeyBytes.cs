@@ -13,6 +13,7 @@ namespace Libplanet.Store.Trie
         : IEquatable<KeyBytes>, IEquatable<ImmutableArray<byte>>, IEquatable<byte[]>
     {
         private readonly ImmutableArray<byte> _byteArray;
+        private readonly int _cachedLength;
 
         /// <summary>
         /// Creates a new <see cref="KeyBytes"/> instance from the given byte array.
@@ -30,6 +31,7 @@ namespace Libplanet.Store.Trie
         public KeyBytes(in ImmutableArray<byte> bytes)
         {
             _byteArray = bytes;
+            _cachedLength = bytes.Length;
         }
 
         /// <summary>
@@ -41,6 +43,7 @@ namespace Libplanet.Store.Trie
         public KeyBytes(string @string, Encoding encoding)
         {
             byte[] neverReusedBuffer = encoding.GetBytes(@string);
+            _cachedLength = neverReusedBuffer.Length;
             ImmutableArray<byte> movedImmutable =
                 Unsafe.As<byte[], ImmutableArray<byte>>(ref neverReusedBuffer);
             _byteArray = movedImmutable;
@@ -49,14 +52,12 @@ namespace Libplanet.Store.Trie
         /// <summary>
         /// The length of the byte array.
         /// </summary>
-        public int Length => _byteArray.IsDefault ? 0 : ByteArray.Length;
+        public int Length => _cachedLength;
 
         /// <summary>
         /// The immutable array of bytes.
         /// </summary>
-        public ImmutableArray<byte> ByteArray => _byteArray.IsDefault
-            ? ImmutableArray<byte>.Empty
-            : _byteArray;
+        public ImmutableArray<byte> ByteArray => _byteArray;
 
         /// <summary>
         /// The hexadecimal string representation of the byte array.
@@ -109,20 +110,31 @@ namespace Libplanet.Store.Trie
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
         public bool Equals(ImmutableArray<byte> other)
         {
-            if (other.IsDefaultOrEmpty)
-            {
-                return _byteArray.IsDefaultOrEmpty;
-            }
-            else if (Length != other.Length)
+            var otherBytes = Unsafe.As<ImmutableArray<byte>, byte[]>(ref other)!;
+            if (_cachedLength != otherBytes.Length)
             {
                 return false;
             }
 
-            for (int i = 0; i < Length; i++)
+            var bytes = Unsafe.As<byte[]>(_byteArray);
+            var n = _cachedLength;
+            unsafe
             {
-                if (_byteArray[i] != other[i])
+                fixed (byte* bytesPtr = bytes, otherBytesPtr = otherBytes)
                 {
-                    return false;
+                    byte* aPtr = bytesPtr;
+                    byte* bPtr = otherBytesPtr;
+                    while (n > 0)
+                    {
+                        if (*aPtr != *bPtr)
+                        {
+                            return false;
+                        }
+
+                        aPtr++;
+                        bPtr++;
+                        n--;
+                    }
                 }
             }
 
@@ -135,9 +147,9 @@ namespace Libplanet.Store.Trie
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
         public bool Equals(byte[]? other)
         {
-            if (other is { } o && o.Length == Length)
+            if (other is { } o && o.Length == _cachedLength)
             {
-                for (int i = 0; i < Length; i++)
+                for (int i = 0; i < _cachedLength; i++)
                 {
                     if (_byteArray[i] != o[i])
                     {
@@ -158,7 +170,7 @@ namespace Libplanet.Store.Trie
         public override int GetHashCode()
         {
             int hash = 17;
-            if (!_byteArray.IsDefaultOrEmpty)
+            if (_cachedLength > 0)
             {
                 foreach (byte b in _byteArray)
                 {
@@ -172,8 +184,8 @@ namespace Libplanet.Store.Trie
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString()
         {
-            string hex = Length > 0 ? $" {ByteUtil.Hex(_byteArray)}" : string.Empty;
-            return $"{nameof(KeyBytes)} ({Length} B){hex}";
+            string hex = _cachedLength > 0 ? $" {ByteUtil.Hex(_byteArray)}" : string.Empty;
+            return $"{nameof(KeyBytes)} ({_cachedLength} B){hex}";
         }
     }
 }

@@ -157,7 +157,7 @@ namespace Libplanet.Store.Trie
                 return new MerkleTrie(KeyValueStore, new HashNode(EmptyRootHash));
             }
 
-            var values = new ConcurrentDictionary<KeyBytes, byte[]>();
+            var values = new Dictionary<KeyBytes, byte[]>();
             var newRoot = Commit(Root, values);
 
             // It assumes embedded node if it's not HashNode.
