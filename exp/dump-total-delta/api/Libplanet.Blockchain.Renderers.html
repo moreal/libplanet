@@ -114,17 +114,17 @@ it is also logged with the log level <span class="xref">Serilog.Events.LogEventL
 </h3>
       <h4><a class="xref" href="Libplanet.Blockchain.Renderers.IActionRenderer.html">IActionRenderer</a></h4>
       <section><p>Listens state changes of every step of actions, besides blocks,
-on a <a class="xref" href="Libplanet.Blockchain.BlockChain-1.html">BlockChain&lt;T&gt;</a>.
+on a <a class="xref" href="Libplanet.Blockchain.BlockChain.html">BlockChain</a>.
 If you need more fine-grained events than <a class="xref" href="Libplanet.Blockchain.Renderers.IRenderer.html">IRenderer</a>,
 implement this interface instead.</p>
 <p>The invocation order of methods for each <a class="xref" href="Libplanet.Blocks.Block.html">Block</a> are:</p>
 <ol><li><a class="xref" href="Libplanet.Blockchain.Renderers.IRenderer.html#Libplanet_Blockchain_Renderers_IRenderer_RenderBlock_Libplanet_Blocks_Block_Libplanet_Blocks_Block_">RenderBlock(Block, Block)</a> (one time)
-</li><li><a class="xref" href="Libplanet.Blockchain.Renderers.IActionRenderer.html#Libplanet_Blockchain_Renderers_IActionRenderer_RenderAction_Bencodex_Types_IValue_Libplanet_Action_IActionContext_Libplanet_Action_IAccountStateDelta_">RenderAction(IValue, IActionContext, IAccountStateDelta)</a>
+</li><li><a class="xref" href="Libplanet.Blockchain.Renderers.IActionRenderer.html#Libplanet_Blockchain_Renderers_IActionRenderer_RenderAction_Bencodex_Types_IValue_Libplanet_Action_IActionContext_Libplanet_State_IAccountStateDelta_">RenderAction(IValue, IActionContext, IAccountStateDelta)</a>
 &amp; <a class="xref" href="Libplanet.Blockchain.Renderers.IActionRenderer.html#Libplanet_Blockchain_Renderers_IActionRenderer_RenderActionError_Bencodex_Types_IValue_Libplanet_Action_IActionContext_System_Exception_">RenderActionError(IValue, IActionContext, Exception)</a> (zero or more
 times)</li><li><a class="xref" href="Libplanet.Blockchain.Renderers.IActionRenderer.html#Libplanet_Blockchain_Renderers_IActionRenderer_RenderBlockEnd_Libplanet_Blocks_Block_Libplanet_Blocks_Block_">RenderBlockEnd(Block, Block)</a> (one time)</li></ol>
 </section>
       <h4><a class="xref" href="Libplanet.Blockchain.Renderers.IRenderer.html">IRenderer</a></h4>
-      <section><p>Listens state changes on a <a class="xref" href="Libplanet.Blockchain.BlockChain-1.html">BlockChain&lt;T&gt;</a>.</p>
+      <section><p>Listens state changes on a <a class="xref" href="Libplanet.Blockchain.BlockChain.html">BlockChain</a>.</p>
 <p>Usually, implementations of this interface purpose to update the in-memory game states
 (if exist), or send a signal to the UI thread (usually the main thread) so that the graphics
 on the display is redrawn.</p>

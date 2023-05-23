@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Delegate ConsensusContext&lt;T&gt;.DelegateBroadcastMessage
+    <title>Delegate AccountStateGetter
  | Libplanet </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Delegate ConsensusContext&lt;T&gt;.DelegateBroadcastMessage
+    <meta name="title" content="Delegate AccountStateGetter
  | Libplanet ">
   
     <link rel="shortcut icon" href="../images/favicon.ico">
@@ -67,20 +67,22 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Libplanet.Net.Consensus.ConsensusContext`1.DelegateBroadcastMessage">
+            <article class="content wrap" id="_content" data-uid="Libplanet.State.AccountStateGetter">
 
 
-  <h1 id="Libplanet_Net_Consensus_ConsensusContext_1_DelegateBroadcastMessage" data-uid="Libplanet.Net.Consensus.ConsensusContext`1.DelegateBroadcastMessage" class="text-break">Delegate ConsensusContext&lt;T&gt;.DelegateBroadcastMessage
+  <h1 id="Libplanet_State_AccountStateGetter" data-uid="Libplanet.State.AccountStateGetter" class="text-break">Delegate AccountStateGetter
 </h1>
-  <div class="markdown level0 summary"><p>A delegate method for using as broadcasting a <a class="xref" href="Libplanet.Net.Messages.Message.html">Message</a> to
-validators.</p>
+  <div class="markdown level0 summary"><p>An delegate to provide read-only view of account states.</p>
+<p>Gets states associated with the specified account <code data-dev-comment-type="paramref" class="paramref">addresses</code>.</p>
+<p>If some states associated with the specified account <code data-dev-comment-type="paramref" class="paramref">addresses</code> have
+never been set these absent states are represented as <span class="xref">null</span>.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="Libplanet.Net.Consensus.html">Libplanet.Net.Consensus</a></h6>
-  <h6><strong>Assembly</strong>: Libplanet.Net.dll</h6>
-  <h5 id="Libplanet_Net_Consensus_ConsensusContext_1_DelegateBroadcastMessage_syntax">Syntax</h5>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Libplanet.State.html">Libplanet.State</a></h6>
+  <h6><strong>Assembly</strong>: Libplanet.dll</h6>
+  <h5 id="Libplanet_State_AccountStateGetter_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public delegate void DelegateBroadcastMessage(ConsensusMsg message);</code></pre>
+    <pre><code class="lang-csharp hljs">public delegate IReadOnlyList&lt;IValue&gt; AccountStateGetter(IReadOnlyList&lt;Address&gt; addresses);</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -93,9 +95,27 @@ validators.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Libplanet.Net.Messages.ConsensusMsg.html">ConsensusMsg</a></td>
-        <td><span class="parametername">message</span></td>
-        <td><p>A message to broadcast.</p>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="Libplanet.Address.html">Address</a>&gt;</td>
+        <td><span class="parametername">addresses</span></td>
+        <td><p>Account addresses associated with the states to get.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<span class="xref">Bencodex.Types.IValue</span>&gt;</td>
+        <td><p>The states associated to the specified account <code data-dev-comment-type="paramref" class="paramref">addresses</code>.
+Associated values are ordered in the same way to the corresponding
+<code data-dev-comment-type="paramref" class="paramref">addresses</code>.  Absent states are represented as <span class="xref">null</span>.</p>
 </td>
       </tr>
     </tbody>
@@ -108,10 +128,10 @@ validators.</p>
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/moreal/libplanet/new/exp/dump-total-delta/apiSpec/new?filename=Libplanet_Net_Consensus_ConsensusContext_1_DelegateBroadcastMessage.md&amp;value=---%0Auid%3A%20Libplanet.Net.Consensus.ConsensusContext%601.DelegateBroadcastMessage%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/moreal/libplanet/new/exp/dump-total-delta/apiSpec/new?filename=Libplanet_State_AccountStateGetter.md&amp;value=---%0Auid%3A%20Libplanet.State.AccountStateGetter%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/moreal/libplanet/blob/exp/dump-total-delta/Libplanet.Net/Consensus/ConsensusContext.cs/#L86" class="contribution-link">View Source</a>
+                    <a href="https://github.com/moreal/libplanet/blob/exp/dump-total-delta/Libplanet/State/AccountStateGetter.cs/#L17" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
