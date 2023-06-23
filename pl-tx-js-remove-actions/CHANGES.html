@@ -61,12 +61,11 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="libplanet-changelog">Libplanet changelog</h1>
 
-<h2 id="version-220">Version 2.2.0</h2>
+<h2 id="version-230">Version 2.3.0</h2>
 <p>To be released.</p>
 <h3 id="deprecated-apis">Deprecated APIs</h3>
 <h3 id="backward-incompatible-api-changes">Backward-incompatible API changes</h3>
 <ul>
-<li>Added <code>BlockProtocolVersion</code> property to <code>IActionContext</code>.  [<a href="https://github.com/planetarium/libplanet/pull/3228">#3228</a>]</li>
 <li>(@planetarium/tx) Removed some types and functions related to actions
 because the concept of <code>SystemAction</code> and <code>CustomAction</code> was removed
 since 1.1.0 and some system actions were removed since 1.2.0.  [<a href="https://github.com/planetarium/libplanet/pull/3230">#3230</a>]
@@ -97,9 +96,30 @@ function's signature became <code>signTx(UnsignedTx)</code>.</li>
 <h3 id="bug-fixes">Bug fixes</h3>
 <h3 id="dependencies">Dependencies</h3>
 <h3 id="cli-tools">CLI tools</h3>
+<h2 id="version-220">Version 2.2.0</h2>
+<p>Released on June 23, 2023.</p>
+<h3 id="backward-incompatible-api-changes-1">Backward-incompatible API changes</h3>
+<ul>
+<li>Added <code>BlockProtocolVersion</code> property to <code>IActionContext</code>.  [<a href="https://github.com/planetarium/libplanet/pull/3228">#3228</a>]</li>
+<li>Changed <code>IAccountStateDelta.TransferAsset()</code> to require additional
+<code>IActionContext</code> parameter.  [<a href="https://github.com/planetarium/libplanet/pull/3229">#3229</a>]</li>
+<li>Changed <code>IAccountStateDelta.MintAsset()</code> and
+<code>IAccountStateDelta.BurnAsset()</code> to each require an additional
+<code>IActionContext</code> parameter.  [<a href="https://github.com/planetarium/libplanet/pull/3231">#3231</a>]</li>
+</ul>
+<h3 id="bug-fixes-1">Bug fixes</h3>
+<ul>
+<li>Fixed a bug where <code>IActionContext.BlockProtocolVersion</code> was not being set
+properly in <a href="https://github.com/planetarium/libplanet/pull/3228">#3228</a>.</li>
+</ul>
+<h2 id="version-211">Version 2.1.1</h2>
+<p>Released on June 22, 2023.</p>
+<ul>
+<li>Ported changes from <a href="https://www.nuget.org/packages/Libplanet/2.0.1">Libplanet 2.0.1</a> release.  [<a href="https://github.com/planetarium/libplanet/3234">#3234</a>]</li>
+</ul>
 <h2 id="version-210">Version 2.1.0</h2>
 <p>Released on June 20, 2023.</p>
-<h3 id="backward-incompatible-api-changes-1">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-2">Backward-incompatible API changes</h3>
 <ul>
 <li>All <code>IBlockChainStates</code> methods now take nullable <code>BlockHash?</code>
 instead of <code>BlockHash</code> as <code>offset</code> parameter.  [<a href="https://github.com/planetarium/libplanet/pull/3214">#3214</a>]</li>
@@ -118,14 +138,20 @@ interface description.  [<a href="https://github.com/planetarium/libplanet/pull/
 <li>Improved performance of fungible asset APIs on default
 <code>IAccountStateDelta</code> implementation.  [<a href="https://github.com/planetarium/libplanet/pull/3218">#3218</a>]</li>
 </ul>
-<h3 id="bug-fixes-1">Bug fixes</h3>
+<h3 id="bug-fixes-2">Bug fixes</h3>
 <ul>
 <li>Fixed a bug where <code>BlockAction</code> could have unintended
 <code>AccountStateDeltaImpl.Signer</code> during its execution.  [<a href="https://github.com/planetarium/libplanet/pull/3215">#3215</a>]</li>
 </ul>
+<h2 id="version-201">Version 2.0.1</h2>
+<p>Released on June 22, 2023.</p>
+<ul>
+<li>(@planetarium/tx) Fixed a bug where an <code>encodeCurrency</code> serialized
+<code>Currency</code> in an incompatible way with Libplanet.  [<a href="https://github.com/planetarium/libplanet/pull/3225">#3225</a>]</li>
+</ul>
 <h2 id="version-200">Version 2.0.0</h2>
 <p>Released on June 14, 2023.</p>
-<h3 id="backward-incompatible-api-changes-2">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-3">Backward-incompatible API changes</h3>
 <ul>
 <li>Added <code>IAccountStateDelta.TotalUpdatedFungibleAssets</code> interface property.
 [<a href="https://github.com/planetarium/libplanet/pull/3208">#3208</a>]</li>
@@ -149,7 +175,7 @@ and <code>MerkleTrie.Commit()</code> method.  [<a href="https://github.com/plane
 </ul>
 <h2 id="version-140">Version 1.4.0</h2>
 <p>Released on June 7, 2023.</p>
-<h3 id="backward-incompatible-api-changes-3">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-4">Backward-incompatible API changes</h3>
 <ul>
 <li>Removed <code>IBlockChainStates.GetTrie()</code> interface method.  [<a href="https://github.com/planetarium/libplanet/pull/3168">#3168</a>]</li>
 <li>Removed <code>PolymorphicAction&lt;T&gt;</code> class.  [<a href="https://github.com/planetarium/libplanet/pull/3193">#3193</a>]</li>
@@ -161,7 +187,7 @@ and <code>BlockChain.ProposeGenesisBlock()</code> methods.  [<a href="https://gi
 </ul>
 <h2 id="version-130">Version 1.3.0</h2>
 <p>Released on May 19, 2023.</p>
-<h3 id="backward-incompatible-api-changes-4">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-5">Backward-incompatible API changes</h3>
 <ul>
 <li>Renamed <code>PreloadState</code> as <code>BlockSyncState</code>.  [<a href="https://github.com/planetarium/libplanet/pull/3154">#3154</a>]</li>
 <li>Replaced <code>Swarm&lt;T&gt;.PreloadAsync</code>'s parameter
@@ -224,7 +250,7 @@ properly retrieve actions.  [<a href="https://github.com/planetarium/libplanet/p
 [<a href="https://github.com/planetarium/libplanet/pull/3148">#3148</a>]</li>
 <li>Removed <code>Mint</code> and <code>Transfer</code> class.  [<a href="https://github.com/planetarium/libplanet/pull/3159">#3159</a>]</li>
 </ul>
-<h3 id="backward-incompatible-api-changes-5">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-6">Backward-incompatible API changes</h3>
 <ul>
 <li>Removed type parameter <code>T</code> from <code>Transaction.Create&lt;T&gt;()</code> and
 <code>PreEvaluationBlock.Evaluate&lt;T&gt;()</code>.  [<a href="https://github.com/planetarium/libplanet/pull/3122">#3122</a>]</li>
@@ -285,7 +311,7 @@ macOS since version 1.0.2.  [<a href="https://github.com/planetarium/libplanet/i
 </ul>
 <h2 id="version-110">Version 1.1.0</h2>
 <p>Released on May 9, 2023.</p>
-<h3 id="backward-incompatible-api-changes-6">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-7">Backward-incompatible API changes</h3>
 <ul>
 <li>Changed the encoding scheme and related methods for <code>TxActionList</code>.
 [<a href="https://github.com/planetarium/libplanet/pull/3083">#3083</a>]
@@ -403,7 +429,7 @@ submutations of it.  [<a href="https://github.com/planetarium/libplanet/pull/313
 <li>(Libplanet.Explorer) The <code>CurrencyInputType</code>'s <code>totalSupplyTrackable</code> field
 became nullable with <code>false</code> as its default value.  [<a href="https://github.com/planetarium/libplanet/pull/3151">#3151</a>]</li>
 </ul>
-<h3 id="bug-fixes-2">Bug fixes</h3>
+<h3 id="bug-fixes-3">Bug fixes</h3>
 <ul>
 <li>Fixes a bug where <code>BlockChain&lt;T&gt;</code> could not propose if a certain type of
 invalid <code>Transaction</code> was staged.  [<a href="https://github.com/planetarium/libplanet/pull/3136">#3136</a>]</li>
@@ -452,7 +478,7 @@ favour of <code>RawPrivateKey.getPublicKey()</code> async method.  [<a href="htt
 <li>(@planetarium/account-aws-kms)  Deprecated <code>AwsKmsAccount.publicKey</code> in
 favour of <code>AwsKmsAccount.getPublicKey()</code> async method.  [<a href="https://github.com/planetarium/libplanet/pull/3061">#3061</a>]</li>
 </ul>
-<h3 id="backward-incompatible-api-changes-7">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-8">Backward-incompatible API changes</h3>
 <ul>
 <li>Removed <code>TxMetadata</code> class.  [<a href="https://github.com/planetarium/libplanet/issues/1164">#1164</a>, <a href="https://github.com/planetarium/libplanet/pull/2986">#2986</a>]
 <ul>
@@ -625,7 +651,7 @@ so that it is no more reordered during deserialization.  [<a href="https://githu
 field, which includes a system action or a list of custom actions and
 a <code>&quot;type&quot;</code> field denoting one of <code>&quot;system&quot;</code> or <code>&quot;custom&quot;</code>.</p>
 <p>For example:</p>
-<pre><code class="lang-json">{
+<pre><code>{
    // ... other fields
    &quot;actions&quot;: {
      &quot;type&quot;: &quot;system&quot;,
@@ -636,7 +662,7 @@ a <code>&quot;type&quot;</code> field denoting one of <code>&quot;system&quot;</
 }
 </code></pre>
 <p>Instead of:</p>
-<pre><code class="lang-json">{
+<pre><code>{
    // ... other fields
   &quot;systemAction&quot;: {
      // system action details
@@ -670,7 +696,7 @@ if available.</li>
 Scrypt as one of KDF functions besides PBKDF2.  [<a href="https://github.com/planetarium/libplanet/pull/3071">#3071</a>]</p>
 </li>
 </ul>
-<h3 id="bug-fixes-3">Bug fixes</h3>
+<h3 id="bug-fixes-4">Bug fixes</h3>
 <ul>
 <li>In <code>PreVote</code> block validation, <code>Context&lt;T&gt;.IsValid()</code>, validate the block
 header and also the block content (e.g., Tx nonces, Policy defined
@@ -742,7 +768,7 @@ need the package, use 0.52.0 or its patched versions.</p>
 <a href="https://www.nuget.org/packages/Libplanet/0.51.0">Libplanet 0.51.0</a> or <a href="https://www.nuget.org/packages/Libplanet/0.52.0">Libplanet 0.52.0</a> is not compatible with this version.
 Thus, it is recommended to skip <a href="https://www.nuget.org/packages/Libplanet/0.51.0">Libplanet 0.51.0</a> and <a href="https://www.nuget.org/packages/Libplanet/0.52.0">Libplanet 0.52.0</a> for
 deployment if possible.</p>
-<h3 id="backward-incompatible-api-changes-8">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-9">Backward-incompatible API changes</h3>
 <ul>
 <li>(Libplanet.Node) Removed <code>Libplanet.Node</code> namespace.  [<a href="https://github.com/planetarium/libplanet/pull/2971">#2971</a>]</li>
 <li>Removed state completion feature with related classes as below.  [<a href="https://github.com/planetarium/libplanet/pull/2703">#2703</a>]
@@ -890,7 +916,7 @@ minor release.  [<a href="https://github.com/planetarium/libplanet/pull/2971">#2
 <a href="https://www.nuget.org/packages/Libplanet/0.51.0">Libplanet 0.51.0</a> may have difficulty getting up and running after an update
 to this version.  Thus, it is recommended to skip <a href="https://www.nuget.org/packages/Libplanet/0.51.0">Libplanet 0.51.0</a> for
 deployment if possible.</p>
-<h3 id="backward-incompatible-api-changes-9">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-10">Backward-incompatible API changes</h3>
 <ul>
 <li><code>BlockChain&lt;T&gt;()</code> no longer accepts an <code>IStore</code> where
 <code>IStore.GetCanonicalChainId()</code> is <code>null</code>.  For on-the-fly <code>BlockChain&lt;T&gt;</code>
@@ -922,7 +948,7 @@ with an empty <code>IStore</code>.  [<a href="https://github.com/planetarium/lib
 </ul>
 <h2 id="version-0513">Version 0.51.3</h2>
 <p>Released on March 17, 2023.</p>
-<h3 id="bug-fixes-4">Bug fixes</h3>
+<h3 id="bug-fixes-5">Bug fixes</h3>
 <ul>
 <li>Ported changes from <a href="https://www.nuget.org/packages/Libplanet/0.50.5">Libplanet 0.50.5</a> release.  [<a href="https://github.com/planetarium/libplanet/pull/2956">#2956</a>]</li>
 </ul>
@@ -935,7 +961,7 @@ with an empty <code>IStore</code>.  [<a href="https://github.com/planetarium/lib
 </ul>
 <h2 id="version-0511">Version 0.51.1</h2>
 <p>Released on March 13, 2023.</p>
-<h3 id="bug-fixes-5">Bug fixes</h3>
+<h3 id="bug-fixes-6">Bug fixes</h3>
 <ul>
 <li>(Libplanet.Net) Fixed a bug where <code>ActionExecutionState</code> hadn't generated
 correctly because of wrong <code>TotalBlockCount</code>.  [<a href="https://github.com/planetarium/libplanet/pull/2917">#2917</a>]</li>
@@ -967,7 +993,7 @@ methods.  [<a href="https://github.com/planetarium/libplanet/pull/2872">#2872</a
 <li>Removed <code>IBlockPolicy.GetMinBlockProtocolVersion()</code> interface method.
 [<a href="https://github.com/planetarium/libplanet/pull/2872">#2872</a>]</li>
 </ul>
-<h3 id="backward-incompatible-api-changes-10">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-11">Backward-incompatible API changes</h3>
 <ul>
 <li>Added <code>LastCommit</code> property to <code>IBlockMetadata</code>.  [<a href="https://github.com/planetarium/libplanet/pull/2872">#2872</a>]</li>
 <li>Bumped <code>BlockMetadata.CurrentProtocolVersion</code> to 4.  [<a href="https://github.com/planetarium/libplanet/pull/2872">#2872</a>]</li>
@@ -1062,7 +1088,7 @@ whether a block is committed in consensus.  [<a href="https://github.com/planeta
 <code>InvalidBlockCommitException</code> when the given <code>BlockCommit</code> is invalid with
 given block.  [<a href="https://github.com/planetarium/libplanet/pull/2872">#2872</a>]</li>
 </ul>
-<h3 id="bug-fixes-6">Bug fixes</h3>
+<h3 id="bug-fixes-7">Bug fixes</h3>
 <ul>
 <li>(Libplanet.Explorer) Fixed a bug where <code>stateQuery</code> hadn't work
 correctly in some situations.  [<a href="https://github.com/planetarium/libplanet/pull/2872">#2872</a>]</li>
@@ -1087,7 +1113,7 @@ correctly in some situations.  [<a href="https://github.com/planetarium/libplane
 </ul>
 <h2 id="version-0505">Version 0.50.5</h2>
 <p>Released on March 17, 2023.</p>
-<h3 id="bug-fixes-7">Bug fixes</h3>
+<h3 id="bug-fixes-8">Bug fixes</h3>
 <ul>
 <li>(Libplanet.Net) Fixed a bug where <code>DealerSocket</code> cannot connect to peers
 because of IPv4 return of <code>ResolveNetMQAddressAsync()</code>.  [<a href="https://github.com/planetarium/libplanet/pull/2956">#2956</a>]</li>
@@ -1118,7 +1144,7 @@ a way to configure action type loader to be used in <code>PolymorphicAction&lt;T
 </ul>
 <h2 id="version-0500">Version 0.50.0</h2>
 <p>Released on February 27, 2023.</p>
-<h3 id="backward-incompatible-api-changes-11">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-12">Backward-incompatible API changes</h3>
 <ul>
 <li>Added <code>Message.Content</code> property.  [<a href="https://github.com/planetarium/libplanet/issues/2772">#2772</a>, <a href="https://github.com/planetarium/libplanet/pull/2831">#2831</a>]</li>
 <li>Some properties and enum of <code>Message</code> class are removed and moved to
@@ -1176,7 +1202,7 @@ Instead, added <code>InvalidMessageContentException</code> class.  [<a href="htt
 </ul>
 <h2 id="version-0490">Version 0.49.0</h2>
 <p>Released on February 20, 2023.</p>
-<h3 id="backward-incompatible-api-changes-12">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-13">Backward-incompatible API changes</h3>
 <ul>
 <li>(Libplanet.Net) Changed <code>BlockCandidateTable&lt;T&gt;.Add(BlockHeader, IEnumerable&lt;Block&lt;T&gt;&gt;)</code> to <code>BlockCandidateTable&lt;T&gt;.Add(BlockHeader, Branch&lt;T&gt;)</code>.  [<a href="https://github.com/planetarium/libplanet/pull/2822">#2822</a>]</li>
 <li>(Libplanet.Net) Changed the return type of
@@ -1193,7 +1219,7 @@ to <code>Branch&lt;T&gt;?</code>.  [<a href="https://github.com/planetarium/libp
 <li><code>Swarm&lt;T&gt;</code> became not to spawn multiple task for process <code>BlockDemand</code>
 for the same <code>BoundPeer</code>.  [<a href="https://github.com/planetarium/libplanet/issues/2808">#2808</a>, <a href="https://github.com/planetarium/libplanet/pull/2814">#2814</a>]</li>
 </ul>
-<h3 id="bug-fixes-8">Bug fixes</h3>
+<h3 id="bug-fixes-9">Bug fixes</h3>
 <ul>
 <li>Fixed a bug where <code>NetMQTransport</code>'s overall throughput had been dropped
 when hostname resolving for some peers was delayed.  [<a href="https://github.com/planetarium/libplanet/pull/2817">#2817</a>]</li>
@@ -1205,7 +1231,7 @@ when hostname resolving for some peers was delayed.  [<a href="https://github.co
 </ul>
 <h2 id="version-0480">Version 0.48.0</h2>
 <p>Released on February 14, 2023.</p>
-<h3 id="backward-incompatible-api-changes-13">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-14">Backward-incompatible API changes</h3>
 <ul>
 <li>Removed <code>BlockCandidateTable&lt;T&gt;.Any()</code> method.  [<a href="https://github.com/planetarium/libplanet/pull/2794">#2794</a>]</li>
 <li>Changed the return type from <code>SortedList&lt;long, Block&lt;T&gt;&gt;?</code> to
@@ -1243,7 +1269,7 @@ Node.js version 19.0.0, it now explicitly requires 19.0.0 or later.
 </ul>
 <h2 id="version-0470">Version 0.47.0</h2>
 <p>Released on February 6, 2023.</p>
-<h3 id="backward-incompatible-api-changes-14">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-15">Backward-incompatible API changes</h3>
 <ul>
 <li>The signature of <code>Address(ImmutableArray&lt;byte&gt;)</code> constructor became
 <code>Address(in ImmutableArray&lt;byte&gt;)</code>.  [<a href="https://github.com/planetarium/libplanet/pull/2756">#2756</a>]</li>
@@ -1292,7 +1318,7 @@ JSON.</li>
 <li>Added <code>TxId(in ImmutableArray&lt;byte&gt;)</code> constructor.  [<a href="https://github.com/planetarium/libplanet/pull/2756">#2756</a>]</li>
 <li>Added <code>ByteUtil.ParseHexToImmutable()</code> static method.  [<a href="https://github.com/planetarium/libplanet/pull/2756">#2756</a>]</li>
 </ul>
-<h3 id="bug-fixes-9">Bug fixes</h3>
+<h3 id="bug-fixes-10">Bug fixes</h3>
 <ul>
 <li>Fixed a JSON serializer bug where a <code>Transaction&lt;T&gt;</code> serialized into JSON
 had lacked the content of its <code>PublicKey</code>.  [<a href="https://github.com/planetarium/libplanet/pull/2756">#2756</a>]</li>
@@ -1349,7 +1375,7 @@ had lacked the content of its <code>&quot;publicKey&quot;</code>.  [<a href="htt
 </ul>
 <h2 id="version-0460">Version 0.46.0</h2>
 <p>Released on Janurary 18th, 2023.</p>
-<h3 id="backward-incompatible-api-changes-15">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-16">Backward-incompatible API changes</h3>
 <ul>
 <li>Changed <code>BlockLocator</code> to throw an <code>ArgumentException</code> if an empty set of
 <code>BlockHash</code>es are given during construction.  [<a href="https://github.com/planetarium/libplanet/pull/2584">#2584</a>]</li>
@@ -1437,7 +1463,7 @@ creating an instance.  [<a href="https://github.com/planetarium/libplanet/issues
 <li>Changed the default <code>VolatileStagePolicy&lt;T&gt;.Lifetime</code> from 3 hours
 to 10 minutes.  [<a href="https://github.com/planetarium/libplanet/pull/2718">#2718</a>]</li>
 </ul>
-<h3 id="bug-fixes-10">Bug fixes</h3>
+<h3 id="bug-fixes-11">Bug fixes</h3>
 <ul>
 <li>(Libplanet.Net) Fixed a bug <code>NetMQTransport</code> log shows socket count wrongly.
 [<a href="https://github.com/planetarium/libplanet/pull/2708">#2708</a>]</li>
@@ -1503,7 +1529,7 @@ it <code>internal</code>.  [<a href="https://github.com/planetarium/libplanet/pu
 <li>Removed <code>BlockPerception</code> struct.  [<a href="https://github.com/planetarium/libplanet/pull/2575">#2575</a>]</li>
 <li>Removed <code>BlockChain&lt;T&gt;.PerceiveBlock()</code> method.  [<a href="https://github.com/planetarium/libplanet/pull/2575">#2575</a>]</li>
 </ul>
-<h3 id="backward-incompatible-api-changes-16">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-17">Backward-incompatible API changes</h3>
 <ul>
 <li>Changed <code>BlockChain&lt;T&gt;.MineBlock(PrivateKey, DateTimeOffset?, bool?, long?, int?, int?, IComparer&lt;Transaction&lt;T&gt;&gt;, CancellationToken?)</code> to
 <code>BlockChain&lt;T&gt;.MineBlock(PrivateKey, DateTimeOffset?, bool?, IComparer&lt;Transaction&lt;T&gt;&gt;, CancellationToken?)</code> by removing policy
@@ -1531,7 +1557,7 @@ and <code>ActionEvaluator&lt;T&gt;</code> directly.  [<a href="https://github.co
 <li>Added <code>IBlockPolicy.GetMinBlockProtocolVersion()</code> interface method.
 [<a href="https://github.com/planetarium/libplanet/pull/2593">#2593</a>]</li>
 </ul>
-<h3 id="bug-fixes-11">Bug fixes</h3>
+<h3 id="bug-fixes-12">Bug fixes</h3>
 <ul>
 <li>(Libplanet.Net) Fixed a bug where <code>AppProtocolVersion.GetHashCode()</code>
 did not work as intended.  [<a href="https://github.com/planetarium/libplanet/issues/2518">#2518</a>, <a href="https://github.com/planetarium/libplanet/pull/2520">#2520</a>]</li>
@@ -1605,7 +1631,7 @@ hung forever when given peer information isn't valid.  [<a href="https://github.
 </ul>
 <h2 id="version-0440">Version 0.44.0</h2>
 <p>Released on November 2, 2022.</p>
-<h3 id="backward-incompatible-api-changes-17">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-18">Backward-incompatible API changes</h3>
 <ul>
 <li>Removed all <code>TxMetadata.ToBencodex()</code> overload methods with parameters.
 Use newly introduced parameterless <code>TxMetadata.ToBencodex()</code> instead.
@@ -1627,7 +1653,7 @@ Use newly introduced parameterless <code>TxMetadata.ToBencodex()</code> instead.
 <ul>
 <li>Optimized <code>ByteUtil.CalculateHash()</code> method.  [<a href="https://github.com/planetarium/libplanet/issues/2437">#2437</a>, <a href="https://github.com/planetarium/libplanet/pull/2459">#2459</a>]</li>
 </ul>
-<h3 id="bug-fixes-12">Bug fixes</h3>
+<h3 id="bug-fixes-13">Bug fixes</h3>
 <ul>
 <li>(Libplanet.Explorer) <code>Libplanet.Explorer.Executable</code> became to work again.
 [<a href="https://github.com/planetarium/libplanet/pull/2420">#2420</a>]</li>
@@ -1662,7 +1688,7 @@ forks).  [<a href="https://github.com/planetarium/libplanet/issues/2338">#2338</
 creating unsigned transactions in JavaScript/TypeScript.  Although it is still
 in experimental stage, which can build only unsigned transactions with
 a system action, its features will be added more in the future.</p>
-<h3 id="backward-incompatible-api-changes-18">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-19">Backward-incompatible API changes</h3>
 <ul>
 <li>Removed <code>DateTimeOffset?</code> type parameter that allowed a creation of
 a genesis <code>Block&lt;T&gt;</code> with specific timestamp from
@@ -1762,7 +1788,7 @@ value equality (rather than reference equality).  [<a href="https://github.com/p
 <li>A <code>ValidateAppProtocolVersion</code> became allow validation of different extra.
 [<a href="https://github.com/planetarium/libplanet/pull/2380">#2380</a>]</li>
 </ul>
-<h3 id="bug-fixes-13">Bug fixes</h3>
+<h3 id="bug-fixes-14">Bug fixes</h3>
 <ul>
 <li>Interface methods <code>IComparable.CompareTo()</code> and
 <code>IComparable&lt;T&gt;.CompareTo()</code> for <code>Address</code> are now accessible.  [<a href="https://github.com/planetarium/libplanet/pull/2384">#2384</a>]</li>
@@ -1802,7 +1828,7 @@ serialized <code>SystemAction</code>.  [<a href="https://github.com/planetarium/
 </ul>
 <h2 id="version-0420">Version 0.42.0</h2>
 <p>Released on September 19, 2022.</p>
-<h3 id="backward-incompatible-api-changes-19">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-20">Backward-incompatible API changes</h3>
 <ul>
 <li>Renamed <code>BlockChain&lt;T&gt;.MakeTransaction(PrivateKey, IEnumerable&lt;T&gt;, IImmutableSet&lt;Address&gt;, DateTimeOffset?)</code> method's <code>actions</code> parameter to
 <code>customActions</code>.  [<a href="https://github.com/planetarium/libplanet/issues/2151">#2151</a>, <a href="https://github.com/planetarium/libplanet/pull/2273">#2273</a>]</li>
@@ -1879,7 +1905,7 @@ serialized <code>SystemAction</code>.  [<a href="https://github.com/planetarium/
 Use <code>TurnClient.Create()</code> instead.  [<a href="https://github.com/planetarium/libplanet/pull/2219">#2219</a>]</li>
 <li>(Libplanet.Net) Removed <code>Peer</code> class.  Use <code>BoundPeer</code> instead.  [<a href="https://github.com/planetarium/libplanet/pull/2233">#2233</a>]</li>
 </ul>
-<h3 id="backward-incompatible-api-changes-20">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-21">Backward-incompatible API changes</h3>
 <ul>
 <li>Removed unused transaction related methods from <code>IStore</code> and its
 implementations.  [<a href="https://github.com/planetarium/libplanet/issues/1538">#1538</a>, <a href="https://github.com/planetarium/libplanet/pull/2201">#2201</a>]
@@ -2061,7 +2087,7 @@ removed.  [<a href="https://github.com/planetarium/libplanet/issues/2206">#2206<
 <li><code>InvalidBlockHashAlgorithmTypeException</code> class removed.  [<a href="https://github.com/planetarium/libplanet/issues/2206">#2206</a>, <a href="https://github.com/planetarium/libplanet/pull/2207">#2207</a>]</li>
 <li><code>HashAlgorithmGetter</code> delegate removed.  [<a href="https://github.com/planetarium/libplanet/issues/2206">#2206</a>, <a href="https://github.com/planetarium/libplanet/pull/2207">#2207</a>]</li>
 </ul>
-<h3 id="backward-incompatible-api-changes-21">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-22">Backward-incompatible API changes</h3>
 <ul>
 <li>The type of <code>Transaction&lt;T&gt;.Actions</code> property became
 <code>IImmutableList&lt;IAction&gt;</code> (was <code>IImmutableList&lt;T&gt;</code> where <code>T : IAction, new()</code>).  [<a href="https://github.com/planetarium/libplanet/issues/2149">#2149</a>, <a href="https://github.com/planetarium/libplanet/issues/2151">#2151</a>, <a href="https://github.com/planetarium/libplanet/issues/2175">#2175</a>]</li>
@@ -2217,7 +2243,7 @@ the entry assembly of the application besides the same assembly as <code>T</code
 when multiple subtypes of <code>T</code> are associated with the same
 <code>ActionTypeAttribute.TypeIdentifier</code>.  [<a href="https://github.com/planetarium/libplanet/pull/2142">#2142</a>]</li>
 </ul>
-<h3 id="bug-fixes-14">Bug fixes</h3>
+<h3 id="bug-fixes-15">Bug fixes</h3>
 <ul>
 <li>Fixed a bug where <code>PrivateKey()</code> constructor had returned an invalid key
 less than 32 bytes.  [<a href="https://github.com/planetarium/libplanet/issues/1696">#1696</a>, <a href="https://github.com/planetarium/libplanet/pull/2091">#2091</a>]</li>
@@ -2236,7 +2262,7 @@ address from private key directly!  [<a href="https://github.com/planetarium/lib
 </ul>
 <h2 id="version-0380">Version 0.38.0</h2>
 <p>Released on June 7th, 2022.</p>
-<h3 id="backward-incompatible-api-changes-22">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-23">Backward-incompatible API changes</h3>
 <ul>
 <li>(Libplanet.Net) Removed <code>username</code> and <code>credential</code> parameters from
 <code>IceServer(string, string?, string?)</code> and
@@ -2262,7 +2288,7 @@ are no longer nullable.  [<a href="https://github.com/planetarium/libplanet/issu
 </ul>
 <h2 id="version-0370">Version 0.37.0</h2>
 <p>Released on May 30th, 2022.</p>
-<h3 id="backward-incompatible-api-changes-23">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-24">Backward-incompatible API changes</h3>
 <ul>
 <li>(Libplanet.Net) Removed <code>SwarmOptions.BootstrapDialTimeout</code>.
 Use <code>SwarmOptions.BootstrapOptions.DialTimeout</code> instead.  [<a href="https://github.com/planetarium/libplanet/pull/2024">#2024</a>]</li>
@@ -2288,7 +2314,6 @@ and no longer accepts multiple Urls for single instance.  [<a href="https://gith
 <li>(Libplanet.Net) Added <code>PreloadOptions</code> property to <code>SwarmOptions</code>.
 [<a href="https://github.com/planetarium/libplanet/pull/2025">#2025</a>]</li>
 </ul>
-<h3 id="cli-tools-8">CLI tools</h3>
 <h2 id="version-0361">Version 0.36.1</h2>
 <p>Released on May 26th, 2022.</p>
 <ul>
@@ -2298,7 +2323,7 @@ signature.  [<a href="https://github.com/planetarium/libplanet/pull/2005">#2005<
 </ul>
 <h2 id="version-0360">Version 0.36.0</h2>
 <p>Released on May 25th, 2022.</p>
-<h3 id="backward-incompatible-api-changes-24">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-25">Backward-incompatible API changes</h3>
 <ul>
 <li>Removed <code>InvalidTxPublicKeyException</code> class.  [<a href="https://github.com/planetarium/libplanet/issues/1164">#1164</a>, <a href="https://github.com/planetarium/libplanet/pull/1978">#1978</a>]</li>
 <li>(Libplanet.Net) Property <code>SwarmOptions.BlockDownloadTimeout</code> removed.
@@ -2332,7 +2357,7 @@ became to ignore its second parameter <code>Address signer</code>.  Instead,
 <code>Transaction&lt;T&gt;.Signer</code> property is now automatically derived from its
 <code>PublicKey</code>.  [<a href="https://github.com/planetarium/libplanet/issues/1164">#1164</a>, <a href="https://github.com/planetarium/libplanet/pull/1978">#1978</a>]</li>
 </ul>
-<h3 id="bug-fixes-15">Bug fixes</h3>
+<h3 id="bug-fixes-16">Bug fixes</h3>
 <ul>
 <li>Fixed <code>InvalidOperationException</code> thrown by <code>PublicKey.Verify()</code> method
 if <code>signature</code> is a <code>default(ImmutableArray&lt;byte&gt;)</code>.  Instead, it silently
@@ -2342,10 +2367,9 @@ present.  Instead, it silently returns an empty string now.  [<a href="https://g
 <li>Fixed a <code>TxId(byte[])</code> constructor's bug where <code>ParamName</code> and <code>Message</code> of
 <code>ArgumentOutOfRangeException</code> it had thrown had been reversed.  [<a href="https://github.com/planetarium/libplanet/pull/1978">#1978</a>]</li>
 </ul>
-<h3 id="cli-tools-9">CLI tools</h3>
 <h2 id="version-0351">Version 0.35.1</h2>
 <p>Released on May 23rd, 2022.</p>
-<h3 id="bug-fixes-16">Bug fixes</h3>
+<h3 id="bug-fixes-17">Bug fixes</h3>
 <ul>
 <li>(Libplanet.Net) Wrongly assigned default value to
 <code>TimeoutOptions.PreloadDialTimeout</code> fixed.  [<a href="https://github.com/planetarium/libplanet/pull/1983">#1983</a>]</li>
@@ -2357,7 +2381,7 @@ present.  Instead, it silently returns an empty string now.  [<a href="https://g
 <li>(Libplanet.Net) Unused property <code>SwarmOptions.PollInterval</code> removed.
 [<a href="https://github.com/planetarium/libplanet/pull/1962">#1962</a>]</li>
 </ul>
-<h3 id="backward-incompatible-api-changes-25">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-26">Backward-incompatible API changes</h3>
 <ul>
 <li><code>BlockCompletion&lt;TPeer, TAction&gt;.Complete()</code> no longer accepts
 neither parmeter <code>TimeSpan singleSessionTimeout</code> nor
@@ -2408,7 +2432,7 @@ instantiated with URI scheme <code>memory:</code> using
 using <code>StoreLoaderAttribute.LoadStore()</code> method.
 [<a href="https://github.com/planetarium/libplanet/issues/1359">#1359</a>, <a href="https://github.com/planetarium/libplanet/issues/1953">#1953</a>, <a href="https://github.com/planetarium/libplanet/pull/1955">#1955</a>]</li>
 </ul>
-<h3 id="cli-tools-10">CLI tools</h3>
+<h3 id="cli-tools-8">CLI tools</h3>
 <ul>
 <li>The following store URI schemes are deprecated:  [<a href="https://github.com/planetarium/libplanet/issues/1573">#1573</a>, <a href="https://github.com/planetarium/libplanet/pull/1955">#1955</a>]
 <ul>
@@ -2431,7 +2455,7 @@ encoding and decoding to and from <code>Bencodex.Types.Dictionary</code>.
 constructor that takes an <code>Exception</code> as their <code>Exception.InnerException</code>.
 [<a href="https://github.com/planetarium/libplanet/issues/1830">#1830</a>, <a href="https://github.com/planetarium/libplanet/pull/1912">#1912</a>, <a href="https://github.com/planetarium/libplanet/pull/1916">#1916</a>]</li>
 </ul>
-<h3 id="cli-tools-11">CLI tools</h3>
+<h3 id="cli-tools-9">CLI tools</h3>
 <ul>
 <li>Added <code>planet key sign</code> to sign a message.  [<a href="https://github.com/planetarium/libplanet/pull/1920">#1920</a>]</li>
 </ul>
@@ -2445,7 +2469,7 @@ when mining.  [<a href="https://github.com/planetarium/libplanet/pull/1924">#192
 </ul>
 <h2 id="version-0330">Version 0.33.0</h2>
 <p>Released on April 19th, 2022.</p>
-<h3 id="backward-incompatible-api-changes-26">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-27">Backward-incompatible API changes</h3>
 <ul>
 <li>(Libplanet.Net) <code>IMessageCodec</code> and its implementations <code>NetMQMessageCodec</code>
 and <code>TcpMessageCodec</code> overhauled.  [<a href="https://github.com/planetarium/libplanet/pull/1906">#1906</a>]
@@ -2503,7 +2527,6 @@ have public constructors.</li>
 <li>No longer depends on <em>Fody</em>.  [<a href="https://github.com/planetarium/libplanet/issues/1866">#1866</a>, <a href="https://github.com/planetarium/libplanet/pull/1891">#1891</a>]</li>
 <li>No longer depends on <em>Equals.Fody</em>.  [<a href="https://github.com/planetarium/libplanet/issues/1866">#1866</a>, <a href="https://github.com/planetarium/libplanet/pull/1891">#1891</a>]</li>
 </ul>
-<h3 id="cli-tools-12">CLI tools</h3>
 <h2 id="version-0321">Version 0.32.1</h2>
 <p>Released on April 8th, 2022.</p>
 <h3 id="behavioral-changes-25">Behavioral changes</h3>
@@ -2515,7 +2538,7 @@ signed by a trusted source or not.  [<a href="https://github.com/planetarium/lib
 </ul>
 <h2 id="version-0320">Version 0.32.0</h2>
 <p>Released on April 8th, 2022.</p>
-<h3 id="backward-incompatible-api-changes-27">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-28">Backward-incompatible API changes</h3>
 <ul>
 <li>Added <code>IStore.PruneOutdatedChains(bool noopWithoutCanon)</code> method.
 [<a href="https://github.com/planetarium/libplanet/issues/1874">#1874</a>, <a href="https://github.com/planetarium/libplanet/pull/1878">#1878</a>]</li>
@@ -2552,7 +2575,7 @@ a different <code>AppProtocolVersion</code> from the local version.  [<a href="h
 <code>Message</code> to a <code>Peer</code> with a different <code>AppProtocolVersion</code> that is not
 signed by a trusted source.  [<a href="https://github.com/planetarium/libplanet/pull/1890">#1890</a>]</li>
 </ul>
-<h3 id="bug-fixes-17">Bug fixes</h3>
+<h3 id="bug-fixes-18">Bug fixes</h3>
 <ul>
 <li>(Libplanet.Net) Internal dictionaries of a <code>KBucket</code> are made to be
 concurrent.  [<a href="https://github.com/planetarium/libplanet/issues/1872">#1872</a>, <a href="https://github.com/planetarium/libplanet/pull/1879">#1879</a>]</li>
@@ -2562,7 +2585,7 @@ concurrent.  [<a href="https://github.com/planetarium/libplanet/issues/1872">#18
 </ul>
 <h2 id="version-0310">Version 0.31.0</h2>
 <p>Released on March 31, 2022.</p>
-<h3 id="backward-incompatible-api-changes-28">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-29">Backward-incompatible API changes</h3>
 <ul>
 <li>(Libplanet.Net) Existing method name <code>Kademlia.CalculateDistance()</code>
 changed to <code>Kademlia.CalculateDifference()</code> to better indicate its behavior.
@@ -2570,7 +2593,7 @@ changed to <code>Kademlia.CalculateDifference()</code> to better indicate its be
 <li>(Libplanet.Net) <code>Kademlia.CalculateDistance()</code> method reimplemented with
 return type <code>int</code>.  [<a href="https://github.com/planetarium/libplanet/pull/1877">#1877</a>]</li>
 </ul>
-<h3 id="bug-fixes-18">Bug fixes</h3>
+<h3 id="bug-fixes-19">Bug fixes</h3>
 <ul>
 <li>(Libplanet.Stun) Increased the number of internal proxies to increase
 the inbound network traffic throughput of a node when using a <code>TurnClient</code>.
@@ -2584,14 +2607,14 @@ the inbound network traffic throughput of a node when using a <code>TurnClient</
 to manage chain ids.  Instead, chain id is concatenated into key prefix.
 [<a href="https://github.com/planetarium/libplanet/pull/1862">#1862</a>]</li>
 </ul>
-<h3 id="cli-tools-13">CLI tools</h3>
+<h3 id="cli-tools-10">CLI tools</h3>
 <ul>
 <li>Added <code>planet store migrate-index</code> for index database migration
 (from column families based to key-prefix).  [<a href="https://github.com/planetarium/libplanet/pull/1862">#1862</a>]</li>
 </ul>
 <h2 id="version-0290">Version 0.29.0</h2>
 <p>Released on March 17, 2022.</p>
-<h3 id="backward-incompatible-api-changes-29">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-30">Backward-incompatible API changes</h3>
 <ul>
 <li>(Libplanet.Net) <code>SwarmOptions.MessageLifespan</code> property changed to
 <code>SwarmOptions.MessageTimestampBuffer</code>.  [<a href="https://github.com/planetarium/libplanet/issues/1828">#1828</a>, <a href="https://github.com/planetarium/libplanet/pull/1831">#1831</a>]</li>
@@ -2631,7 +2654,7 @@ as a hex formatted string.  [<a href="https://github.com/planetarium/libplanet/i
 <h2 id="version-0280">Version 0.28.0</h2>
 <p>Released on February 23, 2022.</p>
 <h3 id="deprecated-apis-9">Deprecated APIs</h3>
-<h3 id="backward-incompatible-api-changes-30">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-31">Backward-incompatible API changes</h3>
 <ul>
 <li>The return type of <code>MerkleTrieExtensions.DifferentNodes()</code> became
 <code>IEnumerable&lt;Tuple&lt;KeyBytes, IValue, IValue&gt;&gt;</code> from
@@ -2677,7 +2700,7 @@ instead of other methods that use it.  [<a href="https://github.com/planetarium/
 <code>NetMQTransport.SendMessageAsync()</code> internally instead of
 using <code>NetMQ</code> directly.  [<a href="https://github.com/planetarium/libplanet/issues/1722">#1722</a>, <a href="https://github.com/planetarium/libplanet/pull/1824">#1824</a>]</li>
 </ul>
-<h3 id="bug-fixes-19">Bug fixes</h3>
+<h3 id="bug-fixes-20">Bug fixes</h3>
 <ul>
 <li>(Libplanet.Net) Fixed a leak in handling <code>DealerSocket</code>s inside
 <code>NetMQTransport.DoBroadcast()</code> method.  [<a href="https://github.com/planetarium/libplanet/issues/1819">#1819</a>, <a href="https://github.com/planetarium/libplanet/pull/1825">#1825</a>]</li>
@@ -2687,7 +2710,7 @@ using <code>NetMQ</code> directly.  [<a href="https://github.com/planetarium/lib
 <li>(Libplanet.Extensions.Cocona) Upgraded <em>Cocona.Lite</em> from 1.5.* to
 <a href="https://www.nuget.org/packages/Cocona.Lite/1.6.0">1.6.*</a>.  [<a href="https://github.com/planetarium/libplanet/pull/1593">#1593</a>, <a href="https://github.com/planetarium/libplanet/pull/1823">#1823</a>]</li>
 </ul>
-<h3 id="cli-tools-14">CLI tools</h3>
+<h3 id="cli-tools-11">CLI tools</h3>
 <ul>
 <li>All <code>planet</code> subcommands taking passphrase now have <code>--passphrase-file</code>
 option besides <code>-p</code>/<code>--passphrase</code> option to read it from the specified
@@ -2765,7 +2788,7 @@ blocks until the local tip is close enough to the topmost tip among peers.
 <ul>
 <li>Added <code>EnumerableMeasurement</code> static class.  [<a href="https://github.com/planetarium/libplanet/pull/1764">#1764</a>, <a href="https://github.com/planetarium/libplanet/pull/1766">#1766</a>]</li>
 </ul>
-<h3 id="backward-incompatible-api-changes-31">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-32">Backward-incompatible API changes</h3>
 <ul>
 <li>Moved everything in <code>Libplanet.Net</code> namespace from <em>Libplanet</em> assembly
 to <em>Libplanet.Net</em> assembly.  [<a href="https://github.com/planetarium/libplanet/issues/1421">#1421</a>, <a href="https://github.com/planetarium/libplanet/pull/1760">#1760</a>]</li>
@@ -2821,7 +2844,7 @@ individual <code>Transaction&lt;T&gt;</code>s.  [<a href="https://github.com/pla
 <li><em>Libplanet.Net</em> assembly is now distributed as a seaprate NuGet package:
 <em><a href="https://www.nuget.org/packages/Libplanet.Net/">Libplanet.Net</a></em>.  [<a href="https://github.com/planetarium/libplanet/issues/1421">#1421</a>, <a href="https://github.com/planetarium/libplanet/pull/1760">#1760</a>]</li>
 </ul>
-<h3 id="cli-tools-15">CLI tools</h3>
+<h3 id="cli-tools-12">CLI tools</h3>
 <ul>
 <li>Upgrade <em>node-fetch</em> for *@planetarium/cli* npm package.
 [<a href="https://github.com/advisories/GHSA-r683-j2x4-v87g">CVE-2022-0235</a>, <a href="https://github.com/planetarium/libplanet/pull/1747">#1747</a>]</li>
@@ -2877,7 +2900,7 @@ readability.  [<a href="https://github.com/planetarium/libplanet/pull/1735">#173
 </ul>
 <h2 id="version-0260">Version 0.26.0</h2>
 <p>Released on January 18, 2022.</p>
-<h3 id="backward-incompatible-api-changes-32">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-33">Backward-incompatible API changes</h3>
 <ul>
 <li>Replaced <code>IValue StateCompleter&lt;T&gt;(BlockChain&lt;T&gt;, BlockHash, Address)</code>
 delegate with <code>IReadOnlyList&lt;IValue?&gt; StateCompleter&lt;T&gt;(BlockChain&lt;T&gt;, BlockHash, IReadOnlyList&lt;Address&gt;)</code> delegate.  [<a href="https://github.com/planetarium/libplanet/pull/1703">#1703</a>]</li>
@@ -2927,7 +2950,7 @@ into two parallel tasks.</li>
 </ul>
 </li>
 </ul>
-<h3 id="bug-fixes-20">Bug fixes</h3>
+<h3 id="bug-fixes-21">Bug fixes</h3>
 <ul>
 <li>Fixed a bug where unnecessary additional attempts were made to
 unresponsive <code>Peer</code>s when discovering a <code>Peer</code> through <code>KademliaProtocol</code>.
@@ -2976,7 +2999,7 @@ while syncing recent blocks.  [<a href="https://github.com/planetarium/libplanet
 </ul>
 <h2 id="version-0250">Version 0.25.0</h2>
 <p>Released on January 5, 2022.</p>
-<h3 id="backward-incompatible-api-changes-33">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-34">Backward-incompatible API changes</h3>
 <ul>
 <li>Replaced <code>HashDigest&lt;T&gt;(ImmutableArray&lt;byte&gt;)</code> constructor with
 <code>HashDigest&lt;T&gt;(in ImmutableArray&lt;byte&gt;)</code> constructor.  [<a href="https://github.com/planetarium/libplanet/pull/1678">#1678</a>]</li>
@@ -3060,7 +3083,7 @@ supposed to.  [<a href="https://github.com/planetarium/libplanet/pull/1672">#167
 </ul>
 <h2 id="version-0240">Version 0.24.0</h2>
 <p>Released on December 16, 2021.</p>
-<h3 id="backward-incompatible-api-changes-34">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-35">Backward-incompatible API changes</h3>
 <ul>
 <li><code>IStagePolicy&lt;T&gt;</code>'s <code>interface</code> methods updated.  Notably,
 all <code>IStagePolicy&lt;T&gt;</code> now accept <code>BlockChain&lt;T&gt;</code> as its parameter.
@@ -3090,7 +3113,7 @@ it is expired or ignored.</li>
 <li>New log output tagged with <code>Metric</code> added to measure execution time for
 <code>BlockChain&lt;T&gt;.FindNextHashes()</code>.  [<a href="https://github.com/planetarium/libplanet/pull/1669">#1669</a>]</li>
 </ul>
-<h3 id="bug-fixes-21">Bug fixes</h3>
+<h3 id="bug-fixes-22">Bug fixes</h3>
 <ul>
 <li>Fixed a bug where <code>TxCompletion</code> had broadcasted invalid transactions.
 [<a href="https://github.com/planetarium/libplanet/pull/1661">#1661</a>]</li>
@@ -3157,7 +3180,7 @@ since <a href="https://www.nuget.org/packages/Bencodex/0.4.0">Bencodex 0.4.0</a>
 </ul>
 </li>
 </ul>
-<h3 id="bug-fixes-22">Bug fixes</h3>
+<h3 id="bug-fixes-23">Bug fixes</h3>
 <ul>
 <li><code>KBucket.Head</code> and <code>KBucket.Tail</code> now properly return <code>null</code> if
 the bucket is empty instead of faulting.  [<a href="https://github.com/planetarium/libplanet/pull/1631">#1631</a>]</li>
@@ -3180,7 +3203,7 @@ storage.  [<a href="https://github.com/planetarium/libplanet/pull/1649">#1649</a
 </ul>
 <h2 id="version-0220">Version 0.22.0</h2>
 <p>Released on November 30, 2021.</p>
-<h3 id="backward-incompatible-api-changes-35">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-36">Backward-incompatible API changes</h3>
 <ul>
 <li>Removed <code>Transaction&lt;T&gt;.BytesLength</code> property.  [<a href="https://github.com/planetarium/libplanet/pull/1609">#1609</a>]</li>
 <li>Removed <code>Block&lt;T&gt;.BytesLength</code> property.  [<a href="https://github.com/planetarium/libplanet/pull/1609">#1609</a>]</li>
@@ -3211,7 +3234,7 @@ the canonical chain while syncing recent blocks.  [<a href="https://github.com/p
 <li>More streamlined structured logging together with additional logs
 tagged as <code>Metric</code>.  [<a href="https://github.com/planetarium/libplanet/pull/1627">#1627</a>]</li>
 </ul>
-<h3 id="bug-fixes-23">Bug fixes</h3>
+<h3 id="bug-fixes-24">Bug fixes</h3>
 <ul>
 <li><code>InvalidMagicCookieException</code> and <code>InvalidTimestampException</code> can now
 be serialized and deserialized.  [<a href="https://github.com/planetarium/libplanet/pull/1613">#1613</a>]</li>
@@ -3245,7 +3268,7 @@ becomes stale is now fixed.  [<a href="https://github.com/planetarium/libplanet/
 </ul>
 <h2 id="version-0210">Version 0.21.0</h2>
 <p>Released on November 16, 2021.</p>
-<h3 id="backward-incompatible-api-changes-36">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-37">Backward-incompatible API changes</h3>
 <ul>
 <li>(Libplanet.RocksDBStore) Removed <code>MonoRocksDBStore</code> class.
 [<a href="https://github.com/planetarium/libplanet/issues/1513">#1513</a>, <a href="https://github.com/planetarium/libplanet/pull/1579">#1579</a>]</li>
@@ -3298,7 +3321,7 @@ of <code>IBlockPolicy&lt;T&gt;</code> now validates the type for <code>Block&lt;
 size for <code>Block&lt;T&gt;.BytesLength</code>, and count for <code>Block&lt;T&gt;.Transactions</code>.
 [<a href="https://github.com/planetarium/libplanet/issues/1504">#1504</a>, <a href="https://github.com/planetarium/libplanet/pull/1600">#1600</a>]</li>
 </ul>
-<h3 id="cli-tools-16">CLI tools</h3>
+<h3 id="cli-tools-13">CLI tools</h3>
 <ul>
 <li><code>planet stats</code> command's <code>-p</code>/<code>--path</code> option no more supports the store
 type <code>monorocksdb</code>.  [<a href="https://github.com/planetarium/libplanet/issues/1513">#1513</a>, <a href="https://github.com/planetarium/libplanet/pull/1579">#1579</a>]</li>
@@ -3329,7 +3352,7 @@ related tests.  [<a href="https://github.com/planetarium/libplanet/pull/1594">#1
 <li>(Libplanet.RocksDBStore) <code>MonoRocksDBStore</code> will be gone in the next minor
 release: 0.21.0.  [<a href="https://github.com/planetarium/libplanet/issues/1513">#1513</a>, <a href="https://github.com/planetarium/libplanet/pull/1574">#1574</a>]</li>
 </ul>
-<h3 id="backward-incompatible-api-changes-37">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-38">Backward-incompatible API changes</h3>
 <ul>
 <li>Removed unused <code>BlockChain&lt;T&gt;</code> type parameter from
 <code>IStagePolicy&lt;T&gt;.Iterate()</code> method.  [<a href="https://github.com/planetarium/libplanet/issues/1553">#1553</a>, <a href="https://github.com/planetarium/libplanet/pull/1556">#1556</a>]</li>
@@ -3371,7 +3394,7 @@ with nodes based on Libplanet pre-0.19.0.  [<a href="https://github.com/planetar
 </ul>
 <h2 id="version-0190">Version 0.19.0</h2>
 <p>Released on October 27, 2021.</p>
-<h3 id="backward-incompatible-api-changes-38">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-39">Backward-incompatible API changes</h3>
 <ul>
 <li>Removed <code>IStore.StageTransactionIds()</code> method.  [<a href="https://github.com/planetarium/libplanet/issues/1166">#1166</a>, <a href="https://github.com/planetarium/libplanet/pull/1535">#1535</a>]</li>
 <li>Removed <code>IStore.UnstageTransactionIds()</code> method.  [<a href="https://github.com/planetarium/libplanet/issues/1166">#1166</a>, <a href="https://github.com/planetarium/libplanet/pull/1535">#1535</a>]</li>
@@ -3420,7 +3443,7 @@ The polling is triggered when <code>Swarm&lt;T&gt;.BlockChain</code>'s <code>Tip
 unchanged for a while.  Expiration time for tips can be configured
 through <code>SwarmOptions.TipLifespan</code> property.  [<a href="https://github.com/planetarium/libplanet/pull/1557">#1557</a>]</li>
 </ul>
-<h3 id="bug-fixes-24">Bug fixes</h3>
+<h3 id="bug-fixes-25">Bug fixes</h3>
 <ul>
 <li>Fixed <code>DefaultStore.ForkBlockIndexes()</code> method's bug that it had done
 silently no-op when a given <code>sourceChainId</code> had not existed, which had not
@@ -3491,7 +3514,7 @@ no longer suppress the internal failures.  [<a href="https://github.com/planetar
 </ul>
 <h2 id="version-0180">Version 0.18.0</h2>
 <p>Released on October 13, 2021.</p>
-<h3 id="backward-incompatible-api-changes-39">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-40">Backward-incompatible API changes</h3>
 <ul>
 <li><code>Hashcash.Stamp(Nonce)</code> delegate's return type became <code>IEnumerable&lt;byte[]&gt;</code>
 (was <code>byte[]</code>).  [<a href="https://github.com/planetarium/libplanet/pull/1492">#1492</a>]</li>
@@ -3738,7 +3761,7 @@ If a block lacks public key, <code>InvalidBlockPublicKeyException</code> is thro
 <li><code>PublicKey.ToString()</code> method now returns its hexadecimal representation
 in compressed form.  [<a href="https://github.com/planetarium/libplanet/pull/1507">#1507</a>]</li>
 </ul>
-<h3 id="bug-fixes-25">Bug fixes</h3>
+<h3 id="bug-fixes-26">Bug fixes</h3>
 <ul>
 <li>Fixed <code>NullReferenceException</code> that <code>PublicKey.Verify()</code> method had thrown
 with a non-null empty <code>signature</code>.  [<a href="https://github.com/planetarium/libplanet/pull/1507">#1507</a>]</li>
@@ -3746,7 +3769,7 @@ with a non-null empty <code>signature</code>.  [<a href="https://github.com/plan
 </ul>
 <h2 id="version-0170">Version 0.17.0</h2>
 <p>Released on September 28, 2021.</p>
-<h3 id="backward-incompatible-api-changes-40">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-41">Backward-incompatible API changes</h3>
 <ul>
 <li>Added <code>StateCompleterSet&lt;T&gt;.ComplementAll</code> property.  [<a href="https://github.com/planetarium/libplanet/issues/1358">#1358</a>, <a href="https://github.com/planetarium/libplanet/pull/1386">#1386</a>]</li>
 <li>Added <code>StateCompleterSet&lt;T&gt;.ComplementLatest</code> property.  [<a href="https://github.com/planetarium/libplanet/issues/1358">#1358</a>, <a href="https://github.com/planetarium/libplanet/pull/1386">#1386</a>]</li>
@@ -3897,7 +3920,7 @@ as well.  [<a href="https://github.com/planetarium/libplanet/pull/1423">#1423</a
 <li><code>Swarm&lt;T&gt;</code> became to sync transactions from multiple peers
 at the same time.  [<a href="https://github.com/planetarium/libplanet/issues/1420">#1420</a>, <a href="https://github.com/planetarium/libplanet/pull/1478">#1478</a>]</li>
 </ul>
-<h3 id="bug-fixes-26">Bug fixes</h3>
+<h3 id="bug-fixes-27">Bug fixes</h3>
 <ul>
 <li>Improper sanity checks for <code>targetBlockInterval</code> (changed from the old name
 <code>blockInterval</code>), <code>minimumDifficulty</code>, and <code>difficultyStability</code> (changed
@@ -3918,7 +3941,7 @@ make sense.</li>
 </ul>
 <h2 id="version-0160">Version 0.16.0</h2>
 <p>Released on August 25, 2021.</p>
-<h3 id="backward-incompatible-api-changes-41">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-42">Backward-incompatible API changes</h3>
 <ul>
 <li>Removed <code>Swarm&lt;T&gt;.BlockDemand</code> property.  [<a href="https://github.com/planetarium/libplanet/issues/1419">#1419</a>, <a href="https://github.com/planetarium/libplanet/pull/1425">#1425</a>]</li>
 <li><code>BlockChain&lt;T&gt;.Tip</code> property is now non-nullable.  [<a href="https://github.com/planetarium/libplanet/pull/1430">#1430</a>]</li>
@@ -3934,13 +3957,12 @@ make sense.</li>
 <ul>
 <li><code>Swarm&lt;T&gt;</code> became to sync blocks from multiple peers.  [<a href="https://github.com/planetarium/libplanet/issues/1419">#1419</a>, <a href="https://github.com/planetarium/libplanet/pull/1425">#1425</a>]</li>
 </ul>
-<h3 id="bug-fixes-27">Bug fixes</h3>
+<h3 id="bug-fixes-28">Bug fixes</h3>
 <ul>
 <li>Fixed a bug where <code>Swarm&lt;T&gt;.PreloadAsync()</code> failed to sync blocks from
 the peer that has chain with higher difficulty, but lower index.
 [<a href="https://github.com/planetarium/libplanet/issues/1419">#1419</a>, <a href="https://github.com/planetarium/libplanet/pull/1425">#1425</a>]</li>
 </ul>
-<h3 id="cli-tools-17">CLI tools</h3>
 <h2 id="version-0154">Version 0.15.4</h2>
 <p>Released on September 14, 2021.</p>
 <ul>
@@ -3971,7 +3993,7 @@ if any messages are missing.  [<a href="https://github.com/planetarium/libplanet
 </ul>
 <h2 id="version-0150">Version 0.15.0</h2>
 <p>Released on August 18, 2021.</p>
-<h3 id="backward-incompatible-api-changes-42">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-43">Backward-incompatible API changes</h3>
 <ul>
 <li>Added <code>IRandom.Seed</code> property.  [<a href="https://github.com/planetarium/libplanet/pull/1431">#1431</a>]</li>
 </ul>
@@ -4003,7 +4025,7 @@ digest bytes when it is called by multiple threads at a time.  [<a href="https:/
 </ul>
 <h2 id="version-0130">Version 0.13.0</h2>
 <p>Released on July 28, 2021.</p>
-<h3 id="backward-incompatible-api-changes-43">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-44">Backward-incompatible API changes</h3>
 <ul>
 <li>Added <code>bool render = false</code> option to <code>Swarm&lt;T&gt;.PreloadAsync()</code>.
 Blocks and actions in preloaded blocks will be rendered if the switch
@@ -4020,12 +4042,11 @@ is set to <code>true</code>.  [<a href="https://github.com/planetarium/libplanet
 <li><code>Transaction&lt;T&gt;.Validate()</code> became to throw <code>InvalidTxSignatureException</code>
 if the transaction was not signed.  [<a href="https://github.com/planetarium/libplanet/pull/1378">#1378</a>]</li>
 </ul>
-<h3 id="bug-fixes-28">Bug fixes</h3>
+<h3 id="bug-fixes-29">Bug fixes</h3>
 <ul>
 <li>Fixed a bug where <code>Swarm&lt;T&gt;</code> had stopped when <code>ObjectDisposedException</code>
 is thrown during <code>NetMQTransport.DoBroadcast()</code>.  [<a href="https://github.com/planetarium/libplanet/issues/1362">#1362</a>, <a href="https://github.com/planetarium/libplanet/pull/1365">#1365</a>]</li>
 </ul>
-<h3 id="cli-tools-18">CLI tools</h3>
 <h2 id="version-0121">Version 0.12.1</h2>
 <p>Released on July 28, 2021.</p>
 <ul>
@@ -4034,7 +4055,7 @@ is thrown during <code>NetMQTransport.DoBroadcast()</code>.  [<a href="https://g
 </ul>
 <h2 id="version-0120">Version 0.12.0</h2>
 <p>Released on July 23, 2021.</p>
-<h3 id="backward-incompatible-api-changes-44">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-45">Backward-incompatible API changes</h3>
 <ul>
 <li>Block hashes are now represented as <code>BlockHash</code>, which was introduced in
 this release, which has been done as <code>HashDigest&lt;SHA256&gt;</code>.
@@ -4302,7 +4323,7 @@ call.  [<a href="https://github.com/planetarium/libplanet/pull/1347">#1347</a>]<
 <li><code>BlockChain&lt;T&gt;.ExecuteActions()</code> became no longer throw
 <code>InvalidTxUpdatedAddressesException</code>.  [<a href="https://github.com/planetarium/libplanet/issues/368">#368</a>, <a href="https://github.com/planetarium/libplanet/pull/1389">#1389</a>]</li>
 </ul>
-<h3 id="bug-fixes-29">Bug fixes</h3>
+<h3 id="bug-fixes-30">Bug fixes</h3>
 <ul>
 <li>Fixed a bug where executing <code>Transaction&lt;T&gt;.Actions</code> had not been atomic.
 <code>Actions</code> in a <code>Transaction&lt;T&gt;</code> now became executed all or nothing at all.
@@ -4347,7 +4368,7 @@ an improper chain.  [<a href="https://github.com/planetarium/libplanet/issues/13
 <li>Fixed a bug where <code>Swarm&lt;T&gt;</code> hadn't respond immediately under load.
 [<a href="https://github.com/planetarium/libplanet/pull/1360">#1360</a>]</li>
 </ul>
-<h3 id="cli-tools-19">CLI tools</h3>
+<h3 id="cli-tools-14">CLI tools</h3>
 <ul>
 <li>Added the option <code>--json</code> to <code>planet apv analyze</code> command to print result
 as JSON format.  [<a href="https://github.com/planetarium/libplanet/pull/1240">#1240</a>]</li>
@@ -4374,7 +4395,7 @@ errors.  [<a href="https://github.com/planetarium/libplanet/pull/1259">#1259</a>
 </ul>
 <h2 id="version-0110">Version 0.11.0</h2>
 <p>Released on March 30, 2021.</p>
-<h3 id="backward-incompatible-api-changes-45">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-46">Backward-incompatible API changes</h3>
 <ul>
 <li>Added the parameter <code>protocolVersion</code> to <code>Block&lt;T&gt;(long, long, BigInteger, Nonce, Address?, HashDigest&lt;SHA256&gt;?, DateTimeOffset, IEnumerable&lt;Transaction&lt;T&gt;&gt; transactions, HashDigest&lt;SHA256&gt;?, HashDigest&lt;SHA256&gt;?)</code> constructor.  [<a href="https://github.com/planetarium/libplanet/issues/1142">#1142</a>, <a href="https://github.com/planetarium/libplanet/pull/1147">#1147</a>, <a href="https://github.com/planetarium/libplanet/pull/1162">#1162</a>]</li>
 <li>Added the parameter to <code>protocolVersion</code> to <code>Block&lt;T&gt;.Mine()</code> method.
@@ -4579,7 +4600,7 @@ context.  [<a href="https://github.com/planetarium/libplanet/pull/1218">#1218</a
 </ul>
 </li>
 </ul>
-<h3 id="bug-fixes-30">Bug fixes</h3>
+<h3 id="bug-fixes-31">Bug fixes</h3>
 <ul>
 <li>Fixed a bug where <code>BlockChain&lt;T&gt;.MineBlock()</code> was not automatically
 cancelled when the tip of the chain was changed occasionally.  [<a href="https://github.com/planetarium/libplanet/pull/1141">#1141</a>]</li>
@@ -4597,7 +4618,7 @@ are guaranteed to still behave as it had done.  [<a href="https://github.com/pla
 <li>Fixed a bug where <code>TurnClient</code> hadn't released its relay connections after
 reconnecting.  [<a href="https://github.com/planetarium/libplanet/pull/1185">#1185</a>]</li>
 </ul>
-<h3 id="cli-tools-20">CLI tools</h3>
+<h3 id="cli-tools-15">CLI tools</h3>
 <ul>
 <li><code>planet mpt diff</code> command became to take 4 arguments (which was 3)
 so that it can compare state root hashes from two different
@@ -4660,7 +4681,7 @@ node, which had been unable to insert new nodes.  [<a href="https://github.com/p
 </ul>
 <h2 id="version-0100">Version 0.10.0</h2>
 <p>Released on October 27, 2020.</p>
-<h3 id="backward-incompatible-api-changes-46">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-47">Backward-incompatible API changes</h3>
 <ul>
 <li>Extracted rendering methods from <code>IAction</code> to <code>IRenderer&lt;T&gt;</code>,
 which is introduced in this version.
@@ -4960,7 +4981,7 @@ used <code>Block&lt;T&gt;</code>s are unable to be appended to <code>BlockChain&
 so that they become faster to get.  [<a href="https://github.com/planetarium/libplanet/pull/1013">#1013</a>]</li>
 <li><code>Swarm&lt;T&gt;.PreloadAsync()</code> became to do not render blocks.  [<a href="https://github.com/planetarium/libplanet/pull/1029">#1029</a>]</li>
 </ul>
-<h3 id="bug-fixes-31">Bug fixes</h3>
+<h3 id="bug-fixes-32">Bug fixes</h3>
 <ul>
 <li>Fixed a bug that <code>Swarm&lt;T&gt;</code> had failed to receive a request from TURN relay
 connections.  [<a href="https://github.com/planetarium/libplanet/issues/404">#404</a>, <a href="https://github.com/planetarium/libplanet/issues/871">#871</a>, <a href="https://github.com/planetarium/libplanet/pull/890">#890</a>]</li>
@@ -4995,7 +5016,7 @@ checks if code has common mistakes prone to made with Libplanet-powered
 game apps, e.g., breaking determinism in <code>IAction</code> implementations.
 [<a href="https://github.com/planetarium/libplanet/pull/1034">#1034</a>]</li>
 </ul>
-<h3 id="cli-tools-21">CLI tools</h3>
+<h3 id="cli-tools-16">CLI tools</h3>
 <ul>
 <li>The <code>planet</code> command became installable using <code>npm</code>.  [<a href="https://github.com/planetarium/libplanet/pull/923">#923</a>, <a href="https://github.com/planetarium/libplanet/pull/982">#982</a>]</li>
 <li>Fixed a bug that <kbd>^H</kbd> had not removed the rightmost character
@@ -5047,7 +5068,7 @@ raised <code>InvalidOperationException</code>.  [<a href="https://github.com/pla
 </ul>
 <h2 id="version-090">Version 0.9.0</h2>
 <p>Released on April 27, 2020.</p>
-<h3 id="backward-incompatible-api-changes-47">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-48">Backward-incompatible API changes</h3>
 <ul>
 <li><code>BaseStore</code> class became to implement <code>IDisposable</code>.  [<a href="https://github.com/planetarium/libplanet/pull/789">#789</a>]</li>
 <li>Removed <code>IStore.DeleteIndex(Guid, HashDigest&lt;SHA256&gt;)</code> method.  [<a href="https://github.com/planetarium/libplanet/pull/802">#802</a>]</li>
@@ -5146,7 +5167,7 @@ creation.  [<a href="https://github.com/planetarium/libplanet/issues/817">#817</
 connections.  [<a href="https://github.com/planetarium/libplanet/pull/846">#846</a>]</li>
 <li>Improved response throughput of <code>Swarm&lt;T&gt;</code>.  [<a href="https://github.com/planetarium/libplanet/pull/849">#849</a>]</li>
 </ul>
-<h3 id="bug-fixes-32">Bug fixes</h3>
+<h3 id="bug-fixes-33">Bug fixes</h3>
 <ul>
 <li><code>Swarm&lt;T&gt;</code> became not to sync the same <code>Block&lt;T&gt;</code>s or <code>Transaction&lt;T&gt;</code>s
 multiple times.  [<a href="https://github.com/planetarium/libplanet/pull/784">#784</a>]</li>
@@ -5173,13 +5194,13 @@ when a block failed to be fetched due to an unexpected inner exception.
 any non-ASCII characters was passed to <code>Pbkdf2.Derive()</code> method or
 <code>ProtectedPrivateKey.Protect()</code> method.  [<a href="https://github.com/planetarium/libplanet/pull/845">#845</a>]</li>
 </ul>
-<h3 id="cli-tools-22">CLI tools</h3>
+<h3 id="cli-tools-17">CLI tools</h3>
 <ul>
 <li>Added the <code>planet</code> command and its alias <code>dotnet planet</code>.</li>
 </ul>
 <h2 id="version-080">Version 0.8.0</h2>
 <p>Released on February 4, 2020.</p>
-<h3 id="backward-incompatible-api-changes-48">Backward-incompatible API changes</h3>
+<h3 id="backward-incompatible-api-changes-49">Backward-incompatible API changes</h3>
 <ul>
 <li>The internal representation for state keys became <code>string</code> (was <code>Address</code>).
 [<a href="https://github.com/planetarium/libplanet/issues/368">#368</a>, <a href="https://github.com/planetarium/libplanet/pull/774">#774</a>]
@@ -5338,7 +5359,7 @@ then select an additional peers so that the total is 10.</li>
 </ul>
 </li>
 </ul>
-<h3 id="bug-fixes-33">Bug fixes</h3>
+<h3 id="bug-fixes-34">Bug fixes</h3>
 <ul>
 <li>Fixed a bug where the canonical chain could be deleted if <code>Swarm&lt;T&gt;</code> failed
 to download blocks due to network connection.  [<a href="https://github.com/planetarium/libplanet/pull/675">#675</a>]</li>
@@ -5478,7 +5499,7 @@ the <code>Block&lt;T&gt;</code> more than once.  [<a href="https://github.com/pl
 <li><code>Swarm&lt;T&gt;.PreloadAsync()</code> became to try downloading blocks from all neighbor
 peers, even if any peer among them is unavailable to send blocks.  [<a href="https://github.com/planetarium/libplanet/pull/636">#636</a>]</li>
 </ul>
-<h3 id="bug-fixes-34">Bug fixes</h3>
+<h3 id="bug-fixes-35">Bug fixes</h3>
 <ul>
 <li>Fixed a bug where <code>Swarm&lt;T&gt;</code> had tried to update a peer infinitely when
 the peer is evicted from its table.  [<a href="https://github.com/planetarium/libplanet/pull/566">#566</a>]</li>
@@ -5627,7 +5648,7 @@ and transactions in each group (per signer) are ordered by
 <li><code>LiteDBStore()</code> became to create the database in memory if the <code>path</code>
 parameter is <code>null</code>.  [<a href="https://github.com/planetarium/libplanet/pull/521">#521</a>]</li>
 </ul>
-<h3 id="bug-fixes-35">Bug fixes</h3>
+<h3 id="bug-fixes-36">Bug fixes</h3>
 <ul>
 <li>Fixed a bug that <code>Swarm&lt;T&gt;</code> hadn't released its TURN related resources on
 <code>Swarm&lt;T&gt;.StopAsync()</code>.  [<a href="https://github.com/planetarium/libplanet/pull/450">#450</a>]</li>
@@ -5639,14 +5660,14 @@ occurred during fetching block from other peers.  [<a href="https://github.com/p
 </ul>
 <h2 id="version-053">Version 0.5.3</h2>
 <p>Released on September 9, 2019.</p>
-<h3 id="bug-fixes-36">Bug fixes</h3>
+<h3 id="bug-fixes-37">Bug fixes</h3>
 <ul>
 <li>Fix bug where <code>IAccountStateDelta.GetState()</code> hadn't returned proper state
 when the block action is evaluated.  [<a href="https://github.com/planetarium/libplanet/pull/500">#500</a>]</li>
 </ul>
 <h2 id="version-052">Version 0.5.2</h2>
 <p>Released on August 29, 2019.</p>
-<h3 id="bug-fixes-37">Bug fixes</h3>
+<h3 id="bug-fixes-38">Bug fixes</h3>
 <ul>
 <li>Fixed a bug that <code>Swarm&lt;T&gt;.PreloadAsync()</code> method had thrown <code>LiteException</code>
 (or other exception depending on <code>IStore</code>), which indicates a state
@@ -5659,7 +5680,7 @@ transactions.  [<a href="https://github.com/planetarium/libplanet/issues/352">#3
 </ul>
 <h2 id="version-051">Version 0.5.1</h2>
 <p>Released on August 28, 2019.</p>
-<h3 id="bug-fixes-38">Bug fixes</h3>
+<h3 id="bug-fixes-39">Bug fixes</h3>
 <ul>
 <li>Fixed a bug that <code>ArgumentNullException</code> had been thrown when a blockchain,
 which consists of incomplete states (i.e., precalculated states downloaded
@@ -5755,7 +5776,7 @@ the <code>Transaction&lt;T&gt;</code> more than once.  [<a href="https://github.
 <code>false</code>.  [<a href="https://github.com/planetarium/libplanet/pull/423">#423</a>]</li>
 <li><code>PrivateKey(byte[])</code> constructor became to check validity.  [<a href="https://github.com/planetarium/libplanet/pull/438">#438</a>]</li>
 </ul>
-<h3 id="bug-fixes-39">Bug fixes</h3>
+<h3 id="bug-fixes-40">Bug fixes</h3>
 <ul>
 <li>Fixed a bug where the <code>LiteDBStore.IterateStagedTransactionIds()</code> returns
 duplicated transaction ids.  [<a href="https://github.com/planetarium/libplanet/pull/366">#366</a>]</li>
@@ -5783,7 +5804,7 @@ took a long time.  [<a href="https://github.com/planetarium/libplanet/pull/424">
 </ul>
 <h2 id="version-041">Version 0.4.1</h2>
 <p>Released on July 11, 2019.</p>
-<h3 id="bug-fixes-40">Bug fixes</h3>
+<h3 id="bug-fixes-41">Bug fixes</h3>
 <ul>
 <li>Fixed a bug where the <code>BlockChain&lt;T&gt;.GetStates()</code> method had not returned
 the latest state when there are multiple addresses.  [<a href="https://github.com/planetarium/libplanet/pull/346">#346</a>]</li>
@@ -5881,7 +5902,7 @@ references in the replaced chain.  [<a href="https://github.com/planetarium/libp
 under the circumstances that the height of
 the <code>BlockChain&lt;T&gt;</code> object is high.  [<a href="https://github.com/planetarium/libplanet/issues/282">#282</a>, <a href="https://github.com/planetarium/libplanet/pull/299">#299</a>]</li>
 </ul>
-<h3 id="bug-fixes-41">Bug fixes</h3>
+<h3 id="bug-fixes-42">Bug fixes</h3>
 <ul>
 <li>Fixed a bug that <code>Swarm&lt;T&gt;</code> reported <code>TaskCanceledException</code> as an unknown
 exception while stopping.  [<a href="https://github.com/planetarium/libplanet/pull/275">#275</a>]</li>
@@ -6016,7 +6037,7 @@ current nonce.  [<a href="https://github.com/planetarium/libplanet/pull/246">#24
 <li><code>Swarm</code> became to enforce <code>ForceDotNet.Force()</code> in <a href="https://github.com/somdoron/AsyncIO">AsyncIO</a> while
 it's running on Mono runtime.  [<a href="https://github.com/planetarium/libplanet/pull/247">#247</a>]</li>
 </ul>
-<h3 id="bug-fixes-42">Bug fixes</h3>
+<h3 id="bug-fixes-43">Bug fixes</h3>
 <ul>
 <li>Fixed a bug that TURN relay had been disconnected when being connected for
 longer than 5 minutes.  [<a href="https://github.com/planetarium/libplanet/pull/198">#198</a>]</li>
