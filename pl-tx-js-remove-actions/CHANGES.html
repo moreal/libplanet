@@ -87,11 +87,12 @@ since 1.1.0 and some system actions were removed since 1.2.0.  [<a href="https:/
 <li>Removed <code>SystemAction</code> type.</li>
 <li>Removed <code>Mint</code> type.</li>
 <li>Removed <code>Transfer</code> type.</li>
+<li>Added <code>encodeUnsignedTx()</code> function.</li>
 <li>Added <code>UnsignedTx</code> type.</li>
 <li><code>signTx(UnsignedTxWithCustomActions | UnsignedTxWithSystemAction)</code>
 function's signature became <code>signTx(UnsignedTx)</code>.</li>
 <li><code>SignedTx&lt;T extends UnsignedTxWithCustomActions | UnsignedTxWithSystemAction&gt;</code>'s signature became
-<code>SignedTx&lt;T extends UnsignedTx</code>.</li>
+<code>SignedTx&lt;T extends UnsignedTx&gt;</code>.</li>
 </ul>
 </li>
 </ul>
