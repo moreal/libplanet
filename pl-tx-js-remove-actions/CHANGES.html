@@ -66,6 +66,12 @@
 <h3 id="deprecated-apis">Deprecated APIs</h3>
 <h3 id="backward-incompatible-api-changes">Backward-incompatible API changes</h3>
 <ul>
+<li>Changed the type for <code>IAccountStateDelta.UpdatedFungibleAssets</code>
+to <code>IImmutableSet&lt;(Address, Currency)&gt;</code>
+from <code>IImmutableDictionary&lt;Address, IImmutableSet&lt;Currency&gt;&gt;</code>.  [<a href="https://github.com/planetarium/libplanet/pull/3244">#3244</a>]</li>
+<li>Changed the type for <code>IAccountStateDelta.TotalUpdatedFungibleAssets</code>
+to <code>IImmutableSet&lt;(Address, Currency)&gt;</code>
+from <code>IImmutableDictionary&lt;Address, IImmutableSet&lt;Currency&gt;&gt;</code>.  [<a href="https://github.com/planetarium/libplanet/pull/3244">#3244</a>]</li>
 <li>(@planetarium/tx) Removed some types and functions related to actions
 because the concept of <code>SystemAction</code> and <code>CustomAction</code> was removed
 since 1.1.0 and some system actions were removed since 1.2.0.  [<a href="https://github.com/planetarium/libplanet/pull/3230">#3230</a>]

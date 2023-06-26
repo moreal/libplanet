@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "CHANGES.html",
-          "hash": "sgrGOFUB73s/yfn+fv5tcZ8yatHVJbK3vZ7ubf+Q3K8="
+          "hash": "oq5wmahwklqBhF1+LMsG0r/N6NvJsmTwvNUOqA6goBs="
         }
       },
       "is_incremental": false,
@@ -3345,7 +3345,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.State.IAccountStateDelta.html",
-          "hash": "i8TPFD+0megW1F5NzeYKgvHI6xy0CcrKyAX74gg579I="
+          "hash": "cbtrooaiBRD+NBmjzQz61SAsnn0aq1LSZ2z14bqIjok="
         }
       },
       "is_incremental": false,
