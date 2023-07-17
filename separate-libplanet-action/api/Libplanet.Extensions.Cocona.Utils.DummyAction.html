@@ -81,7 +81,7 @@
   </div>
   <div class="implements">
     <h5>Implements</h5>
-    <div><span class="xref">Libplanet.Action.IAction</span></div>
+    <div><a class="xref" href="Libplanet.Action.IAction.html">IAction</a></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -173,7 +173,17 @@
   </span>
   <a id="Libplanet_Extensions_Cocona_Utils_DummyAction_Execute_" data-uid="Libplanet.Extensions.Cocona.Utils.DummyAction.Execute*"></a>
   <h4 id="Libplanet_Extensions_Cocona_Utils_DummyAction_Execute_Libplanet_Action_IActionContext_" data-uid="Libplanet.Extensions.Cocona.Utils.DummyAction.Execute(Libplanet.Action.IActionContext)">Execute(IActionContext)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Executes the main game logic of an action.  This should be
+<em>deterministic</em>.</p>
+<p>Through the <code data-dev-comment-type="paramref" class="paramref">context</code> object,
+it receives information such as a transaction signer,
+its states immediately before the execution,
+and a deterministic random seed.</p>
+<p>Other “bound” information resides in the action
+object in itself, as its properties (or fields).</p>
+<p>A returned <a class="xref" href="Libplanet.Action.State.IAccountStateDelta.html">IAccountStateDelta</a> object functions as
+a delta which shifts from previous states to next states.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
@@ -190,9 +200,13 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Libplanet.Action.IActionContext</span></td>
+        <td><a class="xref" href="Libplanet.Action.IActionContext.html">IActionContext</a></td>
         <td><span class="parametername">context</span></td>
-        <td></td>
+        <td><p>A context object containing addresses that
+signed the transaction, states immediately before the execution,
+and a PRNG object which produces deterministic random numbers.
+See <a class="xref" href="Libplanet.Action.IActionContext.html">IActionContext</a> for details.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -206,11 +220,52 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Libplanet.Action.State.IAccountStateDelta</span></td>
-        <td></td>
+        <td><a class="xref" href="Libplanet.Action.State.IAccountStateDelta.html">IAccountStateDelta</a></td>
+        <td><p>A map of changed states (so-called &quot;dirty&quot;).</p>
+</td>
       </tr>
     </tbody>
   </table>
+  <h5 id="Libplanet_Extensions_Cocona_Utils_DummyAction_Execute_Libplanet_Action_IActionContext__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This method should be deterministic:
+for structurally (member-wise) equal actions and <a class="xref" href="Libplanet.Action.IActionContext.html">IActionContext</a>s, the same result should be returned.
+Side effects should be avoided, because an action's
+<a class="xref" href="Libplanet.Action.IAction.html#Libplanet_Action_IAction_Execute_Libplanet_Action_IActionContext_">Execute(IActionContext)</a> method can be called more
+than once, the time it's called is difficult to predict.</p>
+<p>For changing in-memory game states or drawing graphics,
+implement the <see cref="!:Blockchain.Renderers.IRenderer"></see> interface separately and
+attach it to a <see cref="!:Blockchain.BlockChain"></see> instance.</p>
+<p>For randomness, <em>never</em> use <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.random">Random</a>
+nor any other PRNGs provided by other than Libplanet.
+Use <a class="xref" href="Libplanet.Action.IActionContext.html#Libplanet_Action_IActionContext_Random">Random</a> instead.
+<a class="xref" href="Libplanet.Action.IActionContext.html#Libplanet_Action_IActionContext_Random">Random</a> guarantees the same action
+has the consistent result for every node in the network.</p>
+<p>Also do not perform I/O operations such as file system access
+or networking.  These bring an action indeterministic.  You maybe
+fine to log messages for debugging purpose, but equivalent messages
+could be logged multiple times.</p>
+<p>Although it might be surprising, <a href="https://wp.me/p1fTCO-kT">floating-point arithmetics are
+underspecified so that it can make different results on different
+machines, platforms, runtimes, compilers, and builds</a>.</p>
+<p>Lastly, you need to be aware and keep in mind that there
+is a global state named <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.globalization.cultureinfo.currentculture#system-globalization-cultureinfo-currentculture">CurrentCulture</a> on .NET;
+if you format numbers, dates and times, currencies, or other such
+things into strings and parse these strings back these can rely on
+<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.globalization.cultureinfo.currentculture#system-globalization-cultureinfo-currentculture">CurrentCulture</a>,
+so that the same action make different results on two differently
+configured systems like Thai language and French language.
+In order to make these types of conversions deterministic,
+you have to explicitly pass <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.globalization.cultureinfo.invariantculture#system-globalization-cultureinfo-invariantculture">InvariantCulture</a>.</p>
+<p>For more on determinism in general, please read also <a href="https://tendermint.com/docs/spec/abci/abci.html#determinism">Tendermint ABCI&apos;s docs on determinism</a>.</p>
+<p>Lastly, you can conduct static analysis on your code
+using <a href="https://git.io/JTmby">Libplanet.Analyzers</a>.
+The analyzer can be enabled by adding its NuGet package into
+your project as a dependency.</p>
+</div>
+  <h5 id="Libplanet_Extensions_Cocona_Utils_DummyAction_Execute_Libplanet_Action_IActionContext__seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="Libplanet.Action.IActionContext.html">IActionContext</a></div>
+  </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/moreal/libplanet/new/separate-libplanet-action/apiSpec/new?filename=Libplanet_Extensions_Cocona_Utils_DummyAction_LoadPlainValue_Bencodex_Types_IValue_.md&amp;value=---%0Auid%3A%20Libplanet.Extensions.Cocona.Utils.DummyAction.LoadPlainValue(Bencodex.Types.IValue)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -245,7 +300,7 @@
   </table>
   <h3 id="implements">Implements</h3>
   <div>
-      <span class="xref">Libplanet.Action.IAction</span>
+      <a class="xref" href="Libplanet.Action.IAction.html">IAction</a>
   </div>
 </article>
           </div>

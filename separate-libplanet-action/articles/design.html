@@ -140,11 +140,11 @@ A player's next turn can start only after the opponent's current turn is
 determined.  From this perspective, a transaction represents a unit of
 dependency, rather than a unit of throughput.</p>
 <p>At a code level, another difference between @&quot;Libplanet.Tx.Transaction`1&quot; and
-@&quot;Libplanet.Action.IAction&quot; is that @&quot;Libplanet.Tx.Transaction`1&quot; is not
-extensible whereas @&quot;Libplanet.Action.IAction&quot; is.  By design, an extension
-point for game engineers is @&quot;Libplanet.Action.IAction&quot;.  To sum up,
+<a class="xref" href="../api/Libplanet.Action.IAction.html">IAction</a> is that @&quot;Libplanet.Tx.Transaction`1&quot; is not
+extensible whereas <a class="xref" href="../api/Libplanet.Action.IAction.html">IAction</a> is.  By design, an extension
+point for game engineers is <a class="xref" href="../api/Libplanet.Action.IAction.html">IAction</a>.  To sum up,
 @&quot;Libplanet.Tx.Transaction`1&quot; purposes to control synchronization on
-the network and @&quot;Libplanet.Action.IAction&quot; purposes to implement the actual
+the network and <a class="xref" href="../api/Libplanet.Action.IAction.html">IAction</a> purposes to implement the actual
 game logic.</p>
 <h2 id="accounts-and-addresses">Accounts and addresses</h2>
 <p>Libplanet creates digital signatures to find which player node made each
@@ -177,7 +177,7 @@ mutable objects too, in this way collaborators might not understand that every
 state change needs to be represented by an action.</p>
 <p>A state needs to be serializable as it is transmitted over the network and
 sometimes cached in storage. Therefore, every game object that represents states
-must be marked with <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.serializableattribute">SerializableAttribute</a>.</p>
+must be marked with @&quot;System.SerializableAttribute&quot;.</p>
 </article>
           </div>
 

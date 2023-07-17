@@ -165,7 +165,7 @@ anonymous class) of <a class="xref" href="Libplanet.Blockchain.Renderers.IAction
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-3">Action</a>&lt;<span class="xref">Bencodex.Types.IValue</span>, <span class="xref">Libplanet.Action.IActionContext</span>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a>&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-3">Action</a>&lt;<span class="xref">Bencodex.Types.IValue</span>, <a class="xref" href="Libplanet.Action.IActionContext.html">IActionContext</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -197,7 +197,7 @@ anonymous class) of <a class="xref" href="Libplanet.Blockchain.Renderers.IAction
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-3">Action</a>&lt;<span class="xref">Bencodex.Types.IValue</span>, <span class="xref">Libplanet.Action.IActionContext</span>, <span class="xref">Libplanet.Action.State.IAccountStateDelta</span>&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-3">Action</a>&lt;<span class="xref">Bencodex.Types.IValue</span>, <a class="xref" href="Libplanet.Action.IActionContext.html">IActionContext</a>, <a class="xref" href="Libplanet.Action.State.IAccountStateDelta.html">IAccountStateDelta</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -270,21 +270,21 @@ is executed and applied to the blockchain.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">Libplanet.Action.IActionContext</span></td>
+        <td><a class="xref" href="Libplanet.Action.IActionContext.html">IActionContext</a></td>
         <td><span class="parametername">context</span></td>
         <td><p>The equivalent context object to an object passed to
-the <code data-dev-comment-type="paramref" class="paramref">action</code>'s <span class="xref">Libplanet.Action.IAction.Execute(Libplanet.Action.IActionContext)</span> method.
-That means <span class="xref">Libplanet.Action.IActionContext.PreviousState</span> are the states right
+the <code data-dev-comment-type="paramref" class="paramref">action</code>'s <a class="xref" href="Libplanet.Action.IAction.html#Libplanet_Action_IAction_Execute_Libplanet_Action_IActionContext_">Execute(IActionContext)</a> method.
+That means <a class="xref" href="Libplanet.Action.IActionContext.html#Libplanet_Action_IActionContext_PreviousState">PreviousState</a> are the states right
 <em>before</em> this action executed.  For the states after this action executed,
 use the <code data-dev-comment-type="paramref" class="paramref">nextStates</code> argument instead.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">Libplanet.Action.State.IAccountStateDelta</span></td>
+        <td><a class="xref" href="Libplanet.Action.State.IAccountStateDelta.html">IAccountStateDelta</a></td>
         <td><span class="parametername">nextStates</span></td>
         <td><p>The states right <em>after</em> this action executed,
 which means it is equivalent to the states <code data-dev-comment-type="paramref" class="paramref">action</code>'s
-<span class="xref">Libplanet.Action.IAction.Execute(Libplanet.Action.IActionContext)</span> method returned.</p>
+<a class="xref" href="Libplanet.Action.IAction.html#Libplanet_Action_IAction_Execute_Libplanet_Action_IActionContext_">Execute(IActionContext)</a> method returned.</p>
 </td>
       </tr>
     </tbody>
@@ -331,11 +331,11 @@ is invoked when <code data-dev-comment-type="paramref" class="paramref">action</
 </td>
       </tr>
       <tr>
-        <td><span class="xref">Libplanet.Action.IActionContext</span></td>
+        <td><a class="xref" href="Libplanet.Action.IActionContext.html">IActionContext</a></td>
         <td><span class="parametername">context</span></td>
         <td><p>The equivalent context object to an object passed to
-the <code data-dev-comment-type="paramref" class="paramref">action</code>'s <span class="xref">Libplanet.Action.IAction.Execute(Libplanet.Action.IActionContext)</span> method.
-That means <span class="xref">Libplanet.Action.IActionContext.PreviousState</span> are the states right
+the <code data-dev-comment-type="paramref" class="paramref">action</code>'s <a class="xref" href="Libplanet.Action.IAction.html#Libplanet_Action_IAction_Execute_Libplanet_Action_IActionContext_">Execute(IActionContext)</a> method.
+That means <a class="xref" href="Libplanet.Action.IActionContext.html#Libplanet_Action_IActionContext_PreviousState">PreviousState</a> are the states right
 <em>before</em> this action executed.</p>
 </td>
       </tr>
