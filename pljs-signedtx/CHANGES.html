@@ -66,7 +66,7 @@
 <h3 id="deprecated-apis">Deprecated APIs</h3>
 <h3 id="backward-incompatible-api-changes">Backward-incompatible API changes</h3>
 <ul>
-<li>Removed <code>BlockChainStates</code> class.  [<a href="https://github.com/planetarium/libplanet/pull/3462">#3462</a>]</li>
+<li>Bumped <code>BlockMetadata.CurrentProtocolVersion</code> to 5.  [<a href="https://github.com/planetarium/libplanet/pull/3524">#3524</a>]</li>
 <li>(Libplanet.Action) Changed <code>ActionEvaluator</code> to accept <code>IWorld</code>
 instead of <code>IAccount</code>.  [<a href="https://github.com/planetarium/libplanet/pull/3462">#3462</a>]</li>
 <li>(Libplanet.Action) <code>IActionEvaluator.OutputState</code> became <code>IWorld</code>.
@@ -141,6 +141,7 @@ method.</li>
 <h3 id="backward-incompatible-storage-format-changes">Backward-incompatible storage format changes</h3>
 <h3 id="added-apis">Added APIs</h3>
 <ul>
+<li>Added <code>BlockMetadata.LegacyStateVersion</code> constant.  [<a href="https://github.com/planetarium/libplanet/pull/3524">#3524</a>]</li>
 <li>(Libplanet.Action) Added <code>IWorld</code> interface and its implementation.
 [<a href="https://github.com/planetarium/libplanet/pull/3462">#3462</a>]
 <ul>
@@ -156,8 +157,6 @@ method.</li>
 </li>
 <li>(Libplanet.Action) Added <code>ReservedAddresses</code> static class.  [<a href="https://github.com/planetarium/libplanet/pull/3462">#3462</a>]</li>
 <li>(Libplanet.Action) Added <code>WorldDeltaExtensions</code> static class.  [<a href="https://github.com/planetarium/libplanet/pull/3462">#3462</a>]</li>
-<li>(Libplanet.Action) Added <code>ISystemAccounts</code> interface.  [<a href="https://github.com/planetarium/libplanet/pull/3494">#3494</a></li>
-<li>(Libplanet.Action) Added <code>ISystemAccountsGetter</code> interface.  [<a href="https://github.com/planetarium/libplanet/pull/3494">#3494</a>]</li>
 <li>(Libplanet.Explorer) Added <code>AccountStateType</code> class.  [<a href="https://github.com/planetarium/libplanet/pull/3462">#3462</a>]</li>
 <li>(Libplanet.Explorer) Added <code>WorldStateType</code> class.  [<a href="https://github.com/planetarium/libplanet/pull/3462">#3462</a>]</li>
 <li>(Libplanet.Explorer) Added <code>WorldStateType</code> class.  [<a href="https://github.com/planetarium/libplanet/pull/3462">#3462</a>]</li>
