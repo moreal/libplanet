@@ -12883,15 +12883,15 @@ references:
   commentId: T:Libplanet.Net.Consensus.ConsensusReactor
   fullName: Libplanet.Net.Consensus.ConsensusReactor
   nameWithType: ConsensusReactor
-- uid: Libplanet.Net.Consensus.ConsensusReactor.#ctor(Libplanet.Net.Transports.ITransport,Libplanet.Blockchain.BlockChain,Libplanet.Crypto.PrivateKey,System.Collections.Immutable.ImmutableList{Libplanet.Net.BoundPeer},System.Collections.Immutable.ImmutableList{Libplanet.Net.BoundPeer},System.TimeSpan,Libplanet.Net.Consensus.ContextTimeoutOption)
-  name: ConsensusReactor(ITransport, BlockChain, PrivateKey, ImmutableList<BoundPeer>, ImmutableList<BoundPeer>, TimeSpan, ContextTimeoutOption)
-  href: api/Libplanet.Net.Consensus.ConsensusReactor.html#Libplanet_Net_Consensus_ConsensusReactor__ctor_Libplanet_Net_Transports_ITransport_Libplanet_Blockchain_BlockChain_Libplanet_Crypto_PrivateKey_System_Collections_Immutable_ImmutableList_Libplanet_Net_BoundPeer__System_Collections_Immutable_ImmutableList_Libplanet_Net_BoundPeer__System_TimeSpan_Libplanet_Net_Consensus_ContextTimeoutOption_
-  commentId: M:Libplanet.Net.Consensus.ConsensusReactor.#ctor(Libplanet.Net.Transports.ITransport,Libplanet.Blockchain.BlockChain,Libplanet.Crypto.PrivateKey,System.Collections.Immutable.ImmutableList{Libplanet.Net.BoundPeer},System.Collections.Immutable.ImmutableList{Libplanet.Net.BoundPeer},System.TimeSpan,Libplanet.Net.Consensus.ContextTimeoutOption)
-  name.vb: ConsensusReactor(ITransport, BlockChain, PrivateKey, ImmutableList(Of BoundPeer), ImmutableList(Of BoundPeer), TimeSpan, ContextTimeoutOption)
-  fullName: Libplanet.Net.Consensus.ConsensusReactor.ConsensusReactor(Libplanet.Net.Transports.ITransport, Libplanet.Blockchain.BlockChain, Libplanet.Crypto.PrivateKey, System.Collections.Immutable.ImmutableList<Libplanet.Net.BoundPeer>, System.Collections.Immutable.ImmutableList<Libplanet.Net.BoundPeer>, System.TimeSpan, Libplanet.Net.Consensus.ContextTimeoutOption)
-  fullName.vb: Libplanet.Net.Consensus.ConsensusReactor.ConsensusReactor(Libplanet.Net.Transports.ITransport, Libplanet.Blockchain.BlockChain, Libplanet.Crypto.PrivateKey, System.Collections.Immutable.ImmutableList(Of Libplanet.Net.BoundPeer), System.Collections.Immutable.ImmutableList(Of Libplanet.Net.BoundPeer), System.TimeSpan, Libplanet.Net.Consensus.ContextTimeoutOption)
-  nameWithType: ConsensusReactor.ConsensusReactor(ITransport, BlockChain, PrivateKey, ImmutableList<BoundPeer>, ImmutableList<BoundPeer>, TimeSpan, ContextTimeoutOption)
-  nameWithType.vb: ConsensusReactor.ConsensusReactor(ITransport, BlockChain, PrivateKey, ImmutableList(Of BoundPeer), ImmutableList(Of BoundPeer), TimeSpan, ContextTimeoutOption)
+- uid: Libplanet.Net.Consensus.ConsensusReactor.#ctor(Libplanet.Net.Transports.ITransport,Libplanet.Blockchain.BlockChain,Libplanet.Crypto.PrivateKey,System.Collections.Immutable.ImmutableList{Libplanet.Net.BoundPeer},System.Collections.Immutable.ImmutableList{Libplanet.Net.BoundPeer},System.TimeSpan,Libplanet.Net.Consensus.ContextTimeoutOption,System.Collections.Generic.IComparer{Libplanet.Types.Tx.Transaction})
+  name: ConsensusReactor(ITransport, BlockChain, PrivateKey, ImmutableList<BoundPeer>, ImmutableList<BoundPeer>, TimeSpan, ContextTimeoutOption, IComparer<Transaction>)
+  href: api/Libplanet.Net.Consensus.ConsensusReactor.html#Libplanet_Net_Consensus_ConsensusReactor__ctor_Libplanet_Net_Transports_ITransport_Libplanet_Blockchain_BlockChain_Libplanet_Crypto_PrivateKey_System_Collections_Immutable_ImmutableList_Libplanet_Net_BoundPeer__System_Collections_Immutable_ImmutableList_Libplanet_Net_BoundPeer__System_TimeSpan_Libplanet_Net_Consensus_ContextTimeoutOption_System_Collections_Generic_IComparer_Libplanet_Types_Tx_Transaction__
+  commentId: M:Libplanet.Net.Consensus.ConsensusReactor.#ctor(Libplanet.Net.Transports.ITransport,Libplanet.Blockchain.BlockChain,Libplanet.Crypto.PrivateKey,System.Collections.Immutable.ImmutableList{Libplanet.Net.BoundPeer},System.Collections.Immutable.ImmutableList{Libplanet.Net.BoundPeer},System.TimeSpan,Libplanet.Net.Consensus.ContextTimeoutOption,System.Collections.Generic.IComparer{Libplanet.Types.Tx.Transaction})
+  name.vb: ConsensusReactor(ITransport, BlockChain, PrivateKey, ImmutableList(Of BoundPeer), ImmutableList(Of BoundPeer), TimeSpan, ContextTimeoutOption, IComparer(Of Transaction))
+  fullName: Libplanet.Net.Consensus.ConsensusReactor.ConsensusReactor(Libplanet.Net.Transports.ITransport, Libplanet.Blockchain.BlockChain, Libplanet.Crypto.PrivateKey, System.Collections.Immutable.ImmutableList<Libplanet.Net.BoundPeer>, System.Collections.Immutable.ImmutableList<Libplanet.Net.BoundPeer>, System.TimeSpan, Libplanet.Net.Consensus.ContextTimeoutOption, System.Collections.Generic.IComparer<Libplanet.Types.Tx.Transaction>)
+  fullName.vb: Libplanet.Net.Consensus.ConsensusReactor.ConsensusReactor(Libplanet.Net.Transports.ITransport, Libplanet.Blockchain.BlockChain, Libplanet.Crypto.PrivateKey, System.Collections.Immutable.ImmutableList(Of Libplanet.Net.BoundPeer), System.Collections.Immutable.ImmutableList(Of Libplanet.Net.BoundPeer), System.TimeSpan, Libplanet.Net.Consensus.ContextTimeoutOption, System.Collections.Generic.IComparer(Of Libplanet.Types.Tx.Transaction))
+  nameWithType: ConsensusReactor.ConsensusReactor(ITransport, BlockChain, PrivateKey, ImmutableList<BoundPeer>, ImmutableList<BoundPeer>, TimeSpan, ContextTimeoutOption, IComparer<Transaction>)
+  nameWithType.vb: ConsensusReactor.ConsensusReactor(ITransport, BlockChain, PrivateKey, ImmutableList(Of BoundPeer), ImmutableList(Of BoundPeer), TimeSpan, ContextTimeoutOption, IComparer(Of Transaction))
 - uid: Libplanet.Net.Consensus.ConsensusReactor.#ctor*
   name: ConsensusReactor
   href: api/Libplanet.Net.Consensus.ConsensusReactor.html#Libplanet_Net_Consensus_ConsensusReactor__ctor_
@@ -13087,6 +13087,19 @@ references:
   isSpec: "True"
   fullName: Libplanet.Net.Consensus.ConsensusReactorOption.TargetBlockInterval
   nameWithType: ConsensusReactorOption.TargetBlockInterval
+- uid: Libplanet.Net.Consensus.ConsensusReactorOption.TxPriorityComparer
+  name: TxPriorityComparer
+  href: api/Libplanet.Net.Consensus.ConsensusReactorOption.html#Libplanet_Net_Consensus_ConsensusReactorOption_TxPriorityComparer
+  commentId: P:Libplanet.Net.Consensus.ConsensusReactorOption.TxPriorityComparer
+  fullName: Libplanet.Net.Consensus.ConsensusReactorOption.TxPriorityComparer
+  nameWithType: ConsensusReactorOption.TxPriorityComparer
+- uid: Libplanet.Net.Consensus.ConsensusReactorOption.TxPriorityComparer*
+  name: TxPriorityComparer
+  href: api/Libplanet.Net.Consensus.ConsensusReactorOption.html#Libplanet_Net_Consensus_ConsensusReactorOption_TxPriorityComparer_
+  commentId: Overload:Libplanet.Net.Consensus.ConsensusReactorOption.TxPriorityComparer
+  isSpec: "True"
+  fullName: Libplanet.Net.Consensus.ConsensusReactorOption.TxPriorityComparer
+  nameWithType: ConsensusReactorOption.TxPriorityComparer
 - uid: Libplanet.Net.Consensus.ConsensusStep
   name: ConsensusStep
   href: api/Libplanet.Net.Consensus.ConsensusStep.html
