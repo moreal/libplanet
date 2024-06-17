@@ -93,6 +93,12 @@ a single action.</p>
 It also gives an action class a <a class="xref" href="Libplanet.Action.ActionTypeAttribute.html#Libplanet_Action_ActionTypeAttribute_TypeIdentifier">TypeIdentifier</a> for
 serialization and deserialization.</p>
 </section>
+      <h4><a class="xref" href="Libplanet.Action.BlockProtocolVersionNotSupportedException.html">BlockProtocolVersionNotSupportedException</a></h4>
+      <section><p>The exception that is thrown when an <a class="xref" href="Libplanet.Types.Blocks.IPreEvaluationBlock.html">IPreEvaluationBlock</a> with
+a protocol version that is not supported by an implementation of
+<a class="xref" href="Libplanet.Action.IActionEvaluator.html">IActionEvaluator</a> is passed as an argument to
+<a class="xref" href="Libplanet.Action.IActionEvaluator.html#Libplanet_Action_IActionEvaluator_Evaluate_Libplanet_Types_Blocks_IPreEvaluationBlock_System_Nullable_Libplanet_Common_HashDigest_System_Security_Cryptography_SHA256___">Evaluate(IPreEvaluationBlock, Nullable&lt;HashDigest&lt;SHA256&gt;&gt;)</a>.</p>
+</section>
       <h4><a class="xref" href="Libplanet.Action.CommittedActionContext.html">CommittedActionContext</a></h4>
       <section></section>
       <h4><a class="xref" href="Libplanet.Action.CommittedActionEvaluation.html">CommittedActionEvaluation</a></h4>
@@ -125,7 +131,7 @@ to deal with <a class="xref" href="Libplanet.Action.IRandom.html">IRandom</a>.</
       <h4><a class="xref" href="Libplanet.Action.UnexpectedlyTerminatedActionException.html">UnexpectedlyTerminatedActionException</a></h4>
       <section><p>The exception that is thrown during an <a class="xref" href="Libplanet.Action.IAction.html">IAction</a> is being evaluated.</p>
 <p>The actual exception that the <a class="xref" href="Libplanet.Action.UnexpectedlyTerminatedActionException.html#Libplanet_Action_UnexpectedlyTerminatedActionException_Action">Action</a> threw
-is stored in the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.innerexception#system-exception-innerexception">InnerException</a> property.</p>
+is stored in the <span class="xref">System.Exception.InnerException</span> property.</p>
 </section>
     <h3 id="interfaces">Interfaces
 </h3>
@@ -193,7 +199,7 @@ The fee collector is called only when the transaction is collectible.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Action.IRandom.html">IRandom</a></h4>
       <section><p>An pseudorandom number generator interface equivalent to
-<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.random">Random</a>.</p>
+<span class="xref">System.Random</span>.</p>
 <p>Although these two types have similar shapes, they are not
 compatible (i.e., disallowed to be casted to each other).</p>
 </section>
