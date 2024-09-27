@@ -76,38 +76,14 @@
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
-    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">TxCommand</span></div>
-  </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">Object.Equals(Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">Object.Equals(Object, Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode#system-object-gethashcode">Object.GetHashCode()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype#system-object-gettype">Object.GetType()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone#system-object-memberwiseclone">Object.MemberwiseClone()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals#system-object-referenceequals(system-object-system-object)">Object.ReferenceEquals(Object, Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring#system-object-tostring">Object.ToString()</a>
-    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Libplanet.Extensions.Cocona.Commands.html">Libplanet.Extensions.Cocona.Commands</a></h6>
   <h6><strong>Assembly</strong>: Libplanet.Extensions.Cocona.dll</h6>
   <h5 id="Libplanet_Extensions_Cocona_Commands_TxCommand_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class TxCommand</code></pre>
+    <pre><code class="lang-csharp hljs">public class TxCommand : object</code></pre>
   </div>
   <h3 id="methods">Methods
 </h3>
@@ -116,7 +92,7 @@
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Extensions_Cocona_Commands_TxCommand_Analyze_System_String_System_Boolean_System_Boolean_.md&amp;value=---%0Auid%3A%20Libplanet.Extensions.Cocona.Commands.TxCommand.Analyze(System.String%2CSystem.Boolean%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.Extensions.Cocona/Commands/TxCommand.cs/#L19">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/tools/Libplanet.Extensions.Cocona/Commands/TxCommand.cs/#L17">View Source</a>
   </span>
   <a id="Libplanet_Extensions_Cocona_Commands_TxCommand_Analyze_" data-uid="Libplanet.Extensions.Cocona.Commands.TxCommand.Analyze*"></a>
   <h4 id="Libplanet_Extensions_Cocona_Commands_TxCommand_Analyze_System_String_System_Boolean_System_Boolean_" data-uid="Libplanet.Extensions.Cocona.Commands.TxCommand.Analyze(System.String,System.Boolean,System.Boolean)">Analyze(String, Boolean, Boolean)</h4>
@@ -124,8 +100,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Command(Description = &quot;Analyze the given signed or unsigned transaction.&quot;)]
-public int Analyze([Argument(Description = &quot;The file path of the transaction to analyze.  If a hyphen (-) is given it reads from the standard input (if you want to read just a file named \&quot;-\&quot;, use \&quot;./-\&quot; instead).&quot;)] string file, [Option(&#39;u&#39;, Description = &quot;Analyze an unsigned transaction.  This option is mutually exclusive with -i/--ignore-signature.&quot;)] bool unsigned = false, [Option(&#39;i&#39;, Description = &quot;Terminate the program with a zero exit code (success) even if the signature is invalid.  However, it still prints the error message to the standard error, and the exit code is still non-zero if the transaction is invalid in other ways.  This option is mutually exclusive with -u/--unsigned.&quot;)] bool ignoreSignature = false)</code></pre>
+    <pre><code class="lang-csharp hljs">public int Analyze(string file, bool unsigned = false, bool ignoreSignature = false)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -138,17 +113,17 @@ public int Analyze([Argument(Description = &quot;The file path of the transactio
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="xref">System.String</span></td>
         <td><span class="parametername">file</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="xref">System.Boolean</span></td>
         <td><span class="parametername">unsigned</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="xref">System.Boolean</span></td>
         <td><span class="parametername">ignoreSignature</span></td>
         <td></td>
       </tr>
@@ -164,26 +139,25 @@ public int Analyze([Argument(Description = &quot;The file path of the transactio
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="xref">System.Int32</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Extensions_Cocona_Commands_TxCommand_Help_Cocona_Help_ICoconaHelpMessageBuilder_.md&amp;value=---%0Auid%3A%20Libplanet.Extensions.Cocona.Commands.TxCommand.Help(Cocona.Help.ICoconaHelpMessageBuilder)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Extensions_Cocona_Commands_TxCommand_Help_ICoconaHelpMessageBuilder_.md&amp;value=---%0Auid%3A%20Libplanet.Extensions.Cocona.Commands.TxCommand.Help(ICoconaHelpMessageBuilder)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.Extensions.Cocona/Commands/TxCommand.cs/#L187">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/tools/Libplanet.Extensions.Cocona/Commands/TxCommand.cs/#L185">View Source</a>
   </span>
   <a id="Libplanet_Extensions_Cocona_Commands_TxCommand_Help_" data-uid="Libplanet.Extensions.Cocona.Commands.TxCommand.Help*"></a>
-  <h4 id="Libplanet_Extensions_Cocona_Commands_TxCommand_Help_Cocona_Help_ICoconaHelpMessageBuilder_" data-uid="Libplanet.Extensions.Cocona.Commands.TxCommand.Help(Cocona.Help.ICoconaHelpMessageBuilder)">Help(ICoconaHelpMessageBuilder)</h4>
+  <h4 id="Libplanet_Extensions_Cocona_Commands_TxCommand_Help_ICoconaHelpMessageBuilder_" data-uid="Libplanet.Extensions.Cocona.Commands.TxCommand.Help(ICoconaHelpMessageBuilder)">Help(ICoconaHelpMessageBuilder)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Command(Description = &quot;Show this help message.&quot;)]
-public void Help([FromService] ICoconaHelpMessageBuilder helpMessageBuilder)</code></pre>
+    <pre><code class="lang-csharp hljs">public void Help(ICoconaHelpMessageBuilder helpMessageBuilder)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -196,7 +170,7 @@ public void Help([FromService] ICoconaHelpMessageBuilder helpMessageBuilder)</co
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Cocona.Help.ICoconaHelpMessageBuilder</span></td>
+        <td><span class="xref">ICoconaHelpMessageBuilder</span></td>
         <td><span class="parametername">helpMessageBuilder</span></td>
         <td></td>
       </tr>
@@ -213,7 +187,7 @@ public void Help([FromService] ICoconaHelpMessageBuilder helpMessageBuilder)</co
                     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Extensions_Cocona_Commands_TxCommand.md&amp;value=---%0Auid%3A%20Libplanet.Extensions.Cocona.Commands.TxCommand%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.Extensions.Cocona/Commands/TxCommand.cs/#L15" class="contribution-link">View Source</a>
+                    <a href="https://github.com/moreal/libplanet/blob/main/tools/Libplanet.Extensions.Cocona/Commands/TxCommand.cs/#L13" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

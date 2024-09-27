@@ -76,44 +76,44 @@
   <div class="markdown level0 remarks"></div>
     <h3 id="classes">Classes
 </h3>
-      <h4><a class="xref" href="Libplanet.Blockchain.Policies.BlockPolicy-1.html">BlockPolicy&lt;T&gt;</a></h4>
-      <section><p>A default implementation of <a class="xref" href="Libplanet.Blockchain.Policies.IBlockPolicy-1.html">IBlockPolicy&lt;T&gt;</a> interface.</p>
+      <h4><a class="xref" href="Libplanet.Blockchain.Policies.BlockPolicy.html">BlockPolicy</a></h4>
+      <section><p>A default implementation of <a class="xref" href="Libplanet.Blockchain.Policies.IBlockPolicy.html">IBlockPolicy</a> interface.</p>
 </section>
-      <h4><a class="xref" href="Libplanet.Blockchain.Policies.NullBlockPolicy-1.html">NullBlockPolicy&lt;T&gt;</a></h4>
+      <h4><a class="xref" href="Libplanet.Blockchain.Policies.NullBlockPolicy.html">NullBlockPolicy</a></h4>
       <section></section>
-      <h4><a class="xref" href="Libplanet.Blockchain.Policies.VolatileStagePolicy-1.html">VolatileStagePolicy&lt;T&gt;</a></h4>
+      <h4><a class="xref" href="Libplanet.Blockchain.Policies.VolatileStagePolicy.html">VolatileStagePolicy</a></h4>
       <section><p>
-An in memory implementation of the <a class="xref" href="Libplanet.Blockchain.Policies.IStagePolicy-1.html">IStagePolicy&lt;T&gt;</a>.
+An in memory implementation of the <a class="xref" href="Libplanet.Blockchain.Policies.IStagePolicy.html">IStagePolicy</a>.
 </p>
 <p>
-This implementation holds on to every unconfirmed <a class="xref" href="Libplanet.Tx.Transaction-1.html">Transaction&lt;T&gt;</a> except
+This implementation holds on to every unconfirmed <a class="xref" href="Libplanet.Types.Tx.Transaction.html">Transaction</a> except
 for the following reasons:
-<ul><li>A <a class="xref" href="Libplanet.Tx.Transaction-1.html">Transaction&lt;T&gt;</a> has been specifically marked to
-        be ignored due to <a class="xref" href="Libplanet.Tx.Transaction-1.html">Transaction&lt;T&gt;</a> not being valid.</li><li>A <a class="xref" href="Libplanet.Tx.Transaction-1.html">Transaction&lt;T&gt;</a> has expired due to its staleness.
+<ul><li>A <a class="xref" href="Libplanet.Types.Tx.Transaction.html">Transaction</a> has been specifically marked to
+        be ignored due to <a class="xref" href="Libplanet.Types.Tx.Transaction.html">Transaction</a> not being valid.</li><li>A <a class="xref" href="Libplanet.Types.Tx.Transaction.html">Transaction</a> has expired due to its staleness.
 </li></ul>
 
 <p>
-Additionally, any <a class="xref" href="Libplanet.Tx.Transaction-1.html">Transaction&lt;T&gt;</a> with a lower nonce than that of returned by
-the <a class="xref" href="Libplanet.Blockchain.BlockChain-1.html">BlockChain&lt;T&gt;</a> is masked and filtered by default.
+Additionally, any <a class="xref" href="Libplanet.Types.Tx.Transaction.html">Transaction</a> with a lower nonce than that of returned by
+the <a class="xref" href="Libplanet.Blockchain.BlockChain.html">BlockChain</a> is masked and filtered by default.
 </p>
 </section>
     <h3 id="interfaces">Interfaces
 </h3>
-      <h4><a class="xref" href="Libplanet.Blockchain.Policies.IBlockPolicy-1.html">IBlockPolicy&lt;T&gt;</a></h4>
+      <h4><a class="xref" href="Libplanet.Blockchain.Policies.IBlockPolicy.html">IBlockPolicy</a></h4>
       <section><p>
-An interface to determine if consecutive <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a>s are valid.
+An interface to determine if consecutive <a class="xref" href="Libplanet.Types.Blocks.Block.html">Block</a>s are valid.
 </p>
 <p>
 An implementation of this interface should perform <em>all policy dependent checks</em>,
-such as whether a <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a> has the right difficulty,
-a <a class="xref" href="Libplanet.Tx.Transaction-1.html">Transaction&lt;T&gt;</a> has the right signer, etc.
+such as whether a <a class="xref" href="Libplanet.Types.Blocks.Block.html">Block</a> has the right difficulty,
+a <a class="xref" href="Libplanet.Types.Tx.Transaction.html">Transaction</a> has the right signer, etc.
 </p>
 <p>
-Note that all index dependent sub-policies are ignored for genesis <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a>s.
+Note that all index dependent sub-policies are ignored for genesis <a class="xref" href="Libplanet.Types.Blocks.Block.html">Block</a>s.
 </p>
 </section>
-      <h4><a class="xref" href="Libplanet.Blockchain.Policies.IStagePolicy-1.html">IStagePolicy&lt;T&gt;</a></h4>
-      <section><p>An interface to configure a <a class="xref" href="Libplanet.Blockchain.BlockChain-1.html">BlockChain&lt;T&gt;</a>'s strategy to deal with staged
+      <h4><a class="xref" href="Libplanet.Blockchain.Policies.IStagePolicy.html">IStagePolicy</a></h4>
+      <section><p>An interface to configure a <a class="xref" href="Libplanet.Blockchain.BlockChain.html">BlockChain</a>'s strategy to deal with staged
 transactions.</p>
 </section>
 </article>

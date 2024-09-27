@@ -119,6 +119,26 @@ Libplanet-backed games/apps too.</p>
 cryptography, it uses the same <a class="xref" href="Libplanet.Crypto.SymmetricKey.html">SymmetricKey</a> for both
 encrypting a plaintext and decrypting a ciphertext.</p>
 </section>
+    <h3 id="structs">Structs
+</h3>
+      <h4><a class="xref" href="Libplanet.Crypto.Address.html">Address</a></h4>
+      <section><p>An identifier of 20 bytes (or 40 letters in hexadecimal, commonly with
+a prefix <code>0x</code>) that refers to a unique account.</p>
+<p>It is derived from the corresponding <a class="xref" href="Libplanet.Crypto.PublicKey.html">PublicKey</a>
+of an account, but as a derivation loses information, it is always
+unidirectional.</p>
+<p>The address derivation from a public key is as follows:</p>
+<ol><li>Calculates the Keccak-256, which is a previous form
+of SHA-3 before NIST standardized it and does not follow
+<a href="http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf">FIPS-202</a>, of the corresponding <a class="xref" href="Libplanet.Crypto.PublicKey.html">PublicKey</a>.
+</li><li>Takes only the last 20 bytes of the calculated
+Keccak-256 hash.</li><li>When the address needs to be shown to end users,
+displays these 20 bytes in hexadecimal, with a prefix <code>0x</code>.
+</li></ol>
+<p>Since the scheme of the address derivation and the <a class="xref" href="Libplanet.Crypto.PrivateKey.html">PrivateKey</a>/<a class="xref" href="Libplanet.Crypto.PublicKey.html">PublicKey</a> is the same to
+<a href="https://www.ethereum.org/">Ethereum</a>, Ethereum addresses
+can be used by Libplanet-backed games/apps too.</p>
+</section>
     <h3 id="interfaces">Interfaces
 </h3>
       <h4><a class="xref" href="Libplanet.Crypto.ICryptoBackend-1.html">ICryptoBackend&lt;T&gt;</a></h4>

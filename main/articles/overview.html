@@ -175,7 +175,7 @@
 <li>Block's Transactions are evaluated in the order of execution calculated by deterministic random number to transition the state.</li>
 </ul>
 <h2 id="blockchain">BlockChain</h2>
-<p>To manage these Blocks, Libplanet offers a class called <a class="xref" href="../api/Libplanet.Blockchain.BlockChain-1.html">BlockChain&lt;T&gt;</a>. This class allows game developers to:</p>
+<p>To manage these Blocks, Libplanet offers a class called @&quot;Libplanet.Blockchain.BlockChain`1&quot;. This class allows game developers to:</p>
 <ul>
 <li>Create and register Transactions that contain desired Actions.</li>
 <li>Mine Blocks with registered Transactions.</li>
@@ -200,7 +200,7 @@
     }
 }
 </code></pre>
-<p>State transition occurs after a Block containing an Action is added and confirmed to the chain. The code above is suboptimal because you are polling the <a class="xref" href="../api/Libplanet.Blockchain.BlockChain-1.html">BlockChain&lt;T&gt;</a> object to see if a specific Action has been reflected.</p>
+<p>State transition occurs after a Block containing an Action is added and confirmed to the chain. The code above is suboptimal because you are polling the @&quot;Libplanet.Blockchain.BlockChain`1&quot; object to see if a specific Action has been reflected.</p>
 <pre><code class="lang-csharp">public class Game : MonoBehaviour
 {
     // ...
@@ -227,13 +227,13 @@
 <li>If multiple actions were executed in a short period of time, they would not be handled accurately.</li>
 </ul>
 <p>Libplanet provides a rendering mechanism called
-<a class="xref" href="../api/Libplanet.Blockchain.Renderers.IRenderer-1.html">IRenderer&lt;T&gt;</a> and its subtype
-<a class="xref" href="../api/Libplanet.Blockchain.Renderers.IActionRenderer-1.html">IActionRenderer&lt;T&gt;</a> to solve this problem.
-<a class="xref" href="../api/Libplanet.Blockchain.Renderers.IActionRenderer-1.html#Libplanet_Blockchain_Renderers_IActionRenderer_1_RenderAction_Libplanet_Action_IAction_Libplanet_Action_IActionContext_Libplanet_Action_IAccountStateDelta_">RenderAction(IAction, IActionContext, IAccountStateDelta)</a>
-is called after a <a class="xref" href="../api/Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a> with the corresponding
+@&quot;Libplanet.Blockchain.Renderers.IRenderer`1&quot; and its subtype
+@&quot;Libplanet.Blockchain.Renderers.IActionRenderer`1&quot; to solve this problem.
+@&quot;Libplanet.Blockchain.Renderers.IActionRenderer`1.RenderAction(Libplanet.Action.IAction,Libplanet.Action.IActionContext,Libplanet.Action.IAccountStateDelta)&quot;
+is called after a @&quot;Libplanet.Blocks.Block`1&quot; with the corresponding
 <a class="xref" href="../api/Libplanet.Action.IAction.html">IAction</a>s is confirmed and the state is transitioned.
 The following code has been re-implemented using
-<a class="xref" href="../api/Libplanet.Blockchain.Renderers.IActionRenderer-1.html#Libplanet_Blockchain_Renderers_IActionRenderer_1_RenderAction_Libplanet_Action_IAction_Libplanet_Action_IActionContext_Libplanet_Action_IAccountStateDelta_">RenderAction(IAction, IActionContext, IAccountStateDelta)</a>.</p>
+@&quot;Libplanet.Blockchain.Renderers.IActionRenderer`1.RenderAction(Libplanet.Action.IAction,Libplanet.Action.IActionContext,Libplanet.Action.IAccountStateDelta)&quot;.</p>
 <pre><code class="lang-csharp">public class WinRenderer : IActionRenderer&lt;Win&gt;
 {
     // ...
@@ -247,12 +247,12 @@ The following code has been re-implemented using
 }
 </code></pre>
 <h2 id="networking">Networking</h2>
-<p>Libplanet has the feature to store Blocks and Transactions, as well as sharing them across other nodes in the P2P network. Game developers can use the <a class="xref" href="../api/Libplanet.Net.Swarm-1.html">Swarm&lt;T&gt;</a> class to propagate or receive Blocks from other nodes in the network.</p>
-<p>Also, because the network is a P2P network without a central server, <a class="xref" href="../api/Libplanet.Net.Swarm-1.html">Swarm&lt;T&gt;</a> also does not need a specific server, however, it is necessary to specify a seed node with a specific address to configure the network. These seed nodes are completely the same as other nodes, except that they must have an IP address or domain accessible from the Internet.</p>
+<p>Libplanet has the feature to store Blocks and Transactions, as well as sharing them across other nodes in the P2P network. Game developers can use the @&quot;Libplanet.Net.Swarm`1&quot; class to propagate or receive Blocks from other nodes in the network.</p>
+<p>Also, because the network is a P2P network without a central server, @&quot;Libplanet.Net.Swarm`1&quot; also does not need a specific server, however, it is necessary to specify a seed node with a specific address to configure the network. These seed nodes are completely the same as other nodes, except that they must have an IP address or domain accessible from the Internet.</p>
 <h2 id="consensus">Consensus</h2>
 <h3 id="perspective">Perspective</h3>
 <p>Libplanet is a library that enables game developers to create &quot;centralized server&quot;-less multiplayer games. “Centralized server-less” means that not only one entity is responsible for the state of the game, but every node in the network has the state of the game and synchronizes it accordingly. To synchronize, it should maintain a consistent state even in the event of a failure or tampering. The way of choosing which state is canonical is also called <a href="https://en.wikipedia.org/wiki/Consensus_(computer_science)">consensus</a> in distributed computing and multi-agent environments.</p>
-<p>The algorithms used for consensus are various, with many different characteristics and pros and cons. For example, <a href="https://en.wikipedia.org/wiki/Proof_of_work">Proof of Work (PoW)</a> allows anyone with computing power to participate in the network, but that cannot guarantee the state of the game at a specific time. In contrast, <a href="https://en.wikipedia.org/wiki/Proof_of_authority">Proof of Authority (PoA)</a> can guarantee that a game's state is established after a certain time, but only authorized users can join the network. These charateristics may work for some games, but won't for others, making the consensus algorithm also unusable for a general purpose network.</p>
+<p>The algorithms used for consensus are various, with many different characteristics and pros and cons. For example, <a href="https://en.wikipedia.org/wiki/Proof_of_work">Proof of Work (PoW)</a> allows anyone with computing power to participate in the network, but that cannot guarantee the state of the game at a specific time. In contrast, <a href="https://en.wikipedia.org/wiki/Proof_of_authority">Proof of Authority (PoA)</a> can guarantee that a game's state is established after a certain time, but only authorized users can join the network. These characteristics may work for some games, but won't for others, making the consensus algorithm also unusable for a general purpose network.</p>
 <p>Libplanet isn't a tool for creating games of any particular genre, but rather a tool for creating varied types of games. Also it assumes that each game has a different network and consensus algorithm. Nor is Libplanet itself a project that focuses on developing and testing any particular consensus algorithm or mechanism. That's why Libplanet aims to allow game developers to choose a consensus algorithm at implementation time to suit their game's characteristics.</p>
 <h3 id="about-pow">About PoW</h3>
 <p>Currently, the only consensus algorithm currently implemented in Libplanet is

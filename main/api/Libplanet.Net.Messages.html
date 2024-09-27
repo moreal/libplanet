@@ -76,17 +76,30 @@
   <div class="markdown level0 remarks"></div>
     <h3 id="classes">Classes
 </h3>
+      <h4><a class="xref" href="Libplanet.Net.Messages.ConsensusMaj23Msg.html">ConsensusMaj23Msg</a></h4>
+      <section><p>A message class for claiming that the peer has +2/3 votes.</p>
+</section>
       <h4><a class="xref" href="Libplanet.Net.Messages.ConsensusMsg.html">ConsensusMsg</a></h4>
       <section><p>A abstract base class message for consensus.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Net.Messages.ConsensusPreCommitMsg.html">ConsensusPreCommitMsg</a></h4>
-      <section><p>A message class for <a class="xref" href="Libplanet.Net.Consensus.Step.html#Libplanet_Net_Consensus_Step_PreCommit">PreCommit</a>.</p>
+      <section><p>A message class for <a class="xref" href="Libplanet.Net.Consensus.ConsensusStep.html#Libplanet_Net_Consensus_ConsensusStep_PreCommit">PreCommit</a>.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Net.Messages.ConsensusPreVoteMsg.html">ConsensusPreVoteMsg</a></h4>
-      <section><p>A message class for <a class="xref" href="Libplanet.Net.Consensus.Step.html#Libplanet_Net_Consensus_Step_PreVote">PreVote</a>.</p>
+      <section><p>A message class for <a class="xref" href="Libplanet.Net.Consensus.ConsensusStep.html#Libplanet_Net_Consensus_ConsensusStep_PreVote">PreVote</a>.</p>
+</section>
+      <h4><a class="xref" href="Libplanet.Net.Messages.ConsensusProposalClaimMsg.html">ConsensusProposalClaimMsg</a></h4>
+      <section><p>A message class for claiming a <a class="xref" href="Libplanet.Consensus.Proposal.html">Proposal</a>.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Net.Messages.ConsensusProposalMsg.html">ConsensusProposalMsg</a></h4>
-      <section><p>A message class for <a class="xref" href="Libplanet.Net.Consensus.Step.html#Libplanet_Net_Consensus_Step_Propose">Propose</a>.</p>
+      <section><p>A message class for <a class="xref" href="Libplanet.Net.Consensus.ConsensusStep.html#Libplanet_Net_Consensus_ConsensusStep_Propose">Propose</a>.</p>
+</section>
+      <h4><a class="xref" href="Libplanet.Net.Messages.ConsensusVoteMsg.html">ConsensusVoteMsg</a></h4>
+      <section><p>A abstract base class message for consensus.</p>
+</section>
+      <h4><a class="xref" href="Libplanet.Net.Messages.ConsensusVoteSetBitsMsg.html">ConsensusVoteSetBitsMsg</a></h4>
+      <section><p>A message class for requesting lacking <see cref="!:Vote"></see>s
+by sending the <see cref="!:Vote"></see>s that the peer has.</p>
 </section>
       <h4><a class="xref" href="Libplanet.Net.Messages.DifferentVersionMsg.html">DifferentVersionMsg</a></h4>
       <section><p>A reply to any messages with different <a class="xref" href="Libplanet.Net.AppProtocolVersion.html">AppProtocolVersion</a>.
@@ -128,7 +141,7 @@ a decoded <a class="xref" href="Libplanet.Net.Messages.Message.html">Message</a>
       <section><p><a class="xref" href="Libplanet.Net.Messages.MessageId.html">MessageId</a>, abbreviation of message identifier,
 is a SHA-256 digest derived from a <a class="xref" href="Libplanet.Net.Messages.Message.html">Message</a>'s
 content.</p>
-<p>As it is a SHA-256 digest, it consists of 32 <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>s,
+<p>As it is a SHA-256 digest, it consists of 32 <see cref="!:System.Byte"></see>s,
 and 64 characters in hexadecimal.
 (See also <a class="xref" href="Libplanet.Net.Messages.MessageId.html#Libplanet_Net_Messages_MessageId_Size">Size</a> constant.)</p>
 </section>

@@ -76,36 +76,8 @@
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
-    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">PassphraseParameters</span></div>
-  </div>
-  <div class="implements">
-    <h5>Implements</h5>
-    <div><span class="xref">Cocona.ICommandParameterSet</span></div>
-  </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">Object.Equals(Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">Object.Equals(Object, Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode#system-object-gethashcode">Object.GetHashCode()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype#system-object-gettype">Object.GetType()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone#system-object-memberwiseclone">Object.MemberwiseClone()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals#system-object-referenceequals(system-object-system-object)">Object.ReferenceEquals(Object, Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring#system-object-tostring">Object.ToString()</a>
-    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Libplanet.Extensions.Cocona.html">Libplanet.Extensions.Cocona</a></h6>
   <h6><strong>Assembly</strong>: Libplanet.Extensions.Cocona.dll</h6>
@@ -120,7 +92,7 @@
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Extensions_Cocona_PassphraseParameters_Passphrase.md&amp;value=---%0Auid%3A%20Libplanet.Extensions.Cocona.PassphraseParameters.Passphrase%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.Extensions.Cocona/PassphraseParameters.cs/#L9">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/tools/Libplanet.Extensions.Cocona/PassphraseParameters.cs/#L9">View Source</a>
   </span>
   <a id="Libplanet_Extensions_Cocona_PassphraseParameters_Passphrase_" data-uid="Libplanet.Extensions.Cocona.PassphraseParameters.Passphrase*"></a>
   <h4 id="Libplanet_Extensions_Cocona_PassphraseParameters_Passphrase" data-uid="Libplanet.Extensions.Cocona.PassphraseParameters.Passphrase">Passphrase</h4>
@@ -128,9 +100,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Option(&#39;p&#39;, ValueName = &quot;PASSPHRASE&quot;, Description = &quot;Take passphrase through this option instead of prompt.  Mutually exclusive with --passphrase-file option.&quot;)]
-[HasDefaultValue]
-public string Passphrase { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string? Passphrase { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -142,7 +112,7 @@ public string Passphrase { get; set; }</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -152,7 +122,7 @@ public string Passphrase { get; set; }</code></pre>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Extensions_Cocona_PassphraseParameters_PassphraseFile.md&amp;value=---%0Auid%3A%20Libplanet.Extensions.Cocona.PassphraseParameters.PassphraseFile%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.Extensions.Cocona/PassphraseParameters.cs/#L18">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/tools/Libplanet.Extensions.Cocona/PassphraseParameters.cs/#L18">View Source</a>
   </span>
   <a id="Libplanet_Extensions_Cocona_PassphraseParameters_PassphraseFile_" data-uid="Libplanet.Extensions.Cocona.PassphraseParameters.PassphraseFile*"></a>
   <h4 id="Libplanet_Extensions_Cocona_PassphraseParameters_PassphraseFile" data-uid="Libplanet.Extensions.Cocona.PassphraseParameters.PassphraseFile">PassphraseFile</h4>
@@ -160,9 +130,7 @@ public string Passphrase { get; set; }</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Option(ValueName = &quot;FILE&quot;, Description = &quot;Read passphrase from the specified file instead of taking it through prompt.  Mutually exclusive with -p/--passphrase option.  For standard input, use a hyphen (`-&#39;).  For an actual file named a hyphen, prepend `./&#39;, i.e., `./-&#39;.  Note that the trailing CR/LF is trimmed.&quot;)]
-[HasDefaultValue]
-public string PassphraseFile { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string? PassphraseFile { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -174,7 +142,7 @@ public string PassphraseFile { get; set; }</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -183,18 +151,18 @@ public string PassphraseFile { get; set; }</code></pre>
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Extensions_Cocona_PassphraseParameters_Take_System_String_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20Libplanet.Extensions.Cocona.PassphraseParameters.Take(System.String%2CSystem.String%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Extensions_Cocona_PassphraseParameters_Take_System_String_System_Nullable_System_String__System_Boolean_.md&amp;value=---%0Auid%3A%20Libplanet.Extensions.Cocona.PassphraseParameters.Take(System.String%2CSystem.Nullable%7BSystem.String%7D%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.Extensions.Cocona/PassphraseParameters.cs/#L28">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/tools/Libplanet.Extensions.Cocona/PassphraseParameters.cs/#L28">View Source</a>
   </span>
   <a id="Libplanet_Extensions_Cocona_PassphraseParameters_Take_" data-uid="Libplanet.Extensions.Cocona.PassphraseParameters.Take*"></a>
-  <h4 id="Libplanet_Extensions_Cocona_PassphraseParameters_Take_System_String_System_String_System_Boolean_" data-uid="Libplanet.Extensions.Cocona.PassphraseParameters.Take(System.String,System.String,System.Boolean)">Take(String, String, Boolean)</h4>
+  <h4 id="Libplanet_Extensions_Cocona_PassphraseParameters_Take_System_String_System_Nullable_System_String__System_Boolean_" data-uid="Libplanet.Extensions.Cocona.PassphraseParameters.Take(System.String,System.Nullable{System.String},System.Boolean)">Take(String, Nullable&lt;String&gt;, Boolean)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string Take(string prompt, string retypePrompt = null, bool ignoreStdin = false)</code></pre>
+    <pre><code class="lang-csharp hljs">public string Take(string prompt, string? retypePrompt = null, bool ignoreStdin = false)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -207,17 +175,17 @@ public string PassphraseFile { get; set; }</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="xref">System.String</span></td>
         <td><span class="parametername">prompt</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">retypePrompt</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="xref">System.Boolean</span></td>
         <td><span class="parametername">ignoreStdin</span></td>
         <td></td>
       </tr>
@@ -233,15 +201,11 @@ public string PassphraseFile { get; set; }</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="xref">System.String</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
-  <h3 id="implements">Implements</h3>
-  <div>
-      <span class="xref">Cocona.ICommandParameterSet</span>
-  </div>
 </article>
           </div>
 
@@ -253,7 +217,7 @@ public string PassphraseFile { get; set; }</code></pre>
                     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Extensions_Cocona_PassphraseParameters.md&amp;value=---%0Auid%3A%20Libplanet.Extensions.Cocona.PassphraseParameters%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.Extensions.Cocona/PassphraseParameters.cs/#L7" class="contribution-link">View Source</a>
+                    <a href="https://github.com/moreal/libplanet/blob/main/tools/Libplanet.Extensions.Cocona/PassphraseParameters.cs/#L7" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

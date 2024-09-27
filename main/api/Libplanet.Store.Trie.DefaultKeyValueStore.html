@@ -76,81 +76,58 @@
 the file system or in memory.</p>
 <p><a class="xref" href="Libplanet.Store.DefaultStore.html">DefaultStore</a> and <a class="xref" href="Libplanet.Store.Trie.DefaultKeyValueStore.html">DefaultKeyValueStore</a>-backed
 <a class="xref" href="Libplanet.Store.TrieStateStore.html">TrieStateStore</a> can be instantiated from a URI with <code>default+file:</code> scheme
-using <a class="xref" href="Libplanet.Store.StoreLoaderAttribute.html#Libplanet_Store_StoreLoaderAttribute_LoadStore_System_Uri_">LoadStore(Uri)</a>, e.g.:</p>
-<ul><li><code>default+file:///var/data/planet/</code></li><li><code>default+file:///c:/Users/john/AppData/Local/planet/</code></li><li><code>default+file:///var/data/planet/?secure=true</code>
-(trie keys are hashed)</li></ul>
+using <a class="xref" href="Libplanet.Store.StoreLoaderAttribute.html#Libplanet_Store_StoreLoaderAttribute_LoadStore_Uri_">LoadStore(Uri)</a>, e.g.:</p>
+<ul><li><code>default+file:///var/data/planet/</code></li><li><code>default+file:///c:/Users/john/AppData/Local/planet/</code></li></ul>
 <p>The following query string parameters are supported:</p>
 <table><tbody><tr><td><code>journal</code></td><td><span class="xref">true</span> (default) or <span class="xref">false</span>.  Corresponds to
-<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>journal</code>
-parameter.</td></tr><tr><td><code>index-cache</code></td><td>Corresponds to <a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
-<code>indexCacheSize</code> parameter.  50000 by default.</td></tr><tr><td><code>block-cache</code></td><td>Corresponds to <a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
-<code>blockCacheSize</code> parameter.  512 by default.</td></tr><tr><td><code>tx-cache</code></td><td>Corresponds to <a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>journal</code>
+parameter.</td></tr><tr><td><code>index-cache</code></td><td>Corresponds to
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
+<code>indexCacheSize</code> parameter.  50000 by default.</td></tr><tr><td><code>block-cache</code></td><td>Corresponds to
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
+<code>blockCacheSize</code> parameter.  512 by default.</td></tr><tr><td><code>tx-cache</code></td><td>Corresponds to
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
 <code>txCacheSize</code> parameter.  1024 by default.</td></tr><tr><td><code>flush</code></td><td><span class="xref">true</span> (default) or <span class="xref">false</span>.  Corresponds to
-<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>flush</code>
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>flush</code>
 parameter.</td></tr><tr><td><code>readonly</code></td><td><span class="xref">true</span> or <span class="xref">false</span> (default).  Corresponds to
-<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>readOnly</code>
-parameter.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <a class="xref" href="Libplanet.Store.Trie.DefaultKeyValueStore.html#Libplanet_Store_Trie_DefaultKeyValueStore__ctor_System_String_">DefaultKeyValueStore(String)</a>&apos;s <code>path</code>
-parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr><tr><td><code>secure</code></td><td><span class="xref">true</span> or <span class="xref">false</span> (default).  Corresponds to
-<a class="xref" href="Libplanet.Store.TrieStateStore.html#Libplanet_Store_TrieStateStore__ctor_Libplanet_Store_Trie_IKeyValueStore_System_Boolean_">TrieStateStore(IKeyValueStore, Boolean)</a>&apos;s <code>secure</code> parameter.</td></tr></tbody></table>
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>readOnly</code>
+parameter.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <see cref="!:DefaultKeyValueStore(string)"></see>&apos;s <code>path</code>
+parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr></tbody></table>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
-    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">DefaultKeyValueStore</span></div>
   </div>
   <div class="implements">
     <h5>Implements</h5>
     <div><a class="xref" href="Libplanet.Store.Trie.IKeyValueStore.html">IKeyValueStore</a></div>
-    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
-  </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">Object.Equals(Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">Object.Equals(Object, Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode#system-object-gethashcode">Object.GetHashCode()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype#system-object-gettype">Object.GetType()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone#system-object-memberwiseclone">Object.MemberwiseClone()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals#system-object-referenceequals(system-object-system-object)">Object.ReferenceEquals(Object, Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring#system-object-tostring">Object.ToString()</a>
-    </div>
+    <div><span class="xref">IDisposable</span></div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Libplanet.Store.Trie.html">Libplanet.Store.Trie</a></h6>
-  <h6><strong>Assembly</strong>: Libplanet.dll</h6>
+  <h6><strong>Assembly</strong>: Libplanet.Store.dll</h6>
   <h5 id="Libplanet_Store_Trie_DefaultKeyValueStore_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class DefaultKeyValueStore : IKeyValueStore, IDisposable</code></pre>
+    <pre><code class="lang-csharp hljs">public class DefaultKeyValueStore : object, IKeyValueStore</code></pre>
   </div>
   <h3 id="constructors">Constructors
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_Trie_DefaultKeyValueStore__ctor_System_String_.md&amp;value=---%0Auid%3A%20Libplanet.Store.Trie.DefaultKeyValueStore.%23ctor(System.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_Trie_DefaultKeyValueStore__ctor_System_Nullable_System_String__.md&amp;value=---%0Auid%3A%20Libplanet.Store.Trie.DefaultKeyValueStore.%23ctor(System.Nullable%7BSystem.String%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/Trie/DefaultKeyValueStore.cs/#L80">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/Trie/DefaultKeyValueStore.cs/#L75">View Source</a>
   </span>
   <a id="Libplanet_Store_Trie_DefaultKeyValueStore__ctor_" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.#ctor*"></a>
-  <h4 id="Libplanet_Store_Trie_DefaultKeyValueStore__ctor_System_String_" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.#ctor(System.String)">DefaultKeyValueStore(String)</h4>
+  <h4 id="Libplanet_Store_Trie_DefaultKeyValueStore__ctor_System_Nullable_System_String__" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.#ctor(System.Nullable{System.String})">DefaultKeyValueStore(Nullable&lt;String&gt;)</h4>
   <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="Libplanet.Store.Trie.DefaultKeyValueStore.html">DefaultKeyValueStore</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public DefaultKeyValueStore(string path)</code></pre>
+    <pre><code class="lang-csharp hljs">public DefaultKeyValueStore(string? path)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -163,7 +140,7 @@ parameter.  It is relative to the URI path, and defaults to <code>states</code>.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">path</span></td>
         <td><p>The path of the directory where the storage files will be saved.
 If the path is <span class="xref">null</span>, the database is created in memory.</p>
@@ -175,10 +152,45 @@ If the path is <span class="xref">null</span>, the database is created in memory
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_Trie_DefaultKeyValueStore_Delete_IEnumerable_Libplanet_Store_Trie_KeyBytes__.md&amp;value=---%0Auid%3A%20Libplanet.Store.Trie.DefaultKeyValueStore.Delete(IEnumerable%7BLibplanet.Store.Trie.KeyBytes%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/Trie/DefaultKeyValueStore.cs/#L133">View Source</a>
+  </span>
+  <a id="Libplanet_Store_Trie_DefaultKeyValueStore_Delete_" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Delete*"></a>
+  <h4 id="Libplanet_Store_Trie_DefaultKeyValueStore_Delete_IEnumerable_Libplanet_Store_Trie_KeyBytes__" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Delete(IEnumerable{Libplanet.Store.Trie.KeyBytes})">Delete(IEnumerable&lt;KeyBytes&gt;)</h4>
+  <div class="markdown level1 summary"><p>Delete multiple <code data-dev-comment-type="paramref" class="paramref">keys</code> at once.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Delete(IEnumerable&lt;KeyBytes&gt; keys)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>&gt;</td>
+        <td><span class="parametername">keys</span></td>
+        <td><p>Keys to delete.  The order of keys does not matter.
+Non-existent keys are ignored.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_Trie_DefaultKeyValueStore_Delete_Libplanet_Store_Trie_KeyBytes__.md&amp;value=---%0Auid%3A%20Libplanet.Store.Trie.DefaultKeyValueStore.Delete(Libplanet.Store.Trie.KeyBytes%40)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/Trie/DefaultKeyValueStore.cs/#L145">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/Trie/DefaultKeyValueStore.cs/#L123">View Source</a>
   </span>
   <a id="Libplanet_Store_Trie_DefaultKeyValueStore_Delete_" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Delete*"></a>
   <h4 id="Libplanet_Store_Trie_DefaultKeyValueStore_Delete_Libplanet_Store_Trie_KeyBytes__" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Delete(Libplanet.Store.Trie.KeyBytes@)">Delete(in KeyBytes)</h4>
@@ -209,45 +221,10 @@ If the path is <span class="xref">null</span>, the database is created in memory
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_Trie_DefaultKeyValueStore_Delete_System_Collections_Generic_IEnumerable_Libplanet_Store_Trie_KeyBytes__.md&amp;value=---%0Auid%3A%20Libplanet.Store.Trie.DefaultKeyValueStore.Delete(System.Collections.Generic.IEnumerable%7BLibplanet.Store.Trie.KeyBytes%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/Trie/DefaultKeyValueStore.cs/#L155">View Source</a>
-  </span>
-  <a id="Libplanet_Store_Trie_DefaultKeyValueStore_Delete_" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Delete*"></a>
-  <h4 id="Libplanet_Store_Trie_DefaultKeyValueStore_Delete_System_Collections_Generic_IEnumerable_Libplanet_Store_Trie_KeyBytes__" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Delete(System.Collections.Generic.IEnumerable{Libplanet.Store.Trie.KeyBytes})">Delete(IEnumerable&lt;KeyBytes&gt;)</h4>
-  <div class="markdown level1 summary"><p>Delete multiple <code data-dev-comment-type="paramref" class="paramref">keys</code> at once.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Delete(IEnumerable&lt;KeyBytes&gt; keys)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>&gt;</td>
-        <td><span class="parametername">keys</span></td>
-        <td><p>Keys to delete.  The order of keys does not matter.
-Non-existent keys are ignored.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_Trie_DefaultKeyValueStore_Dispose.md&amp;value=---%0Auid%3A%20Libplanet.Store.Trie.DefaultKeyValueStore.Dispose%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/Trie/DefaultKeyValueStore.cs/#L163">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/Trie/DefaultKeyValueStore.cs/#L141">View Source</a>
   </span>
   <a id="Libplanet_Store_Trie_DefaultKeyValueStore_Dispose_" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Dispose*"></a>
   <h4 id="Libplanet_Store_Trie_DefaultKeyValueStore_Dispose" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Dispose">Dispose()</h4>
@@ -255,22 +232,23 @@ Non-existent keys are ignored.</p>
 the file system or in memory.</p>
 <p><a class="xref" href="Libplanet.Store.DefaultStore.html">DefaultStore</a> and <a class="xref" href="Libplanet.Store.Trie.DefaultKeyValueStore.html">DefaultKeyValueStore</a>-backed
 <a class="xref" href="Libplanet.Store.TrieStateStore.html">TrieStateStore</a> can be instantiated from a URI with <code>default+file:</code> scheme
-using <a class="xref" href="Libplanet.Store.StoreLoaderAttribute.html#Libplanet_Store_StoreLoaderAttribute_LoadStore_System_Uri_">LoadStore(Uri)</a>, e.g.:</p>
-<ul><li><code>default+file:///var/data/planet/</code></li><li><code>default+file:///c:/Users/john/AppData/Local/planet/</code></li><li><code>default+file:///var/data/planet/?secure=true</code>
-(trie keys are hashed)</li></ul>
+using <a class="xref" href="Libplanet.Store.StoreLoaderAttribute.html#Libplanet_Store_StoreLoaderAttribute_LoadStore_Uri_">LoadStore(Uri)</a>, e.g.:</p>
+<ul><li><code>default+file:///var/data/planet/</code></li><li><code>default+file:///c:/Users/john/AppData/Local/planet/</code></li></ul>
 <p>The following query string parameters are supported:</p>
 <table><tbody><tr><td><code>journal</code></td><td><span class="xref">true</span> (default) or <span class="xref">false</span>.  Corresponds to
-<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>journal</code>
-parameter.</td></tr><tr><td><code>index-cache</code></td><td>Corresponds to <a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
-<code>indexCacheSize</code> parameter.  50000 by default.</td></tr><tr><td><code>block-cache</code></td><td>Corresponds to <a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
-<code>blockCacheSize</code> parameter.  512 by default.</td></tr><tr><td><code>tx-cache</code></td><td>Corresponds to <a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>journal</code>
+parameter.</td></tr><tr><td><code>index-cache</code></td><td>Corresponds to
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
+<code>indexCacheSize</code> parameter.  50000 by default.</td></tr><tr><td><code>block-cache</code></td><td>Corresponds to
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
+<code>blockCacheSize</code> parameter.  512 by default.</td></tr><tr><td><code>tx-cache</code></td><td>Corresponds to
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
 <code>txCacheSize</code> parameter.  1024 by default.</td></tr><tr><td><code>flush</code></td><td><span class="xref">true</span> (default) or <span class="xref">false</span>.  Corresponds to
-<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>flush</code>
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>flush</code>
 parameter.</td></tr><tr><td><code>readonly</code></td><td><span class="xref">true</span> or <span class="xref">false</span> (default).  Corresponds to
-<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>readOnly</code>
-parameter.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <a class="xref" href="Libplanet.Store.Trie.DefaultKeyValueStore.html#Libplanet_Store_Trie_DefaultKeyValueStore__ctor_System_String_">DefaultKeyValueStore(String)</a>&apos;s <code>path</code>
-parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr><tr><td><code>secure</code></td><td><span class="xref">true</span> or <span class="xref">false</span> (default).  Corresponds to
-<a class="xref" href="Libplanet.Store.TrieStateStore.html#Libplanet_Store_TrieStateStore__ctor_Libplanet_Store_Trie_IKeyValueStore_System_Boolean_">TrieStateStore(IKeyValueStore, Boolean)</a>&apos;s <code>secure</code> parameter.</td></tr></tbody></table>
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>readOnly</code>
+parameter.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <see cref="!:DefaultKeyValueStore(string)"></see>&apos;s <code>path</code>
+parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr></tbody></table>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
@@ -282,7 +260,7 @@ parameter.  It is relative to the URI path, and defaults to <code>states</code>.
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_Trie_DefaultKeyValueStore_Exists_Libplanet_Store_Trie_KeyBytes__.md&amp;value=---%0Auid%3A%20Libplanet.Store.Trie.DefaultKeyValueStore.Exists(Libplanet.Store.Trie.KeyBytes%40)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/Trie/DefaultKeyValueStore.cs/#L169">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/Trie/DefaultKeyValueStore.cs/#L147">View Source</a>
   </span>
   <a id="Libplanet_Store_Trie_DefaultKeyValueStore_Exists_" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Exists*"></a>
   <h4 id="Libplanet_Store_Trie_DefaultKeyValueStore_Exists_Libplanet_Store_Trie_KeyBytes__" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Exists(Libplanet.Store.Trie.KeyBytes@)">Exists(in KeyBytes)</h4>
@@ -321,7 +299,7 @@ parameter.  It is relative to the URI path, and defaults to <code>states</code>.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="xref">System.Boolean</span></td>
         <td><p><span class="xref">true</span> if the key exists; otherwise, <span class="xref">false</span>.</p>
 </td>
       </tr>
@@ -332,7 +310,7 @@ parameter.  It is relative to the URI path, and defaults to <code>states</code>.
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_Trie_DefaultKeyValueStore_Get_Libplanet_Store_Trie_KeyBytes__.md&amp;value=---%0Auid%3A%20Libplanet.Store.Trie.DefaultKeyValueStore.Get(Libplanet.Store.Trie.KeyBytes%40)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/Trie/DefaultKeyValueStore.cs/#L104">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/Trie/DefaultKeyValueStore.cs/#L99">View Source</a>
   </span>
   <a id="Libplanet_Store_Trie_DefaultKeyValueStore_Get_" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Get*"></a>
   <h4 id="Libplanet_Store_Trie_DefaultKeyValueStore_Get_Libplanet_Store_Trie_KeyBytes__" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Get(Libplanet.Store.Trie.KeyBytes@)">Get(in KeyBytes)</h4>
@@ -371,77 +349,8 @@ parameter.  It is relative to the URI path, and defaults to <code>states</code>.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>[]</td>
+        <td><span class="xref">System.Byte</span>[]</td>
         <td><p>The value associated with the specified key.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="exceptions">Exceptions</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.keynotfoundexception">KeyNotFoundException</a></td>
-        <td><p>Thrown when the key is not found.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_Trie_DefaultKeyValueStore_Get_System_Collections_Generic_IEnumerable_Libplanet_Store_Trie_KeyBytes__.md&amp;value=---%0Auid%3A%20Libplanet.Store.Trie.DefaultKeyValueStore.Get(System.Collections.Generic.IEnumerable%7BLibplanet.Store.Trie.KeyBytes%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/Trie/DefaultKeyValueStore.cs/#L113">View Source</a>
-  </span>
-  <a id="Libplanet_Store_Trie_DefaultKeyValueStore_Get_" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Get*"></a>
-  <h4 id="Libplanet_Store_Trie_DefaultKeyValueStore_Get_System_Collections_Generic_IEnumerable_Libplanet_Store_Trie_KeyBytes__" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Get(System.Collections.Generic.IEnumerable{Libplanet.Store.Trie.KeyBytes})">Get(IEnumerable&lt;KeyBytes&gt;)</h4>
-  <div class="markdown level1 summary"><p>Gets multiple values associated with the specified keys at once.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IReadOnlyDictionary&lt;KeyBytes, byte[]&gt; Get(IEnumerable&lt;KeyBytes&gt; keys)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>&gt;</td>
-        <td><span class="parametername">keys</span></td>
-        <td><p>Keys whose values to get.  The order of keys does not matter.
-Duplicate keys after their first occurrence are ignored.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2">IReadOnlyDictionary</a>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>[]&gt;</td>
-        <td><p>Values associated the specified <code data-dev-comment-type="paramref" class="paramref">keys</code>.  Non-existent
-<code data-dev-comment-type="paramref" class="paramref">keys</code> are omitted (rather than being filled with
-<span class="xref">null</span>).</p>
 </td>
       </tr>
     </tbody>
@@ -451,7 +360,7 @@ Duplicate keys after their first occurrence are ignored.</p>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_Trie_DefaultKeyValueStore_ListKeys.md&amp;value=---%0Auid%3A%20Libplanet.Store.Trie.DefaultKeyValueStore.ListKeys%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/Trie/DefaultKeyValueStore.cs/#L173">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/Trie/DefaultKeyValueStore.cs/#L151">View Source</a>
   </span>
   <a id="Libplanet_Store_Trie_DefaultKeyValueStore_ListKeys_" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.ListKeys*"></a>
   <h4 id="Libplanet_Store_Trie_DefaultKeyValueStore_ListKeys" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.ListKeys">ListKeys()</h4>
@@ -472,9 +381,62 @@ Duplicate keys after their first occurrence are ignored.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>&gt;</td>
         <td><p>All keys in an arbitrary order.  The order might be vary for each call.</p>
 </td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_Trie_DefaultKeyValueStore_Set_IDictionary_Libplanet_Store_Trie_KeyBytes_System_Byte____.md&amp;value=---%0Auid%3A%20Libplanet.Store.Trie.DefaultKeyValueStore.Set(IDictionary%7BLibplanet.Store.Trie.KeyBytes%2CSystem.Byte%5B%5D%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/Trie/DefaultKeyValueStore.cs/#L114">View Source</a>
+  </span>
+  <a id="Libplanet_Store_Trie_DefaultKeyValueStore_Set_" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Set*"></a>
+  <h4 id="Libplanet_Store_Trie_DefaultKeyValueStore_Set_IDictionary_Libplanet_Store_Trie_KeyBytes_System_Byte____" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Set(IDictionary{Libplanet.Store.Trie.KeyBytes,System.Byte[]})">Set(IDictionary&lt;KeyBytes, Byte[]&gt;)</h4>
+  <div class="markdown level1 summary"><p>The default built-in <a class="xref" href="Libplanet.Store.Trie.IKeyValueStore.html">IKeyValueStore</a> implementation. This stores data in
+the file system or in memory.</p>
+<p><a class="xref" href="Libplanet.Store.DefaultStore.html">DefaultStore</a> and <a class="xref" href="Libplanet.Store.Trie.DefaultKeyValueStore.html">DefaultKeyValueStore</a>-backed
+<a class="xref" href="Libplanet.Store.TrieStateStore.html">TrieStateStore</a> can be instantiated from a URI with <code>default+file:</code> scheme
+using <a class="xref" href="Libplanet.Store.StoreLoaderAttribute.html#Libplanet_Store_StoreLoaderAttribute_LoadStore_Uri_">LoadStore(Uri)</a>, e.g.:</p>
+<ul><li><code>default+file:///var/data/planet/</code></li><li><code>default+file:///c:/Users/john/AppData/Local/planet/</code></li></ul>
+<p>The following query string parameters are supported:</p>
+<table><tbody><tr><td><code>journal</code></td><td><span class="xref">true</span> (default) or <span class="xref">false</span>.  Corresponds to
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>journal</code>
+parameter.</td></tr><tr><td><code>index-cache</code></td><td>Corresponds to
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
+<code>indexCacheSize</code> parameter.  50000 by default.</td></tr><tr><td><code>block-cache</code></td><td>Corresponds to
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
+<code>blockCacheSize</code> parameter.  512 by default.</td></tr><tr><td><code>tx-cache</code></td><td>Corresponds to
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
+<code>txCacheSize</code> parameter.  1024 by default.</td></tr><tr><td><code>flush</code></td><td><span class="xref">true</span> (default) or <span class="xref">false</span>.  Corresponds to
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>flush</code>
+parameter.</td></tr><tr><td><code>readonly</code></td><td><span class="xref">true</span> or <span class="xref">false</span> (default).  Corresponds to
+<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>readOnly</code>
+parameter.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <see cref="!:DefaultKeyValueStore(string)"></see>&apos;s <code>path</code>
+parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr></tbody></table>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Set(IDictionary&lt;KeyBytes, byte[]&gt; values)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IDictionary</span>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>, <span class="xref">System.Byte</span>[]&gt;</td>
+        <td><span class="parametername">values</span></td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -483,7 +445,7 @@ Duplicate keys after their first occurrence are ignored.</p>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_Trie_DefaultKeyValueStore_Set_Libplanet_Store_Trie_KeyBytes__System_Byte___.md&amp;value=---%0Auid%3A%20Libplanet.Store.Trie.DefaultKeyValueStore.Set(Libplanet.Store.Trie.KeyBytes%40%2CSystem.Byte%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/Trie/DefaultKeyValueStore.cs/#L130">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/Trie/DefaultKeyValueStore.cs/#L108">View Source</a>
   </span>
   <a id="Libplanet_Store_Trie_DefaultKeyValueStore_Set_" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Set*"></a>
   <h4 id="Libplanet_Store_Trie_DefaultKeyValueStore_Set_Libplanet_Store_Trie_KeyBytes__System_Byte___" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Set(Libplanet.Store.Trie.KeyBytes@,System.Byte[])">Set(in KeyBytes, Byte[])</h4>
@@ -511,62 +473,10 @@ Duplicate keys after their first occurrence are ignored.</p>
 </td>
       </tr>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>[]</td>
+        <td><span class="xref">System.Byte</span>[]</td>
         <td><span class="parametername">value</span></td>
         <td><p>The value to set.</p>
 </td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_Trie_DefaultKeyValueStore_Set_System_Collections_Generic_IDictionary_Libplanet_Store_Trie_KeyBytes_System_Byte____.md&amp;value=---%0Auid%3A%20Libplanet.Store.Trie.DefaultKeyValueStore.Set(System.Collections.Generic.IDictionary%7BLibplanet.Store.Trie.KeyBytes%2CSystem.Byte%5B%5D%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/Trie/DefaultKeyValueStore.cs/#L136">View Source</a>
-  </span>
-  <a id="Libplanet_Store_Trie_DefaultKeyValueStore_Set_" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Set*"></a>
-  <h4 id="Libplanet_Store_Trie_DefaultKeyValueStore_Set_System_Collections_Generic_IDictionary_Libplanet_Store_Trie_KeyBytes_System_Byte____" data-uid="Libplanet.Store.Trie.DefaultKeyValueStore.Set(System.Collections.Generic.IDictionary{Libplanet.Store.Trie.KeyBytes,System.Byte[]})">Set(IDictionary&lt;KeyBytes, Byte[]&gt;)</h4>
-  <div class="markdown level1 summary"><p>The default built-in <a class="xref" href="Libplanet.Store.Trie.IKeyValueStore.html">IKeyValueStore</a> implementation. This stores data in
-the file system or in memory.</p>
-<p><a class="xref" href="Libplanet.Store.DefaultStore.html">DefaultStore</a> and <a class="xref" href="Libplanet.Store.Trie.DefaultKeyValueStore.html">DefaultKeyValueStore</a>-backed
-<a class="xref" href="Libplanet.Store.TrieStateStore.html">TrieStateStore</a> can be instantiated from a URI with <code>default+file:</code> scheme
-using <a class="xref" href="Libplanet.Store.StoreLoaderAttribute.html#Libplanet_Store_StoreLoaderAttribute_LoadStore_System_Uri_">LoadStore(Uri)</a>, e.g.:</p>
-<ul><li><code>default+file:///var/data/planet/</code></li><li><code>default+file:///c:/Users/john/AppData/Local/planet/</code></li><li><code>default+file:///var/data/planet/?secure=true</code>
-(trie keys are hashed)</li></ul>
-<p>The following query string parameters are supported:</p>
-<table><tbody><tr><td><code>journal</code></td><td><span class="xref">true</span> (default) or <span class="xref">false</span>.  Corresponds to
-<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>journal</code>
-parameter.</td></tr><tr><td><code>index-cache</code></td><td>Corresponds to <a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
-<code>indexCacheSize</code> parameter.  50000 by default.</td></tr><tr><td><code>block-cache</code></td><td>Corresponds to <a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
-<code>blockCacheSize</code> parameter.  512 by default.</td></tr><tr><td><code>tx-cache</code></td><td>Corresponds to <a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s
-<code>txCacheSize</code> parameter.  1024 by default.</td></tr><tr><td><code>flush</code></td><td><span class="xref">true</span> (default) or <span class="xref">false</span>.  Corresponds to
-<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>flush</code>
-parameter.</td></tr><tr><td><code>readonly</code></td><td><span class="xref">true</span> or <span class="xref">false</span> (default).  Corresponds to
-<a class="xref" href="Libplanet.Store.DefaultStore.html#Libplanet_Store_DefaultStore__ctor_System_String_System_Boolean_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_">DefaultStore(String, Boolean, Int32, Int32, Int32, Boolean, Boolean)</a>&apos;s <code>readOnly</code>
-parameter.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <a class="xref" href="Libplanet.Store.Trie.DefaultKeyValueStore.html#Libplanet_Store_Trie_DefaultKeyValueStore__ctor_System_String_">DefaultKeyValueStore(String)</a>&apos;s <code>path</code>
-parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr><tr><td><code>secure</code></td><td><span class="xref">true</span> or <span class="xref">false</span> (default).  Corresponds to
-<a class="xref" href="Libplanet.Store.TrieStateStore.html#Libplanet_Store_TrieStateStore__ctor_Libplanet_Store_Trie_IKeyValueStore_System_Boolean_">TrieStateStore(IKeyValueStore, Boolean)</a>&apos;s <code>secure</code> parameter.</td></tr></tbody></table>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Set(IDictionary&lt;KeyBytes, byte[]&gt; values)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2">IDictionary</a>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>[]&gt;</td>
-        <td><span class="parametername">values</span></td>
-        <td></td>
       </tr>
     </tbody>
   </table>
@@ -575,7 +485,7 @@ parameter.  It is relative to the URI path, and defaults to <code>states</code>.
       <a class="xref" href="Libplanet.Store.Trie.IKeyValueStore.html">IKeyValueStore</a>
   </div>
   <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">System.IDisposable</a>
+      <span class="xref">IDisposable</span>
   </div>
 </article>
           </div>
@@ -588,7 +498,7 @@ parameter.  It is relative to the URI path, and defaults to <code>states</code>.
                     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_Trie_DefaultKeyValueStore.md&amp;value=---%0Auid%3A%20Libplanet.Store.Trie.DefaultKeyValueStore%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/Trie/DefaultKeyValueStore.cs/#L71" class="contribution-link">View Source</a>
+                    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/Trie/DefaultKeyValueStore.cs/#L66" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

@@ -98,7 +98,7 @@
       </tr>
       <tr>
         <td id="Libplanet_Net_Messages_MessageContent_MessageType_BlockHeaderMessage">BlockHeaderMessage</td>
-        <td><p>Message containing a single <a class="xref" href="Libplanet.Blocks.BlockHeader.html">BlockHeader</a>.</p>
+        <td><p>Message containing a single <see cref="!:BlockHeader"></see>.</p>
 </td>
       </tr>
       <tr>
@@ -118,8 +118,18 @@ Contains the chain status of the peer at the moment.</p>
 </td>
       </tr>
       <tr>
+        <td id="Libplanet_Net_Messages_MessageContent_MessageType_ConsensusMaj23Msg">ConsensusMaj23Msg</td>
+        <td><p>Consensus message that informs other peer that the peer has a vote of majority 2/3.</p>
+</td>
+      </tr>
+      <tr>
         <td id="Libplanet_Net_Messages_MessageContent_MessageType_ConsensusProposal">ConsensusProposal</td>
         <td><p>Consensus proposal message.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Libplanet_Net_Messages_MessageContent_MessageType_ConsensusProposalClaimMsg">ConsensusProposalClaimMsg</td>
+        <td><p>Consensus message that informs vote sets that the peer received new maj23 block.</p>
 </td>
       </tr>
       <tr>
@@ -128,10 +138,25 @@ Contains the chain status of the peer at the moment.</p>
 </td>
       </tr>
       <tr>
+        <td id="Libplanet_Net_Messages_MessageContent_MessageType_ConsensusVoteSetBitsMsg">ConsensusVoteSetBitsMsg</td>
+        <td><p>Consensus message that informs vote sets that the peer have to other peer.</p>
+</td>
+      </tr>
+      <tr>
         <td id="Libplanet_Net_Messages_MessageContent_MessageType_DifferentVersion">DifferentVersion</td>
         <td><p>A reply to any messages with different <a class="xref" href="Libplanet.Net.AppProtocolVersion.html">AppProtocolVersion</a>.
 Contains the expected and actual <a class="xref" href="Libplanet.Net.AppProtocolVersion.html">AppProtocolVersion</a>
 value of the message.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Libplanet_Net_Messages_MessageContent_MessageType_Evidence">Evidence</td>
+        <td><p>Message containing serialized evidence.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Libplanet_Net_Messages_MessageContent_MessageType_EvidenceIds">EvidenceIds</td>
+        <td><p>Inventory to transfer evidence.</p>
 </td>
       </tr>
       <tr>
@@ -152,6 +177,11 @@ value of the message.</p>
       <tr>
         <td id="Libplanet_Net_Messages_MessageContent_MessageType_GetChainStatus">GetChainStatus</td>
         <td><p>Request current chain status of the peer.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Libplanet_Net_Messages_MessageContent_MessageType_GetEvidence">GetEvidence</td>
+        <td><p>Request to query evidence.</p>
 </td>
       </tr>
       <tr>
@@ -207,7 +237,7 @@ value of the message.</p>
                     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Net_Messages_MessageContent_MessageType.md&amp;value=---%0Auid%3A%20Libplanet.Net.Messages.MessageContent.MessageType%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.Net/Messages/MessageContent.cs/#L19" class="contribution-link">View Source</a>
+                    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Net/Messages/MessageContent.cs/#L19" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

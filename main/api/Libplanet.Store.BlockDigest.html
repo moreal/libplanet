@@ -73,37 +73,16 @@
   <h1 id="Libplanet_Store_BlockDigest" data-uid="Libplanet.Store.BlockDigest" class="text-break">Struct BlockDigest
 </h1>
   <div class="markdown level0 summary"><p>Class that store uses to save blocks. This contains:
-<a class="xref" href="Libplanet.Blocks.BlockHeader.html">BlockHeader</a>, and list of <a class="xref" href="Libplanet.Tx.TxId.html">TxId</a>s.</p>
+<a class="xref" href="Libplanet.Types.Blocks.BlockHeader.html">BlockHeader</a>, and list of <a class="xref" href="Libplanet.Types.Tx.TxId.html">TxId</a>s.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="implements">
     <h5>Implements</h5>
-    <div><a class="xref" href="Libplanet.Blocks.IBlockMetadata.html">IBlockMetadata</a></div>
-    <div><a class="xref" href="Libplanet.Blocks.IBlockExcerpt.html">IBlockExcerpt</a></div>
-  </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.equals#system-valuetype-equals(system-object)">ValueType.Equals(Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode#system-valuetype-gethashcode">ValueType.GetHashCode()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.tostring#system-valuetype-tostring">ValueType.ToString()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">Object.Equals(Object, Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype#system-object-gettype">Object.GetType()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals#system-object-referenceequals(system-object-system-object)">Object.ReferenceEquals(Object, Object)</a>
-    </div>
+    <div><a class="xref" href="Libplanet.Types.Blocks.IBlockMetadata.html">IBlockMetadata</a></div>
+    <div><a class="xref" href="Libplanet.Types.Blocks.IBlockExcerpt.html">IBlockExcerpt</a></div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Libplanet.Store.html">Libplanet.Store</a></h6>
-  <h6><strong>Assembly</strong>: Libplanet.dll</h6>
+  <h6><strong>Assembly</strong>: Libplanet.Store.dll</h6>
   <h5 id="Libplanet_Store_BlockDigest_syntax">Syntax</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public readonly struct BlockDigest : IBlockMetadata, IBlockExcerpt</code></pre>
@@ -115,17 +94,17 @@
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest__ctor_Bencodex_Types_Dictionary_.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.%23ctor(Bencodex.Types.Dictionary)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L51">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L59">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest__ctor_" data-uid="Libplanet.Store.BlockDigest.#ctor*"></a>
-  <h4 id="Libplanet_Store_BlockDigest__ctor_Bencodex_Types_Dictionary_" data-uid="Libplanet.Store.BlockDigest.#ctor(Bencodex.Types.Dictionary)">BlockDigest(Dictionary)</h4>
+  <h4 id="Libplanet_Store_BlockDigest__ctor_Bencodex_Types_Dictionary_" data-uid="Libplanet.Store.BlockDigest.#ctor(Bencodex.Types.Dictionary)">BlockDigest(Bencodex.Types.Dictionary)</h4>
   <div class="markdown level1 summary"><p>Creates <a class="xref" href="Libplanet.Store.BlockDigest.html">BlockDigest</a> instance from
-<span class="xref">Bencodex.Types.Dictionary</span> representation of the <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a>.</p>
+<see cref="!:Bencodex.Types.Dictionary"></see> representation of the <a class="xref" href="Libplanet.Types.Blocks.Block.html">Block</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public BlockDigest(Dictionary dict)</code></pre>
+    <pre><code class="lang-csharp hljs">public BlockDigest(Bencodex.Types.Dictionary dict)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -140,27 +119,27 @@
       <tr>
         <td><span class="xref">Bencodex.Types.Dictionary</span></td>
         <td><span class="parametername">dict</span></td>
-        <td><p><span class="xref">Bencodex.Types.Dictionary</span> representation of the <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a>.</p>
+        <td><p><see cref="!:Bencodex.Types.Dictionary"></see> representation of the <a class="xref" href="Libplanet.Types.Blocks.Block.html">Block</a>.</p>
 </td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest__ctor_Libplanet_Blocks_BlockHeader_System_Collections_Immutable_ImmutableArray_System_Collections_Immutable_ImmutableArray_System_Byte___.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.%23ctor(Libplanet.Blocks.BlockHeader%2CSystem.Collections.Immutable.ImmutableArray%7BSystem.Collections.Immutable.ImmutableArray%7BSystem.Byte%7D%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest__ctor_Libplanet_Types_Blocks_BlockHeader_ImmutableArray_ImmutableArray_System_Byte___ImmutableArray_ImmutableArray_System_Byte___.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.%23ctor(Libplanet.Types.Blocks.BlockHeader%2CImmutableArray%7BImmutableArray%7BSystem.Byte%7D%7D%2CImmutableArray%7BImmutableArray%7BSystem.Byte%7D%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L34">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L38">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest__ctor_" data-uid="Libplanet.Store.BlockDigest.#ctor*"></a>
-  <h4 id="Libplanet_Store_BlockDigest__ctor_Libplanet_Blocks_BlockHeader_System_Collections_Immutable_ImmutableArray_System_Collections_Immutable_ImmutableArray_System_Byte___" data-uid="Libplanet.Store.BlockDigest.#ctor(Libplanet.Blocks.BlockHeader,System.Collections.Immutable.ImmutableArray{System.Collections.Immutable.ImmutableArray{System.Byte}})">BlockDigest(BlockHeader, ImmutableArray&lt;ImmutableArray&lt;Byte&gt;&gt;)</h4>
-  <div class="markdown level1 summary"><p>Creates <a class="xref" href="Libplanet.Store.BlockDigest.html">BlockDigest</a> instance from <a class="xref" href="Libplanet.Blocks.BlockHeader.html">BlockHeader</a> and
-<a class="xref" href="Libplanet.Tx.Transaction-1.html">Transaction&lt;T&gt;</a> ids the <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a> has.</p>
+  <h4 id="Libplanet_Store_BlockDigest__ctor_Libplanet_Types_Blocks_BlockHeader_ImmutableArray_ImmutableArray_System_Byte___ImmutableArray_ImmutableArray_System_Byte___" data-uid="Libplanet.Store.BlockDigest.#ctor(Libplanet.Types.Blocks.BlockHeader,ImmutableArray{ImmutableArray{System.Byte}},ImmutableArray{ImmutableArray{System.Byte}})">BlockDigest(BlockHeader, ImmutableArray&lt;ImmutableArray&lt;Byte&gt;&gt;, ImmutableArray&lt;ImmutableArray&lt;Byte&gt;&gt;)</h4>
+  <div class="markdown level1 summary"><p>Creates <a class="xref" href="Libplanet.Store.BlockDigest.html">BlockDigest</a> instance from <a class="xref" href="Libplanet.Types.Blocks.BlockHeader.html">BlockHeader</a> and
+<a class="xref" href="Libplanet.Types.Tx.Transaction.html">Transaction</a> ids the <a class="xref" href="Libplanet.Types.Blocks.Block.html">Block</a> has.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public BlockDigest(BlockHeader header, ImmutableArray&lt;ImmutableArray&lt;byte&gt;&gt; txIds)</code></pre>
+    <pre><code class="lang-csharp hljs">public BlockDigest(BlockHeader header, ImmutableArray&lt;ImmutableArray&lt;byte&gt;&gt; txIds, ImmutableArray&lt;ImmutableArray&lt;byte&gt;&gt; evidenceIds)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -173,15 +152,21 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Libplanet.Blocks.BlockHeader.html">BlockHeader</a></td>
+        <td><a class="xref" href="Libplanet.Types.Blocks.BlockHeader.html">BlockHeader</a></td>
         <td><span class="parametername">header</span></td>
-        <td><p><a class="xref" href="Libplanet.Blocks.BlockHeader.html">BlockHeader</a> of the <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a>.</p>
+        <td><p><a class="xref" href="Libplanet.Types.Blocks.BlockHeader.html">BlockHeader</a> of the <a class="xref" href="Libplanet.Types.Blocks.Block.html">Block</a>.</p>
 </td>
       </tr>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1">ImmutableArray</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1">ImmutableArray</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;&gt;</td>
+        <td><span class="xref">ImmutableArray</span>&lt;<span class="xref">ImmutableArray</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;</td>
         <td><span class="parametername">txIds</span></td>
-        <td><p><a class="xref" href="Libplanet.Tx.Transaction-1.html">Transaction&lt;T&gt;</a> ids the <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a> has.</p>
+        <td><p><a class="xref" href="Libplanet.Types.Tx.Transaction.html">Transaction</a> ids the <a class="xref" href="Libplanet.Types.Blocks.Block.html">Block</a> has.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">ImmutableArray</span>&lt;<span class="xref">ImmutableArray</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;</td>
+        <td><span class="parametername">evidenceIds</span></td>
+        <td><p><a class="xref" href="Libplanet.Types.Evidence.EvidenceBase.html">EvidenceBase</a> ids the <a class="xref" href="Libplanet.Types.Blocks.Block.html">Block</a> has.</p>
 </td>
       </tr>
     </tbody>
@@ -190,10 +175,75 @@
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_EvidenceHash.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.EvidenceHash%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L102">View Source</a>
+  </span>
+  <a id="Libplanet_Store_BlockDigest_EvidenceHash_" data-uid="Libplanet.Store.BlockDigest.EvidenceHash*"></a>
+  <h4 id="Libplanet_Store_BlockDigest_EvidenceHash" data-uid="Libplanet.Store.BlockDigest.EvidenceHash">EvidenceHash</h4>
+  <div class="markdown level1 summary"><p>Committing <a class="xref" href="Libplanet.Types.Evidence.EvidenceId.html">EvidenceId</a>s of vote infraction
+that has been made on previous blocks.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly HashDigest&lt;SHA256&gt;? EvidenceHash { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<a class="xref" href="Libplanet.Common.HashDigest-1.html">HashDigest</a>&lt;<span class="xref">SHA256</span>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_EvidenceIds.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.EvidenceIds%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L131">View Source</a>
+  </span>
+  <a id="Libplanet_Store_BlockDigest_EvidenceIds_" data-uid="Libplanet.Store.BlockDigest.EvidenceIds*"></a>
+  <h4 id="Libplanet_Store_BlockDigest_EvidenceIds" data-uid="Libplanet.Store.BlockDigest.EvidenceIds">EvidenceIds</h4>
+  <div class="markdown level1 summary"><p>The <see cref="!:Evidence.Id"></see>s of <a class="xref" href="Libplanet.Types.Evidence.EvidenceBase.html">EvidenceBase</a>s in
+a <a class="xref" href="Libplanet.Types.Blocks.Block.html">Block</a>.  This is <em>not</em> necessarily ordered by
+<see cref="!:Evidence.Id"></see>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly ImmutableArray&lt;ImmutableArray&lt;byte&gt;&gt; EvidenceIds { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ImmutableArray</span>&lt;<span class="xref">ImmutableArray</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_Hash.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.Hash%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L92">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L107">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_Hash_" data-uid="Libplanet.Store.BlockDigest.Hash*"></a>
   <h4 id="Libplanet_Store_BlockDigest_Hash" data-uid="Libplanet.Store.BlockDigest.Hash">Hash</h4>
@@ -214,7 +264,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Libplanet.Blocks.BlockHash.html">BlockHash</a></td>
+        <td><a class="xref" href="Libplanet.Types.Blocks.BlockHash.html">BlockHash</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -224,7 +274,7 @@
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_Index.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.Index%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L69">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L81">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_Index_" data-uid="Libplanet.Store.BlockDigest.Index*"></a>
   <h4 id="Libplanet_Store_BlockDigest_Index" data-uid="Libplanet.Store.BlockDigest.Index">Index</h4>
@@ -245,7 +295,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">Int64</a></td>
+        <td><span class="xref">System.Int64</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -255,18 +305,18 @@
 </div>
   <h5 id="Libplanet_Store_BlockDigest_Index_seealso">See Also</h5>
   <div class="seealso">
-      <div><a class="xref" href="Libplanet.Blocks.Block-1.html#Libplanet_Blocks_Block_1_Index">Index</a></div>
+      <div><a class="xref" href="Libplanet.Types.Blocks.Block.html#Libplanet_Types_Blocks_Block_Index">Index</a></div>
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_LastCommit.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.LastCommit%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L87">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L99">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_LastCommit_" data-uid="Libplanet.Store.BlockDigest.LastCommit*"></a>
   <h4 id="Libplanet_Store_BlockDigest_LastCommit" data-uid="Libplanet.Store.BlockDigest.LastCommit">LastCommit</h4>
-  <div class="markdown level1 summary"><p>The <a class="xref" href="Libplanet.Blocks.BlockCommit.html">BlockCommit</a> about previous block's vote information.</p>
+  <div class="markdown level1 summary"><p>The <a class="xref" href="Libplanet.Types.Blocks.BlockCommit.html">BlockCommit</a> about previous block's vote information.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
@@ -283,7 +333,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Libplanet.Blocks.BlockCommit.html">BlockCommit</a></td>
+        <td><a class="xref" href="Libplanet.Types.Blocks.BlockCommit.html">BlockCommit</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -293,7 +343,7 @@
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_Miner.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.Miner%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L75">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L87">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_Miner_" data-uid="Libplanet.Store.BlockDigest.Miner*"></a>
   <h4 id="Libplanet_Store_BlockDigest_Miner" data-uid="Libplanet.Store.BlockDigest.Miner">Miner</h4>
@@ -314,7 +364,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Libplanet.Address.html">Address</a></td>
+        <td><a class="xref" href="Libplanet.Crypto.Address.html">Address</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -324,11 +374,11 @@
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_PreviousHash.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.PreviousHash%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L81">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L93">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_PreviousHash_" data-uid="Libplanet.Store.BlockDigest.PreviousHash*"></a>
   <h4 id="Libplanet_Store_BlockDigest_PreviousHash" data-uid="Libplanet.Store.BlockDigest.PreviousHash">PreviousHash</h4>
-  <div class="markdown level1 summary"><p>The previous block's hash.  If it's a genesis block (i.e., its <a class="xref" href="Libplanet.Blocks.IBlockMetadata.html#Libplanet_Blocks_IBlockMetadata_Index">Index</a> is 0)
+  <div class="markdown level1 summary"><p>The previous block's hash.  If it's a genesis block (i.e., its <a class="xref" href="Libplanet.Types.Blocks.IBlockMetadata.html#Libplanet_Types_Blocks_IBlockMetadata_Index">Index</a> is 0)
 this must be <span class="xref">null</span>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -346,7 +396,7 @@ this must be <span class="xref">null</span>.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.nullable-1">Nullable</a>&lt;<a class="xref" href="Libplanet.Blocks.BlockHash.html">BlockHash</a>&gt;</td>
+        <td><span class="xref">System.Nullable</span>&lt;<a class="xref" href="Libplanet.Types.Blocks.BlockHash.html">BlockHash</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -356,11 +406,34 @@ this must be <span class="xref">null</span>.</p>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_ProtocolVersion.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.ProtocolVersion%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L66">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L78">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_ProtocolVersion_" data-uid="Libplanet.Store.BlockDigest.ProtocolVersion*"></a>
   <h4 id="Libplanet_Store_BlockDigest_ProtocolVersion" data-uid="Libplanet.Store.BlockDigest.ProtocolVersion">ProtocolVersion</h4>
-  <div class="markdown level1 summary"><p>The protocol version number.</p>
+  <div class="markdown level1 summary"><p>The protocol version number.  For the latest protocol version, see
+<a class="xref" href="Libplanet.Types.Blocks.BlockMetadata.html#Libplanet_Types_Blocks_BlockMetadata_CurrentProtocolVersion">CurrentProtocolVersion</a>.  We have the following
+version info:</p>
+<ul><li>
+0: The initial block protocol version number.  This is not actually recorded in
+storage.  That is, the lack of block protocol version in a stored block means it
+is of version 0.
+</li><li>
+1: Introduced to be stored with the block data.  Validation for
+<a class="xref" href="Libplanet.Types.Blocks.IPreEvaluationBlockHeader.html#Libplanet_Types_Blocks_IPreEvaluationBlockHeader_PreEvaluationHash">PreEvaluationHash</a> was added.
+</li><li>
+2: Updated to include <a class="xref" href="Libplanet.Types.Blocks.IBlockHeader.html#Libplanet_Types_Blocks_IBlockHeader_Signature">Signature</a> to blocks.  As a result,
+the miner&apos;s identity is provided as a <a class="xref" href="Libplanet.Crypto.PublicKey.html">PublicKey</a>
+instead of a <a class="xref" href="Libplanet.Crypto.Address.html">Address</a>.  Additionally, total difficulty was added.
+</li><li>
+3: Updated to fix an issue with the internal execution ordering
+of <a class="xref" href="Libplanet.Types.Tx.Transaction.html">Transaction</a>s in blocks.
+</li><li>
+4: Updated to introduce a PBFT scheme.  <a class="xref" href="Libplanet.Types.Blocks.IBlockMetadata.html#Libplanet_Types_Blocks_IBlockMetadata_LastCommit">LastCommit</a> was added and
+total difficulty was removed.
+</li><li>
+5: Updated to introduce a world model.  No structural changes were made to blocks.
+This is used as a marker indicating when the data model should be migrated.
+</li></ul>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
@@ -377,27 +450,27 @@ this must be <span class="xref">null</span>.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="xref">System.Int32</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <h5 id="Libplanet_Store_BlockDigest_ProtocolVersion_seealso">See Also</h5>
   <div class="seealso">
-      <div><a class="xref" href="Libplanet.Blocks.Block-1.html#Libplanet_Blocks_Block_1_ProtocolVersion">ProtocolVersion</a></div>
+      <div><a class="xref" href="Libplanet.Types.Blocks.BlockMetadata.html#Libplanet_Types_Blocks_BlockMetadata_CurrentProtocolVersion">CurrentProtocolVersion</a></div>
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_PublicKey.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.PublicKey%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L78">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L90">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_PublicKey_" data-uid="Libplanet.Store.BlockDigest.PublicKey*"></a>
   <h4 id="Libplanet_Store_BlockDigest_PublicKey" data-uid="Libplanet.Store.BlockDigest.PublicKey">PublicKey</h4>
-  <div class="markdown level1 summary"><p>The public key of the <a class="xref" href="Libplanet.Blocks.IBlockMetadata.html#Libplanet_Blocks_IBlockMetadata_Miner">Miner</a>.  This is used for verifying the signature.</p>
+  <div class="markdown level1 summary"><p>The public key of the <a class="xref" href="Libplanet.Types.Blocks.IBlockMetadata.html#Libplanet_Types_Blocks_IBlockMetadata_Miner">Miner</a>.  This is used for verifying the signature.</p>
 <p>Although this is nullable type-wise, it is mandatory where
-<a class="xref" href="Libplanet.Blocks.IBlockMetadata.html#Libplanet_Blocks_IBlockMetadata_ProtocolVersion">ProtocolVersion</a> is 2 or later.  As blocks had not been signed in
+<a class="xref" href="Libplanet.Types.Blocks.IBlockMetadata.html#Libplanet_Types_Blocks_IBlockMetadata_ProtocolVersion">ProtocolVersion</a> is 2 or later.  As blocks had not been signed in
 the previous protocol versions, the type of this is nullable.
 </p>
 </div>
@@ -426,7 +499,7 @@ the previous protocol versions, the type of this is nullable.
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_Signature.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.Signature%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L102">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L117">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_Signature_" data-uid="Libplanet.Store.BlockDigest.Signature*"></a>
   <h4 id="Libplanet_Store_BlockDigest_Signature" data-uid="Libplanet.Store.BlockDigest.Signature">Signature</h4>
@@ -447,7 +520,7 @@ the previous protocol versions, the type of this is nullable.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.nullable-1">Nullable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1">ImmutableArray</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;&gt;</td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">ImmutableArray</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -457,7 +530,7 @@ the previous protocol versions, the type of this is nullable.
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_StateRootHash.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.StateRootHash%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L97">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L112">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_StateRootHash_" data-uid="Libplanet.Store.BlockDigest.StateRootHash*"></a>
   <h4 id="Libplanet_Store_BlockDigest_StateRootHash" data-uid="Libplanet.Store.BlockDigest.StateRootHash">StateRootHash</h4>
@@ -478,7 +551,7 @@ the previous protocol versions, the type of this is nullable.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Libplanet.HashDigest-1.html">HashDigest</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha256">SHA256</a>&gt;</td>
+        <td><a class="xref" href="Libplanet.Common.HashDigest-1.html">HashDigest</a>&lt;<span class="xref">SHA256</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -488,7 +561,7 @@ the previous protocol versions, the type of this is nullable.
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_Timestamp.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.Timestamp%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L72">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L84">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_Timestamp_" data-uid="Libplanet.Store.BlockDigest.Timestamp*"></a>
   <h4 id="Libplanet_Store_BlockDigest_Timestamp" data-uid="Libplanet.Store.BlockDigest.Timestamp">Timestamp</h4>
@@ -497,7 +570,7 @@ the previous protocol versions, the type of this is nullable.
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public readonly DateTimeOffset Timestamp { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public readonly System.DateTimeOffset Timestamp { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -509,7 +582,7 @@ the previous protocol versions, the type of this is nullable.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a></td>
+        <td><span class="xref">System.DateTimeOffset</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -522,7 +595,7 @@ the previous protocol versions, the type of this is nullable.
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_TxHash.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.TxHash%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L84">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L96">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_TxHash_" data-uid="Libplanet.Store.BlockDigest.TxHash*"></a>
   <h4 id="Libplanet_Store_BlockDigest_TxHash" data-uid="Libplanet.Store.BlockDigest.TxHash">TxHash</h4>
@@ -544,7 +617,7 @@ has no transactions.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.nullable-1">Nullable</a>&lt;<a class="xref" href="Libplanet.HashDigest-1.html">HashDigest</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha256">SHA256</a>&gt;&gt;</td>
+        <td><span class="xref">System.Nullable</span>&lt;<a class="xref" href="Libplanet.Common.HashDigest-1.html">HashDigest</a>&lt;<span class="xref">SHA256</span>&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -554,13 +627,13 @@ has no transactions.</p>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_TxIds.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.TxIds%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L109">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L124">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_TxIds_" data-uid="Libplanet.Store.BlockDigest.TxIds*"></a>
   <h4 id="Libplanet_Store_BlockDigest_TxIds" data-uid="Libplanet.Store.BlockDigest.TxIds">TxIds</h4>
-  <div class="markdown level1 summary"><p>The <a class="xref" href="Libplanet.Tx.Transaction-1.html#Libplanet_Tx_Transaction_1_Id">Id</a>s of <a class="xref" href="Libplanet.Tx.Transaction-1.html">Transaction&lt;T&gt;</a>s in
-a <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a>.  This is <em>not</em> necessarily ordered by
-<a class="xref" href="Libplanet.Tx.Transaction-1.html#Libplanet_Tx_Transaction_1_Id">Id</a>.</p>
+  <div class="markdown level1 summary"><p>The <a class="xref" href="Libplanet.Types.Tx.Transaction.html#Libplanet_Types_Tx_Transaction_Id">Id</a>s of <a class="xref" href="Libplanet.Types.Tx.Transaction.html">Transaction</a>s in
+a <a class="xref" href="Libplanet.Types.Blocks.Block.html">Block</a>.  This is <em>not</em> necessarily ordered by
+<a class="xref" href="Libplanet.Types.Tx.Transaction.html#Libplanet_Types_Tx_Transaction_Id">Id</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
@@ -577,7 +650,7 @@ a <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a>.  This
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1">ImmutableArray</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1">ImmutableArray</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;&gt;</td>
+        <td><span class="xref">ImmutableArray</span>&lt;<span class="xref">ImmutableArray</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -589,7 +662,7 @@ a <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a>.  This
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_Deserialize_System_Byte___.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.Deserialize(System.Byte%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L138">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L161">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_Deserialize_" data-uid="Libplanet.Store.BlockDigest.Deserialize*"></a>
   <h4 id="Libplanet_Store_BlockDigest_Deserialize_System_Byte___" data-uid="Libplanet.Store.BlockDigest.Deserialize(System.Byte[])">Deserialize(Byte[])</h4>
@@ -611,7 +684,7 @@ a <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a>.  This
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>[]</td>
+        <td><span class="xref">System.Byte</span>[]</td>
         <td><span class="parametername">bytes</span></td>
         <td><p>Serialized <a class="xref" href="Libplanet.Store.BlockDigest.html">BlockDigest</a>.</p>
 </td>
@@ -634,45 +707,21 @@ a <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a>.  This
       </tr>
     </tbody>
   </table>
-  <h5 class="exceptions">Exceptions</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
-        <td><p>Thrown when the passed <code data-dev-comment-type="paramref" class="paramref">bytes</code>
-is <span class="xref">null</span>.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">Bencodex.DecodingException</span></td>
-        <td><p>Thrown when decoded value is not
-<span class="xref">Bencodex.Types.Dictionary</span> type.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_FromBlock__1_Libplanet_Blocks_Block___0__.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.FromBlock%60%601(Libplanet.Blocks.Block%7B%60%600%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_FromBlock_Libplanet_Types_Blocks_Block_.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.FromBlock(Libplanet.Types.Blocks.Block)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L118">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L139">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_FromBlock_" data-uid="Libplanet.Store.BlockDigest.FromBlock*"></a>
-  <h4 id="Libplanet_Store_BlockDigest_FromBlock__1_Libplanet_Blocks_Block___0__" data-uid="Libplanet.Store.BlockDigest.FromBlock``1(Libplanet.Blocks.Block{``0})">FromBlock&lt;T&gt;(Block&lt;T&gt;)</h4>
-  <div class="markdown level1 summary"><p>Gets <a class="xref" href="Libplanet.Store.BlockDigest.html">BlockDigest</a> representation of the <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a>.</p>
+  <h4 id="Libplanet_Store_BlockDigest_FromBlock_Libplanet_Types_Blocks_Block_" data-uid="Libplanet.Store.BlockDigest.FromBlock(Libplanet.Types.Blocks.Block)">FromBlock(Block)</h4>
+  <div class="markdown level1 summary"><p>Gets <a class="xref" href="Libplanet.Store.BlockDigest.html">BlockDigest</a> representation of the <a class="xref" href="Libplanet.Types.Blocks.Block.html">Block</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static BlockDigest FromBlock&lt;T&gt;(Block&lt;T&gt; block)
-    where T : IAction, new()</code></pre>
+    <pre><code class="lang-csharp hljs">public static BlockDigest FromBlock(Block block)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -685,7 +734,7 @@ is <span class="xref">null</span>.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Libplanet.Blocks.Block-1.html">Block</a>&lt;T&gt;</td>
+        <td><a class="xref" href="Libplanet.Types.Blocks.Block.html">Block</a></td>
         <td><span class="parametername">block</span></td>
         <td><p>The block instance to get its digest.</p>
 </td>
@@ -703,23 +752,7 @@ is <span class="xref">null</span>.</p>
     <tbody>
       <tr>
         <td><a class="xref" href="Libplanet.Store.BlockDigest.html">BlockDigest</a></td>
-        <td><p><a class="xref" href="Libplanet.Store.BlockDigest.html">BlockDigest</a> representation of the <a class="xref" href="Libplanet.Blocks.Block-1.html">Block&lt;T&gt;</a>.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="parametername">T</span></td>
-        <td><p>An action type.</p>
+        <td><p><a class="xref" href="Libplanet.Store.BlockDigest.html">BlockDigest</a> representation of the <a class="xref" href="Libplanet.Types.Blocks.Block.html">Block</a>.</p>
 </td>
       </tr>
     </tbody>
@@ -729,7 +762,7 @@ is <span class="xref">null</span>.</p>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_GetHeader.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.GetHeader%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L169">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L192">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_GetHeader_" data-uid="Libplanet.Store.BlockDigest.GetHeader*"></a>
   <h4 id="Libplanet_Store_BlockDigest_GetHeader" data-uid="Libplanet.Store.BlockDigest.GetHeader">GetHeader()</h4>
@@ -750,7 +783,7 @@ is <span class="xref">null</span>.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Libplanet.Blocks.BlockHeader.html">BlockHeader</a></td>
+        <td><a class="xref" href="Libplanet.Types.Blocks.BlockHeader.html">BlockHeader</a></td>
         <td><p>The block header.</p>
 </td>
       </tr>
@@ -761,7 +794,7 @@ is <span class="xref">null</span>.</p>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_Serialize.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.Serialize%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L160">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L183">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_Serialize_" data-uid="Libplanet.Store.BlockDigest.Serialize*"></a>
   <h4 id="Libplanet_Store_BlockDigest_Serialize" data-uid="Libplanet.Store.BlockDigest.Serialize">Serialize()</h4>
@@ -782,7 +815,7 @@ is <span class="xref">null</span>.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>[]</td>
+        <td><span class="xref">System.Byte</span>[]</td>
         <td><p>Serialized byte array of <a class="xref" href="Libplanet.Store.BlockDigest.html">BlockDigest</a>.</p>
 </td>
       </tr>
@@ -793,17 +826,17 @@ is <span class="xref">null</span>.</p>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest_ToBencodex.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest.ToBencodex%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L181">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L204">View Source</a>
   </span>
   <a id="Libplanet_Store_BlockDigest_ToBencodex_" data-uid="Libplanet.Store.BlockDigest.ToBencodex*"></a>
   <h4 id="Libplanet_Store_BlockDigest_ToBencodex" data-uid="Libplanet.Store.BlockDigest.ToBencodex">ToBencodex()</h4>
-  <div class="markdown level1 summary"><p>Gets <span class="xref">Bencodex.Types.Dictionary</span> representation of
+  <div class="markdown level1 summary"><p>Gets <see cref="!:Bencodex.Types.Dictionary"></see> representation of
 <a class="xref" href="Libplanet.Store.BlockDigest.html">BlockDigest</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public readonly Dictionary ToBencodex()</code></pre>
+    <pre><code class="lang-csharp hljs">public readonly Bencodex.Types.Dictionary ToBencodex()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -816,7 +849,7 @@ is <span class="xref">null</span>.</p>
     <tbody>
       <tr>
         <td><span class="xref">Bencodex.Types.Dictionary</span></td>
-        <td><p><span class="xref">Bencodex.Types.Dictionary</span> representation of
+        <td><p><see cref="!:Bencodex.Types.Dictionary"></see> representation of
 <a class="xref" href="Libplanet.Store.BlockDigest.html">BlockDigest</a>.</p>
 </td>
       </tr>
@@ -824,23 +857,10 @@ is <span class="xref">null</span>.</p>
   </table>
   <h3 id="implements">Implements</h3>
   <div>
-      <a class="xref" href="Libplanet.Blocks.IBlockMetadata.html">IBlockMetadata</a>
+      <a class="xref" href="Libplanet.Types.Blocks.IBlockMetadata.html">IBlockMetadata</a>
   </div>
   <div>
-      <a class="xref" href="Libplanet.Blocks.IBlockExcerpt.html">IBlockExcerpt</a>
-  </div>
-  <h3 id="extensionmethods">Extension Methods</h3>
-  <div>
-      <a class="xref" href="Libplanet.Blocks.BlockExcerptExtensions.html#Libplanet_Blocks_BlockExcerptExtensions_ExcerptEquals_Libplanet_Blocks_IBlockExcerpt_Libplanet_Blocks_IBlockExcerpt_">BlockExcerptExtensions.ExcerptEquals(IBlockExcerpt, IBlockExcerpt)</a>
-  </div>
-  <div>
-      <a class="xref" href="Libplanet.Blocks.BlockExcerptExtensions.html#Libplanet_Blocks_BlockExcerptExtensions_ToExcerptString_Libplanet_Blocks_IBlockExcerpt_">BlockExcerptExtensions.ToExcerptString(IBlockExcerpt)</a>
-  </div>
-  <div>
-      <a class="xref" href="Libplanet.Blocks.IBlockMetadataExtensions.html#Libplanet_Blocks_IBlockMetadataExtensions_ValidateTimestamp_Libplanet_Blocks_IBlockMetadata_">IBlockMetadataExtensions.ValidateTimestamp(IBlockMetadata)</a>
-  </div>
-  <div>
-      <a class="xref" href="Libplanet.Blocks.IBlockMetadataExtensions.html#Libplanet_Blocks_IBlockMetadataExtensions_ValidateTimestamp_Libplanet_Blocks_IBlockMetadata_System_DateTimeOffset_">IBlockMetadataExtensions.ValidateTimestamp(IBlockMetadata, DateTimeOffset)</a>
+      <a class="xref" href="Libplanet.Types.Blocks.IBlockExcerpt.html">IBlockExcerpt</a>
   </div>
 </article>
           </div>
@@ -853,7 +873,7 @@ is <span class="xref">null</span>.</p>
                     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_Store_BlockDigest.md&amp;value=---%0Auid%3A%20Libplanet.Store.BlockDigest%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet/Store/BlockDigest.cs/#L18" class="contribution-link">View Source</a>
+                    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.Store/BlockDigest.cs/#L19" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

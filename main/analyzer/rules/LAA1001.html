@@ -67,7 +67,7 @@ determinism, <code>IActionContext.Random</code> property should be used instead.
 <p>The following code is warned by the rule LAA1001:</p>
 <pre><code class="lang-csharp">public IAccountStateDelta Execute(IActionContext context)
 {
-    var states = context.PreviousStates;
+    var states = context.PreviousState;
     System.Random random = new System.Random();  // LAA1001
     states.SetState(_targetAddress, (Bencodex.Types.Integer)random.Next());
     return states;
@@ -76,7 +76,7 @@ determinism, <code>IActionContext.Random</code> property should be used instead.
 <p>This can be addressed like below:</p>
 <pre><code class="lang-csharp">public IAccountStateDelta Execute(IActionContext context)
 {
-    var states = context.PreviousStates;
+    var states = context.PreviousState;
     IRandom random = context.Random;  // Fixed
     states.SetState(_targetAddress, (Bencodex.Types.Integer)random.Next());
     return states;
@@ -90,7 +90,7 @@ determinism, <code>IActionContext.Random</code> property should be used instead.
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.Analyzers/rules/LAA1001.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/moreal/libplanet/blob/main/tools/Libplanet.Analyzers/rules/LAA1001.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

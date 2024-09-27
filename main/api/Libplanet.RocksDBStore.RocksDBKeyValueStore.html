@@ -77,82 +77,55 @@ This stores data in the RocksDB.</p>
 <p><a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html">RocksDBStore</a> and <a class="xref" href="Libplanet.RocksDBStore.RocksDBKeyValueStore.html">RocksDBKeyValueStore</a>-backed
 <see cref="!:TrieStateStore"></see> can be instantiated from a URI with <code>rocksdb+file:</code> scheme
 using <see cref="!:StoreLoaderAttribute.LoadStore(Uri)"></see>, e.g.:</p>
-<ul><li><code>rocksdb+file:///var/data/planet/</code></li><li><code>rocksdb+file:///c:/Users/john/AppData/Local/planet/</code></li><li><code>rocksdb+file:///var/data/planet/?secure=true</code>
-(trie keys are hashed)</li></ul>
+<ul><li><code>rocksdb+file:///var/data/planet/</code></li><li><code>rocksdb+file:///c:/Users/john/AppData/Local/planet/</code></li></ul>
 <p>The following query string parameters are supported:</p>
 <table><tbody><tr><td><code>block-cache</code></td><td>Corresponds to
-<a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html#Libplanet_RocksDBStore_RocksDBStore__ctor_System_String_System_Int32_System_Int32_System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Int32_System_Int32_System_Int32_">RocksDBStore(String, Int32, Int32, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Int32, Int32, Int32)</a>&apos;s
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
 <code>blockCacheSize</code> parameter.  512 by default.</td></tr><tr><td><code>tx-cache</code></td><td>Corresponds to
-<a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html#Libplanet_RocksDBStore_RocksDBStore__ctor_System_String_System_Int32_System_Int32_System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Int32_System_Int32_System_Int32_">RocksDBStore(String, Int32, Int32, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Int32, Int32, Int32)</a>&apos;s
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
 <code>txCacheSize</code> parameter.  1024 by default.</td></tr><tr><td><code>max-total-wal-size</code></td><td>Corresponds to RocksDB&apos;s <code>max_total_wal_size</code> option.</td></tr><tr><td><code>keep-log-file-num</code></td><td>Corresponds to RocksDB&apos;s <code>keep_log_file_num</code> option.</td></tr><tr><td><code>max_log_file_size</code></td><td>Corresponds to RocksDB&apos;s <code>max_log_file_size</code> option.</td></tr><tr><td><code>tx-epoch-unit-secs</code></td><td>Corresponds to
-<a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html#Libplanet_RocksDBStore_RocksDBStore__ctor_System_String_System_Int32_System_Int32_System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Int32_System_Int32_System_Int32_">RocksDBStore(String, Int32, Int32, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Int32, Int32, Int32)</a>&apos;s
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
 <code>txEpochUnitSeconds</code> parameter.  86400 by default.</td></tr><tr><td><code>block-epoch-unit-secs</code></td><td>Corresponds to
-<a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html#Libplanet_RocksDBStore_RocksDBStore__ctor_System_String_System_Int32_System_Int32_System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Int32_System_Int32_System_Int32_">RocksDBStore(String, Int32, Int32, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Int32, Int32, Int32)</a>&apos;s
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
 <code>blockEpochUnitSeconds</code> parameter.  86400 by default.</td></tr><tr><td><code>connection-cache</code></td><td>Corresponds to
-<a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html#Libplanet_RocksDBStore_RocksDBStore__ctor_System_String_System_Int32_System_Int32_System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Int32_System_Int32_System_Int32_">RocksDBStore(String, Int32, Int32, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Int32, Int32, Int32)</a>&apos;s
-<code>dbConnectionCacheSize</code> parameter.  100 by default.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <a class="xref" href="Libplanet.RocksDBStore.RocksDBKeyValueStore.html#Libplanet_RocksDBStore_RocksDBKeyValueStore__ctor_System_String_">RocksDBKeyValueStore(String)</a>&apos;s <code>path</code>
-parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr><tr><td><code>secure</code></td><td><span class="xref">true</span> or <span class="xref">false</span> (default).  Corresponds to
-<a class="xref" href="Libplanet.Store.TrieStateStore.html#Libplanet_Store_TrieStateStore__ctor_Libplanet_Store_Trie_IKeyValueStore_System_Boolean_">TrieStateStore(IKeyValueStore, Boolean)</a>&apos;s
-<code>secure</code> parameter.</td></tr></tbody></table>
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>dbConnectionCacheSize</code> parameter.  100 by default.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <see cref="!:RocksDBKeyValueStore(string)"></see>&apos;s <code>path</code>
+parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr></tbody></table>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
-    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">RocksDBKeyValueStore</span></div>
   </div>
   <div class="implements">
     <h5>Implements</h5>
     <div><a class="xref" href="Libplanet.Store.Trie.IKeyValueStore.html">IKeyValueStore</a></div>
-    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
-  </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">Object.Equals(Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">Object.Equals(Object, Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode#system-object-gethashcode">Object.GetHashCode()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype#system-object-gettype">Object.GetType()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone#system-object-memberwiseclone">Object.MemberwiseClone()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals#system-object-referenceequals(system-object-system-object)">Object.ReferenceEquals(Object, Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring#system-object-tostring">Object.ToString()</a>
-    </div>
+    <div><span class="xref">IDisposable</span></div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Libplanet.RocksDBStore.html">Libplanet.RocksDBStore</a></h6>
   <h6><strong>Assembly</strong>: Libplanet.RocksDBStore.dll</h6>
   <h5 id="Libplanet_RocksDBStore_RocksDBKeyValueStore_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class RocksDBKeyValueStore : IKeyValueStore, IDisposable</code></pre>
+    <pre><code class="lang-csharp hljs">public class RocksDBKeyValueStore : object, IKeyValueStore</code></pre>
   </div>
   <h3 id="constructors">Constructors
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore__ctor_System_String_.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.%23ctor(System.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore__ctor_System_String_Libplanet_RocksDBStore_RocksDBInstanceType_System_Nullable_DbOptions__.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.%23ctor(System.String%2CLibplanet.RocksDBStore.RocksDBInstanceType%2CSystem.Nullable%7BDbOptions%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L88">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L81">View Source</a>
   </span>
   <a id="Libplanet_RocksDBStore_RocksDBKeyValueStore__ctor_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.#ctor*"></a>
-  <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore__ctor_System_String_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.#ctor(System.String)">RocksDBKeyValueStore(String)</h4>
+  <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore__ctor_System_String_Libplanet_RocksDBStore_RocksDBInstanceType_System_Nullable_DbOptions__" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.#ctor(System.String,Libplanet.RocksDBStore.RocksDBInstanceType,System.Nullable{DbOptions})">RocksDBKeyValueStore(String, RocksDBInstanceType, Nullable&lt;DbOptions&gt;)</h4>
   <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="Libplanet.RocksDBStore.RocksDBKeyValueStore.html">RocksDBKeyValueStore</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RocksDBKeyValueStore(string path)</code></pre>
+    <pre><code class="lang-csharp hljs">public RocksDBKeyValueStore(string path, RocksDBInstanceType type = RocksDBInstanceType.Primary, DbOptions? options = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -165,10 +138,74 @@ parameter.  It is relative to the URI path, and defaults to <code>states</code>.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="xref">System.String</span></td>
         <td><span class="parametername">path</span></td>
         <td><p>The path of the storage file will be saved.</p>
 </td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Libplanet.RocksDBStore.RocksDBInstanceType.html">RocksDBInstanceType</a></td>
+        <td><span class="parametername">type</span></td>
+        <td><p>Determines the instance type of the internal <see cref="!:RocksDb"></see>
+instances.  <a class="xref" href="Libplanet.RocksDBStore.RocksDBInstanceType.html#Libplanet_RocksDBStore_RocksDBInstanceType_Primary">Primary</a> by default.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">DbOptions</span>&gt;</td>
+        <td><span class="parametername">options</span></td>
+        <td><p>The <see cref="!:DbOptions"></see> for <see cref="!:RocksDb"></see>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+</h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore_Type.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.Type%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L95">View Source</a>
+  </span>
+  <a id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Type_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Type*"></a>
+  <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Type" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Type">Type</h4>
+  <div class="markdown level1 summary"><p>The <a href="https://rocksdb.org/">RocksDB</a> <a class="xref" href="Libplanet.Store.Trie.IKeyValueStore.html">IKeyValueStore</a> implementation.
+This stores data in the RocksDB.</p>
+<p><a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html">RocksDBStore</a> and <a class="xref" href="Libplanet.RocksDBStore.RocksDBKeyValueStore.html">RocksDBKeyValueStore</a>-backed
+<see cref="!:TrieStateStore"></see> can be instantiated from a URI with <code>rocksdb+file:</code> scheme
+using <see cref="!:StoreLoaderAttribute.LoadStore(Uri)"></see>, e.g.:</p>
+<ul><li><code>rocksdb+file:///var/data/planet/</code></li><li><code>rocksdb+file:///c:/Users/john/AppData/Local/planet/</code></li></ul>
+<p>The following query string parameters are supported:</p>
+<table><tbody><tr><td><code>block-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>blockCacheSize</code> parameter.  512 by default.</td></tr><tr><td><code>tx-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>txCacheSize</code> parameter.  1024 by default.</td></tr><tr><td><code>max-total-wal-size</code></td><td>Corresponds to RocksDB&apos;s <code>max_total_wal_size</code> option.</td></tr><tr><td><code>keep-log-file-num</code></td><td>Corresponds to RocksDB&apos;s <code>keep_log_file_num</code> option.</td></tr><tr><td><code>max_log_file_size</code></td><td>Corresponds to RocksDB&apos;s <code>max_log_file_size</code> option.</td></tr><tr><td><code>tx-epoch-unit-secs</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>txEpochUnitSeconds</code> parameter.  86400 by default.</td></tr><tr><td><code>block-epoch-unit-secs</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>blockEpochUnitSeconds</code> parameter.  86400 by default.</td></tr><tr><td><code>connection-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>dbConnectionCacheSize</code> parameter.  100 by default.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <see cref="!:RocksDBKeyValueStore(string)"></see>&apos;s <code>path</code>
+parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr></tbody></table>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RocksDBInstanceType Type { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Libplanet.RocksDBStore.RocksDBInstanceType.html">RocksDBInstanceType</a></td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -176,10 +213,61 @@ parameter.  It is relative to the URI path, and defaults to <code>states</code>.
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore_Delete_IEnumerable_Libplanet_Store_Trie_KeyBytes__.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.Delete(IEnumerable%7BLibplanet.Store.Trie.KeyBytes%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L127">View Source</a>
+  </span>
+  <a id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Delete_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Delete*"></a>
+  <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Delete_IEnumerable_Libplanet_Store_Trie_KeyBytes__" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Delete(IEnumerable{Libplanet.Store.Trie.KeyBytes})">Delete(IEnumerable&lt;KeyBytes&gt;)</h4>
+  <div class="markdown level1 summary"><p>The <a href="https://rocksdb.org/">RocksDB</a> <a class="xref" href="Libplanet.Store.Trie.IKeyValueStore.html">IKeyValueStore</a> implementation.
+This stores data in the RocksDB.</p>
+<p><a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html">RocksDBStore</a> and <a class="xref" href="Libplanet.RocksDBStore.RocksDBKeyValueStore.html">RocksDBKeyValueStore</a>-backed
+<see cref="!:TrieStateStore"></see> can be instantiated from a URI with <code>rocksdb+file:</code> scheme
+using <see cref="!:StoreLoaderAttribute.LoadStore(Uri)"></see>, e.g.:</p>
+<ul><li><code>rocksdb+file:///var/data/planet/</code></li><li><code>rocksdb+file:///c:/Users/john/AppData/Local/planet/</code></li></ul>
+<p>The following query string parameters are supported:</p>
+<table><tbody><tr><td><code>block-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>blockCacheSize</code> parameter.  512 by default.</td></tr><tr><td><code>tx-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>txCacheSize</code> parameter.  1024 by default.</td></tr><tr><td><code>max-total-wal-size</code></td><td>Corresponds to RocksDB&apos;s <code>max_total_wal_size</code> option.</td></tr><tr><td><code>keep-log-file-num</code></td><td>Corresponds to RocksDB&apos;s <code>keep_log_file_num</code> option.</td></tr><tr><td><code>max_log_file_size</code></td><td>Corresponds to RocksDB&apos;s <code>max_log_file_size</code> option.</td></tr><tr><td><code>tx-epoch-unit-secs</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>txEpochUnitSeconds</code> parameter.  86400 by default.</td></tr><tr><td><code>block-epoch-unit-secs</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>blockEpochUnitSeconds</code> parameter.  86400 by default.</td></tr><tr><td><code>connection-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>dbConnectionCacheSize</code> parameter.  100 by default.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <see cref="!:RocksDBKeyValueStore(string)"></see>&apos;s <code>path</code>
+parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr></tbody></table>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Delete(IEnumerable&lt;KeyBytes&gt; keys)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>&gt;</td>
+        <td><span class="parametername">keys</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore_Delete_Libplanet_Store_Trie_KeyBytes__.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.Delete(Libplanet.Store.Trie.KeyBytes%40)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L137">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L121">View Source</a>
   </span>
   <a id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Delete_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Delete*"></a>
   <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Delete_Libplanet_Store_Trie_KeyBytes__" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Delete(Libplanet.Store.Trie.KeyBytes@)">Delete(in KeyBytes)</h4>
@@ -210,45 +298,10 @@ parameter.  It is relative to the URI path, and defaults to <code>states</code>.
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore_Delete_System_Collections_Generic_IEnumerable_Libplanet_Store_Trie_KeyBytes__.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.Delete(System.Collections.Generic.IEnumerable%7BLibplanet.Store.Trie.KeyBytes%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L143">View Source</a>
-  </span>
-  <a id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Delete_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Delete*"></a>
-  <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Delete_System_Collections_Generic_IEnumerable_Libplanet_Store_Trie_KeyBytes__" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Delete(System.Collections.Generic.IEnumerable{Libplanet.Store.Trie.KeyBytes})">Delete(IEnumerable&lt;KeyBytes&gt;)</h4>
-  <div class="markdown level1 summary"><p>Delete multiple <code data-dev-comment-type="paramref" class="paramref">keys</code> at once.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Delete(IEnumerable&lt;KeyBytes&gt; keys)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>&gt;</td>
-        <td><span class="parametername">keys</span></td>
-        <td><p>Keys to delete.  The order of keys does not matter.
-Non-existent keys are ignored.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore_Dispose.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.Dispose%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L152">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L136">View Source</a>
   </span>
   <a id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Dispose_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Dispose*"></a>
   <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Dispose" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Dispose">Dispose()</h4>
@@ -257,23 +310,20 @@ This stores data in the RocksDB.</p>
 <p><a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html">RocksDBStore</a> and <a class="xref" href="Libplanet.RocksDBStore.RocksDBKeyValueStore.html">RocksDBKeyValueStore</a>-backed
 <see cref="!:TrieStateStore"></see> can be instantiated from a URI with <code>rocksdb+file:</code> scheme
 using <see cref="!:StoreLoaderAttribute.LoadStore(Uri)"></see>, e.g.:</p>
-<ul><li><code>rocksdb+file:///var/data/planet/</code></li><li><code>rocksdb+file:///c:/Users/john/AppData/Local/planet/</code></li><li><code>rocksdb+file:///var/data/planet/?secure=true</code>
-(trie keys are hashed)</li></ul>
+<ul><li><code>rocksdb+file:///var/data/planet/</code></li><li><code>rocksdb+file:///c:/Users/john/AppData/Local/planet/</code></li></ul>
 <p>The following query string parameters are supported:</p>
 <table><tbody><tr><td><code>block-cache</code></td><td>Corresponds to
-<a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html#Libplanet_RocksDBStore_RocksDBStore__ctor_System_String_System_Int32_System_Int32_System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Int32_System_Int32_System_Int32_">RocksDBStore(String, Int32, Int32, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Int32, Int32, Int32)</a>&apos;s
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
 <code>blockCacheSize</code> parameter.  512 by default.</td></tr><tr><td><code>tx-cache</code></td><td>Corresponds to
-<a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html#Libplanet_RocksDBStore_RocksDBStore__ctor_System_String_System_Int32_System_Int32_System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Int32_System_Int32_System_Int32_">RocksDBStore(String, Int32, Int32, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Int32, Int32, Int32)</a>&apos;s
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
 <code>txCacheSize</code> parameter.  1024 by default.</td></tr><tr><td><code>max-total-wal-size</code></td><td>Corresponds to RocksDB&apos;s <code>max_total_wal_size</code> option.</td></tr><tr><td><code>keep-log-file-num</code></td><td>Corresponds to RocksDB&apos;s <code>keep_log_file_num</code> option.</td></tr><tr><td><code>max_log_file_size</code></td><td>Corresponds to RocksDB&apos;s <code>max_log_file_size</code> option.</td></tr><tr><td><code>tx-epoch-unit-secs</code></td><td>Corresponds to
-<a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html#Libplanet_RocksDBStore_RocksDBStore__ctor_System_String_System_Int32_System_Int32_System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Int32_System_Int32_System_Int32_">RocksDBStore(String, Int32, Int32, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Int32, Int32, Int32)</a>&apos;s
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
 <code>txEpochUnitSeconds</code> parameter.  86400 by default.</td></tr><tr><td><code>block-epoch-unit-secs</code></td><td>Corresponds to
-<a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html#Libplanet_RocksDBStore_RocksDBStore__ctor_System_String_System_Int32_System_Int32_System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Int32_System_Int32_System_Int32_">RocksDBStore(String, Int32, Int32, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Int32, Int32, Int32)</a>&apos;s
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
 <code>blockEpochUnitSeconds</code> parameter.  86400 by default.</td></tr><tr><td><code>connection-cache</code></td><td>Corresponds to
-<a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html#Libplanet_RocksDBStore_RocksDBStore__ctor_System_String_System_Int32_System_Int32_System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Nullable_System_UInt64__System_Int32_System_Int32_System_Int32_">RocksDBStore(String, Int32, Int32, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Nullable&lt;UInt64&gt;, Int32, Int32, Int32)</a>&apos;s
-<code>dbConnectionCacheSize</code> parameter.  100 by default.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <a class="xref" href="Libplanet.RocksDBStore.RocksDBKeyValueStore.html#Libplanet_RocksDBStore_RocksDBKeyValueStore__ctor_System_String_">RocksDBKeyValueStore(String)</a>&apos;s <code>path</code>
-parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr><tr><td><code>secure</code></td><td><span class="xref">true</span> or <span class="xref">false</span> (default).  Corresponds to
-<a class="xref" href="Libplanet.Store.TrieStateStore.html#Libplanet_Store_TrieStateStore__ctor_Libplanet_Store_Trie_IKeyValueStore_System_Boolean_">TrieStateStore(IKeyValueStore, Boolean)</a>&apos;s
-<code>secure</code> parameter.</td></tr></tbody></table>
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>dbConnectionCacheSize</code> parameter.  100 by default.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <see cref="!:RocksDBKeyValueStore(string)"></see>&apos;s <code>path</code>
+parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr></tbody></table>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
@@ -285,7 +335,7 @@ parameter.  It is relative to the URI path, and defaults to <code>states</code>.
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore_Exists_Libplanet_Store_Trie_KeyBytes__.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.Exists(Libplanet.Store.Trie.KeyBytes%40)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L162">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L146">View Source</a>
   </span>
   <a id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Exists_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Exists*"></a>
   <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Exists_Libplanet_Store_Trie_KeyBytes__" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Exists(Libplanet.Store.Trie.KeyBytes@)">Exists(in KeyBytes)</h4>
@@ -324,7 +374,7 @@ parameter.  It is relative to the URI path, and defaults to <code>states</code>.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="xref">System.Boolean</span></td>
         <td><p><span class="xref">true</span> if the key exists; otherwise, <span class="xref">false</span>.</p>
 </td>
       </tr>
@@ -335,7 +385,7 @@ parameter.  It is relative to the URI path, and defaults to <code>states</code>.
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore_Get_Libplanet_Store_Trie_KeyBytes__.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.Get(Libplanet.Store.Trie.KeyBytes%40)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L97">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L98">View Source</a>
   </span>
   <a id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Get_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Get*"></a>
   <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Get_Libplanet_Store_Trie_KeyBytes__" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Get(Libplanet.Store.Trie.KeyBytes@)">Get(in KeyBytes)</h4>
@@ -374,77 +424,8 @@ parameter.  It is relative to the URI path, and defaults to <code>states</code>.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>[]</td>
+        <td><span class="xref">System.Byte</span>[]</td>
         <td><p>The value associated with the specified key.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="exceptions">Exceptions</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.keynotfoundexception">KeyNotFoundException</a></td>
-        <td><p>Thrown when the key is not found.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore_Get_System_Collections_Generic_IEnumerable_Libplanet_Store_Trie_KeyBytes__.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.Get(System.Collections.Generic.IEnumerable%7BLibplanet.Store.Trie.KeyBytes%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L101">View Source</a>
-  </span>
-  <a id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Get_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Get*"></a>
-  <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Get_System_Collections_Generic_IEnumerable_Libplanet_Store_Trie_KeyBytes__" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Get(System.Collections.Generic.IEnumerable{Libplanet.Store.Trie.KeyBytes})">Get(IEnumerable&lt;KeyBytes&gt;)</h4>
-  <div class="markdown level1 summary"><p>Gets multiple values associated with the specified keys at once.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IReadOnlyDictionary&lt;KeyBytes, byte[]&gt; Get(IEnumerable&lt;KeyBytes&gt; keys)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>&gt;</td>
-        <td><span class="parametername">keys</span></td>
-        <td><p>Keys whose values to get.  The order of keys does not matter.
-Duplicate keys after their first occurrence are ignored.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2">IReadOnlyDictionary</a>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>[]&gt;</td>
-        <td><p>Values associated the specified <code data-dev-comment-type="paramref" class="paramref">keys</code>.  Non-existent
-<code data-dev-comment-type="paramref" class="paramref">keys</code> are omitted (rather than being filled with
-<span class="xref">null</span>).</p>
 </td>
       </tr>
     </tbody>
@@ -454,11 +435,29 @@ Duplicate keys after their first occurrence are ignored.</p>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore_ListKeys.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.ListKeys%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L166">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L150">View Source</a>
   </span>
   <a id="Libplanet_RocksDBStore_RocksDBKeyValueStore_ListKeys_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.ListKeys*"></a>
   <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore_ListKeys" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.ListKeys">ListKeys()</h4>
-  <div class="markdown level1 summary"><p>Lists all keys that have been stored in the storage.</p>
+  <div class="markdown level1 summary"><p>The <a href="https://rocksdb.org/">RocksDB</a> <a class="xref" href="Libplanet.Store.Trie.IKeyValueStore.html">IKeyValueStore</a> implementation.
+This stores data in the RocksDB.</p>
+<p><a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html">RocksDBStore</a> and <a class="xref" href="Libplanet.RocksDBStore.RocksDBKeyValueStore.html">RocksDBKeyValueStore</a>-backed
+<see cref="!:TrieStateStore"></see> can be instantiated from a URI with <code>rocksdb+file:</code> scheme
+using <see cref="!:StoreLoaderAttribute.LoadStore(Uri)"></see>, e.g.:</p>
+<ul><li><code>rocksdb+file:///var/data/planet/</code></li><li><code>rocksdb+file:///c:/Users/john/AppData/Local/planet/</code></li></ul>
+<p>The following query string parameters are supported:</p>
+<table><tbody><tr><td><code>block-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>blockCacheSize</code> parameter.  512 by default.</td></tr><tr><td><code>tx-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>txCacheSize</code> parameter.  1024 by default.</td></tr><tr><td><code>max-total-wal-size</code></td><td>Corresponds to RocksDB&apos;s <code>max_total_wal_size</code> option.</td></tr><tr><td><code>keep-log-file-num</code></td><td>Corresponds to RocksDB&apos;s <code>keep_log_file_num</code> option.</td></tr><tr><td><code>max_log_file_size</code></td><td>Corresponds to RocksDB&apos;s <code>max_log_file_size</code> option.</td></tr><tr><td><code>tx-epoch-unit-secs</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>txEpochUnitSeconds</code> parameter.  86400 by default.</td></tr><tr><td><code>block-epoch-unit-secs</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>blockEpochUnitSeconds</code> parameter.  86400 by default.</td></tr><tr><td><code>connection-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>dbConnectionCacheSize</code> parameter.  100 by default.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <see cref="!:RocksDBKeyValueStore(string)"></see>&apos;s <code>path</code>
+parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr></tbody></table>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
@@ -475,9 +474,59 @@ Duplicate keys after their first occurrence are ignored.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>&gt;</td>
-        <td><p>All keys in an arbitrary order.  The order might be vary for each call.</p>
-</td>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore_Set_IDictionary_Libplanet_Store_Trie_KeyBytes_System_Byte____.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.Set(IDictionary%7BLibplanet.Store.Trie.KeyBytes%2CSystem.Byte%5B%5D%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L108">View Source</a>
+  </span>
+  <a id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Set_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Set*"></a>
+  <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Set_IDictionary_Libplanet_Store_Trie_KeyBytes_System_Byte____" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Set(IDictionary{Libplanet.Store.Trie.KeyBytes,System.Byte[]})">Set(IDictionary&lt;KeyBytes, Byte[]&gt;)</h4>
+  <div class="markdown level1 summary"><p>The <a href="https://rocksdb.org/">RocksDB</a> <a class="xref" href="Libplanet.Store.Trie.IKeyValueStore.html">IKeyValueStore</a> implementation.
+This stores data in the RocksDB.</p>
+<p><a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html">RocksDBStore</a> and <a class="xref" href="Libplanet.RocksDBStore.RocksDBKeyValueStore.html">RocksDBKeyValueStore</a>-backed
+<see cref="!:TrieStateStore"></see> can be instantiated from a URI with <code>rocksdb+file:</code> scheme
+using <see cref="!:StoreLoaderAttribute.LoadStore(Uri)"></see>, e.g.:</p>
+<ul><li><code>rocksdb+file:///var/data/planet/</code></li><li><code>rocksdb+file:///c:/Users/john/AppData/Local/planet/</code></li></ul>
+<p>The following query string parameters are supported:</p>
+<table><tbody><tr><td><code>block-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>blockCacheSize</code> parameter.  512 by default.</td></tr><tr><td><code>tx-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>txCacheSize</code> parameter.  1024 by default.</td></tr><tr><td><code>max-total-wal-size</code></td><td>Corresponds to RocksDB&apos;s <code>max_total_wal_size</code> option.</td></tr><tr><td><code>keep-log-file-num</code></td><td>Corresponds to RocksDB&apos;s <code>keep_log_file_num</code> option.</td></tr><tr><td><code>max_log_file_size</code></td><td>Corresponds to RocksDB&apos;s <code>max_log_file_size</code> option.</td></tr><tr><td><code>tx-epoch-unit-secs</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>txEpochUnitSeconds</code> parameter.  86400 by default.</td></tr><tr><td><code>block-epoch-unit-secs</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>blockEpochUnitSeconds</code> parameter.  86400 by default.</td></tr><tr><td><code>connection-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>dbConnectionCacheSize</code> parameter.  100 by default.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <see cref="!:RocksDBKeyValueStore(string)"></see>&apos;s <code>path</code>
+parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr></tbody></table>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Set(IDictionary&lt;KeyBytes, byte[]&gt; values)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IDictionary</span>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>, <span class="xref">System.Byte</span>[]&gt;</td>
+        <td><span class="parametername">values</span></td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -486,7 +535,7 @@ Duplicate keys after their first occurrence are ignored.</p>
     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore_Set_Libplanet_Store_Trie_KeyBytes__System_Byte___.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.Set(Libplanet.Store.Trie.KeyBytes%40%2CSystem.Byte%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L118">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L102">View Source</a>
   </span>
   <a id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Set_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Set*"></a>
   <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Set_Libplanet_Store_Trie_KeyBytes__System_Byte___" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Set(Libplanet.Store.Trie.KeyBytes@,System.Byte[])">Set(in KeyBytes, Byte[])</h4>
@@ -514,7 +563,7 @@ Duplicate keys after their first occurrence are ignored.</p>
 </td>
       </tr>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>[]</td>
+        <td><span class="xref">System.Byte</span>[]</td>
         <td><span class="parametername">value</span></td>
         <td><p>The value to set.</p>
 </td>
@@ -523,44 +572,44 @@ Duplicate keys after their first occurrence are ignored.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore_Set_System_Collections_Generic_IDictionary_Libplanet_Store_Trie_KeyBytes_System_Byte____.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.Set(System.Collections.Generic.IDictionary%7BLibplanet.Store.Trie.KeyBytes%2CSystem.Byte%5B%5D%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore_TryCatchUpWithPrimary.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore.TryCatchUpWithPrimary%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L124">View Source</a>
+    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L159">View Source</a>
   </span>
-  <a id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Set_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Set*"></a>
-  <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore_Set_System_Collections_Generic_IDictionary_Libplanet_Store_Trie_KeyBytes_System_Byte____" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.Set(System.Collections.Generic.IDictionary{Libplanet.Store.Trie.KeyBytes,System.Byte[]})">Set(IDictionary&lt;KeyBytes, Byte[]&gt;)</h4>
-  <div class="markdown level1 summary"><p>Sets all values in the given dictionary.</p>
+  <a id="Libplanet_RocksDBStore_RocksDBKeyValueStore_TryCatchUpWithPrimary_" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.TryCatchUpWithPrimary*"></a>
+  <h4 id="Libplanet_RocksDBStore_RocksDBKeyValueStore_TryCatchUpWithPrimary" data-uid="Libplanet.RocksDBStore.RocksDBKeyValueStore.TryCatchUpWithPrimary">TryCatchUpWithPrimary()</h4>
+  <div class="markdown level1 summary"><p>The <a href="https://rocksdb.org/">RocksDB</a> <a class="xref" href="Libplanet.Store.Trie.IKeyValueStore.html">IKeyValueStore</a> implementation.
+This stores data in the RocksDB.</p>
+<p><a class="xref" href="Libplanet.RocksDBStore.RocksDBStore.html">RocksDBStore</a> and <a class="xref" href="Libplanet.RocksDBStore.RocksDBKeyValueStore.html">RocksDBKeyValueStore</a>-backed
+<see cref="!:TrieStateStore"></see> can be instantiated from a URI with <code>rocksdb+file:</code> scheme
+using <see cref="!:StoreLoaderAttribute.LoadStore(Uri)"></see>, e.g.:</p>
+<ul><li><code>rocksdb+file:///var/data/planet/</code></li><li><code>rocksdb+file:///c:/Users/john/AppData/Local/planet/</code></li></ul>
+<p>The following query string parameters are supported:</p>
+<table><tbody><tr><td><code>block-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>blockCacheSize</code> parameter.  512 by default.</td></tr><tr><td><code>tx-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>txCacheSize</code> parameter.  1024 by default.</td></tr><tr><td><code>max-total-wal-size</code></td><td>Corresponds to RocksDB&apos;s <code>max_total_wal_size</code> option.</td></tr><tr><td><code>keep-log-file-num</code></td><td>Corresponds to RocksDB&apos;s <code>keep_log_file_num</code> option.</td></tr><tr><td><code>max_log_file_size</code></td><td>Corresponds to RocksDB&apos;s <code>max_log_file_size</code> option.</td></tr><tr><td><code>tx-epoch-unit-secs</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>txEpochUnitSeconds</code> parameter.  86400 by default.</td></tr><tr><td><code>block-epoch-unit-secs</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>blockEpochUnitSeconds</code> parameter.  86400 by default.</td></tr><tr><td><code>connection-cache</code></td><td>Corresponds to
+<see cref="!:RocksDBStore(string, int, int, ulong?, ulong?, ulong?, int, int, int)"></see>&apos;s
+<code>dbConnectionCacheSize</code> parameter.  100 by default.</td></tr><tr><td><code>states-dir</code></td><td>Corresponds to <see cref="!:RocksDBKeyValueStore(string)"></see>&apos;s <code>path</code>
+parameter.  It is relative to the URI path, and defaults to <code>states</code>.</td></tr></tbody></table>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Set(IDictionary&lt;KeyBytes, byte[]&gt; values)</code></pre>
+    <pre><code class="lang-csharp hljs">public void TryCatchUpWithPrimary()</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2">IDictionary</a>&lt;<a class="xref" href="Libplanet.Store.Trie.KeyBytes.html">KeyBytes</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">Byte</a>[]&gt;</td>
-        <td><span class="parametername">values</span></td>
-        <td><p>A values to set.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
   <h3 id="implements">Implements</h3>
   <div>
       <a class="xref" href="Libplanet.Store.Trie.IKeyValueStore.html">IKeyValueStore</a>
   </div>
   <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">System.IDisposable</a>
+      <span class="xref">IDisposable</span>
   </div>
 </article>
           </div>
@@ -573,7 +622,7 @@ Duplicate keys after their first occurrence are ignored.</p>
                     <a href="https://github.com/moreal/libplanet/new/main/apiSpec/new?filename=Libplanet_RocksDBStore_RocksDBKeyValueStore.md&amp;value=---%0Auid%3A%20Libplanet.RocksDBStore.RocksDBKeyValueStore%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/moreal/libplanet/blob/main/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L79" class="contribution-link">View Source</a>
+                    <a href="https://github.com/moreal/libplanet/blob/main/src/Libplanet.RocksDBStore/RocksDBKeyValueStore.cs/#L69" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
