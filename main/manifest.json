@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "CHANGES.html",
-          "hash": "EBqQJJ1lscbOR9ckYfvYrOCk0WIaH5LU9nuC9PSe8kc="
+          "hash": "fq43fTIpHs0trceh02omM7AD22d2LiKQ/shn/Gr+StI="
         }
       },
       "is_incremental": false,
@@ -24,7 +24,7 @@
       "output": {
         ".html": {
           "relative_path": "CONTRIBUTING.html",
-          "hash": "sgjNS8i+oVQxVX1QyOWfZLY8UZBndsAoybSeH82PzfA="
+          "hash": "XHdOfRDlPPUbQEllPaaI3DQSB9Zb6f0WQ3iBFP4SBUY="
         }
       },
       "is_incremental": false,
@@ -144,7 +144,7 @@
       "output": {
         ".html": {
           "relative_path": "explorer/README.html",
-          "hash": "E+4HXJWlt2LPtoC5nX696r1oJ399dNzlEVFixyq7a8c="
+          "hash": "0TIYPQDM6ifbuazq/o6rKGDZX7CR2BFKE0PqTyu/434="
         }
       },
       "is_incremental": false,
@@ -204,7 +204,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.Action.ActionEvaluator.html",
-          "hash": "Vea+PVUxaXn0c9p4+p6CmvU1hBPoZHh7Ac/J60yeIPM="
+          "hash": "YBqKxVOrBn+NFjDHT+OrbDRUXbK15qRoeA3nXjAV2yQ="
         }
       },
       "is_incremental": false,
@@ -428,6 +428,18 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Libplanet.Action.IPolicyActionsRegistry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Libplanet.Action.IPolicyActionsRegistry.html",
+          "hash": "moMpFI2WV2aoR9njEH1EsDQxqZeHfU5v0sjZMx2j9qA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Libplanet.Action.IRandom.yml",
       "output": {
         ".html": {
@@ -528,7 +540,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.Action.PolicyActionsRegistry.html",
-          "hash": "fP6jIBtrPbMp5tPiR8qwxUrNTlh6LoKNd/EZRONBzIg="
+          "hash": "PIPF1b69HVK9LglWW9iFneq7xpR4zKhxAwHMb4gJDrU="
         }
       },
       "is_incremental": false,
@@ -840,7 +852,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.Action.html",
-          "hash": "6FwKcLInf+0cLIBu3+bLzQu2IKGM2sNzNvsdyAOgAkk="
+          "hash": "pGzHrWGKSXVUVoUGMz+smX49DbYeEqzdSMV+jkhqb5U="
         }
       },
       "is_incremental": false,
@@ -912,7 +924,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.Blockchain.Policies.BlockPolicy.html",
-          "hash": "tliQpop8RTIof1CD1ftkpm60cC9rTdvRM+HpsTTCP0M="
+          "hash": "jR1SpBRD+R/6W7KPWWOd6HtpW0k9LtEEANC6QtR3JbA="
         }
       },
       "is_incremental": false,
@@ -924,7 +936,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.Blockchain.Policies.IBlockPolicy.html",
-          "hash": "mRlG5ZqbzpfnWgf1nJbpYxF6FBJU1hK3+BzspLFkzGg="
+          "hash": "mUaLx2Nx5mil6mN2AewHdeorap9ygSND/rBRCfwlgz0="
         }
       },
       "is_incremental": false,
@@ -948,7 +960,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Libplanet.Blockchain.Policies.NullBlockPolicy.html",
-          "hash": "YaXnitAEbHlyUe9uYwimBbC5V+dFg1S8ibExNnGSlHw="
+          "hash": "KXg5oKePM6ni0QdVBL+E79N00YNobXZ4kIskOJRRb80="
         }
       },
       "is_incremental": false,
@@ -5472,7 +5484,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "xnmLazM4RYOMj19FCGbnWKKMigHh6kfrO5AJjQ2u3u0="
+          "hash": "LtA7aQltushkeMI/v+JuXHkx1Wwz4xlSgPANq1TMwhI="
         }
       },
       "is_incremental": false,
@@ -5542,7 +5554,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "hE3+4S6T1MP+JrO/+XiUfeCWBbZfnYMJBYaELkcKMW8="
+          "hash": "+y6CcfbYSYDeuKhCpEND82JD75XCJMq0ImGyECnihWI="
         }
       },
       "is_incremental": false,
@@ -5584,7 +5596,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 440,
+          "total_file_count": 441,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {
